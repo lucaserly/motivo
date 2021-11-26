@@ -7,12 +7,12 @@ const URL = '/expenses';
 const URL_2 = '/greeting';
 
 function App() {
-  const { response } = useFetch(URL, {});
+  // const { response } = useFetch(URL, {});
   const { response: greeting } = useFetch(URL_2, {});
 
   return (
     <div className='App'>
-      <ExpensesList expenses={response} />
+      {/* <ExpensesList expenses={response} /> */}
       {greeting}
     </div>
   );
