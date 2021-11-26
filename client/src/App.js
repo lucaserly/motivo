@@ -9,9 +9,11 @@ const URL_2 = '/greeting';
 function App() {
   // const { response } = useFetch(URL, {});
   const { response: greeting } = useFetch(URL_2, {});
+  console.log('--------------------->greeting-->', greeting);
 
   return (
     <div className='App'>
+      <p>test</p>
       {/* <ExpensesList expenses={response} /> */}
       {greeting}
     </div>
