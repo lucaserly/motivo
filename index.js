@@ -15,7 +15,8 @@ app.use(express.json());
 app.use(router);
 
 app.get('*', (req, res) => {
-  res.status(200).send({ message: 'Nothing is to be found here.' });
+  // res.status(200).send({ message: 'Nothing is to be found here.' });
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
 // (async function bootstrap() {
