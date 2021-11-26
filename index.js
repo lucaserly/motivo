@@ -19,14 +19,14 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
-// (async function bootstrap() {
-//   // await db.sequelize.sync({ force: true });
-//   await db.sequelize.sync();
-//   app.listen(PORT, () => {
-//     console.log(`Server is running at http://localhost:${PORT}`);
-//   });
-// })();
+(async function bootstrap() {
+  // await db.sequelize.sync({ force: true });
+  await db.sequelize.sync();
+  app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
+  });
+})();
 
-app.listen(PORT, () =>
-  console.log(`Server is running at http://localhost:${PORT}`)
-);
+// app.listen(PORT, () =>
+//   console.log(`Server is running at http://localhost:${PORT}`)
+// );

@@ -5,6 +5,10 @@ const expenseController = require('./controllers/expense');
 const categoryController = require('./controllers/category');
 const paymentController = require('./controllers/payment');
 
+router.get('/greeting', (req, res) => {
+  res.status(201).send('hello from backend');
+});
+
 router.get('/expenses', expenseController.getAllExpenses);
 router.post('/expense', expenseController.postExpense);
 router.delete('/expense/:id', expenseController.deleteExpense);
