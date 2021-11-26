@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "lucaserlacher",
+    "password": "",
+    "database": "expense_tracker_2",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "lucaserlacher",
+    "password": "",
+    "database": "expense_tracker_2",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "lucaserlacher",
+    "password": "",
+    "database": "expense_tracker_2",
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}
