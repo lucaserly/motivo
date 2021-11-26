@@ -15,7 +15,7 @@ function App() {
     <div className='App'>
       <p>test</p>
       {/* <ExpensesList expenses={response} /> */}
-      {greeting}
+      {greeting && `${greeting}`}
     </div>
   );
 }
