@@ -7,15 +7,14 @@ const URL = '/expenses';
 const URL_2 = '/greeting';
 
 function App() {
-  // const { response } = useFetch(URL, {});
-  const { response: greeting } = useFetch(URL_2, {});
-  console.log('--------------------->greeting-->', greeting);
+  const { response } = useFetch(URL, {});
+  const { response: greeting, isLoading } = useFetch(URL_2, {});
 
   return (
     <div className='App'>
       <p>test</p>
-      {/* <ExpensesList expenses={response} /> */}
-      {greeting && `${greeting}`}
+      <ExpensesList expenses={response} />
+      {!isLoading && greeting.message}
     </div>
   );
 }
