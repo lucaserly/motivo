@@ -19,6 +19,13 @@
     "database": "expense_tracker_2",
     "host": "localhost",
     "dialect": "postgres",
-    "use_env_variable": "DATABASE_URL"
+    "use_env_variable": "DATABASE_URL",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      },
+      "operatorsAliases": 0
+    }
   }
 }
