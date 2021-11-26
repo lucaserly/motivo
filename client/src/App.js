@@ -1,7 +1,7 @@
 import './App.css';
 import { ExpensesList } from './components/';
 import { useFetch } from './custom_hooks/useFetch';
-const URL = 'http://localhost:3002/expenses';
+const URL = 'http://localhost:5002/expenses';
 
 function App() {
   const { response } = useFetch(URL, {});
