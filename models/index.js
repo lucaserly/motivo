@@ -34,12 +34,12 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log(`Connection with database: ${process.env.DB_NAME}`);
-  }, (error) => {
-    console.log('Unable to connect to the database:', error);
-  });
+// sequelize
+//   .authenticate()
+//   .then(() => {
+//     console.log(`Connection with database: ${process.env.DB_NAME}`);
+//   }, (error) => {
+//     console.log('Unable to connect to the database:', error);
+//   });
 
 module.exports = db;
