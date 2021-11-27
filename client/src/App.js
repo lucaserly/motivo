@@ -14,7 +14,7 @@ function App() {
   return (
     <div className='App'>
       <p>test</p>
-      <ExpensesList expenses={response} />
+      {/* <ExpensesList expenses={response} /> */}
       {!isLoading && greeting.message}
     </div>
   );
