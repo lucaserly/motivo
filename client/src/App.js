@@ -10,6 +10,7 @@ function App() {
   const { response } = useFetch(URL, {});
   const { response: greeting, isLoading } = useFetch(URL_2, {});
   console.log('-------->response', response)
+  console.log('-------->greeting', greeting)
   return (
     <div className='App'>
       <p>test</p>
