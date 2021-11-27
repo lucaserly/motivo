@@ -7,7 +7,7 @@ const cors = require('cors');
 const router = require('./router');
 const PORT = process.env.PORT || 5002;
 const path = require('path');
-const db = require('./models');
+// const db = require('./models');
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(cors());
