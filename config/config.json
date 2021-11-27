@@ -21,6 +21,13 @@
     "host": "localhost",
     "dialect": "postgres",
     "use_env_variable": "DATABASE_URL",
-    "operatorsAliases": false
+    "operatorsAliases": false,
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      },
+      "operatorsAliases": 0
+    }
   }
 }
