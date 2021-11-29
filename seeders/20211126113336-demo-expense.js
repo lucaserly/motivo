@@ -26,6 +26,28 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          item: 'Tennis',
+          description: 'Lesson',
+          amount: 35,
+          currency: 'euro',
+          CategoryId: 1,
+          PaymentId: 1,
+          date: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          item: 'Nuoto',
+          description: 'Gettone',
+          amount: 3.5,
+          currency: 'euro',
+          CategoryId: 1,
+          PaymentId: 1,
+          date: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

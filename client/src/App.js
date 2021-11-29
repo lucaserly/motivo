@@ -24,7 +24,8 @@ function App() {
           <p>{greeting && greeting.message}</p>
           <p>expense_tracker_by_erl_2</p>
         </header>
-        <ExpensesList expenses={response} />
+
+        {response && <ExpensesList expenses={response} />}
       </div>
     </div>
   );

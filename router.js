@@ -6,7 +6,7 @@ const categoryController = require('./controllers/category');
 const paymentController = require('./controllers/payment');
 
 router.get('/greeting', (req, res) => {
-  res.status(201).send({message: 'hello from backend'});
+  res.status(201).send({ message: 'hello from backend' });
 });
 
 router.get('/expenses', expenseController.getAllExpenses);

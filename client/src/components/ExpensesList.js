@@ -13,8 +13,8 @@ const columns = [
     dataIndex: 'category',
   },
   {
-    title: 'Descritpion',
-    dataIndex: 'descritpion',
+    title: 'Description',
+    dataIndex: 'description',
   },
   {
     title: 'Payment',
@@ -32,7 +32,7 @@ const columns = [
 
 const parseDataSource = (rawData) => {
   return rawData.map((el) => ({
-    id: el.id,
+    key: el.id,
     item: el.item,
     category: el.Category.name,
     description: el.description,
@@ -46,12 +46,11 @@ export const ExpensesList = ({ expenses }) => {
   return (
     <div>
       {console.log('expenses-->', expenses)}
-      {/* {console.log('parseDataSource-->', parseDataSource(expenses))} */}
-      {expenses && (
-        <Table dataSource={parseDataSource(expenses)} columns={columns} />
-      )}
-      {expenses &&
-        expenses.map((el) => <ExpenseItem key={el.id} expense={el} />)}
+      <Table dataSource={parseDataSource(expenses)} columns={columns} />
+      {console.log('parseDataSource(expenses)-->', parseDataSource(expenses))})
+      {expenses.map((el) => (
+        <ExpenseItem key={el.id} expense={el} />
+      ))}
     </div>
   );
 };
