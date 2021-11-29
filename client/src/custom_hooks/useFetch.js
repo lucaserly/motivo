@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const fetchRequest = (path, options) => {
+export const fetchRequest = (path, options) => {
   return fetch(path, options)
     .then((res) => (res.status < 400 ? res : Promise.reject()))
     .then((res) => (res.status !== 204 ? res.json() : res))
@@ -25,7 +25,7 @@ export const useFetch = (url, options) => {
       }
     };
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return { response, error, isLoading };
 };

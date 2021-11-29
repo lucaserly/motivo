@@ -1,22 +1,31 @@
 import './App.css';
 import { ExpensesList } from './components/';
 import { useFetch } from './custom_hooks/useFetch';
-// const URL = 'http://localhost:5002/expenses';
-// const URL_2 = 'http://localhost:5002/greeting';
-const URL = '/expenses';
-const URL_2 = '/greeting';
+import { isDev } from './helpers';
+const DATA_URL = isDev() ? 'http://localhost:5001/expenses' : '/expenses';
+const GREETING_URL = isDev() ? 'http://localhost:5001/greeting' : '/greeting';
 
 function App() {
-  const { response } = useFetch(URL, {});
-  const { response: greeting, isLoading } = useFetch(URL_2, {});
-  console.log('-------->response', response)
-  console.log('-------->greeting', greeting)
-  // console.log('-------->isLoading', isLoading)
+  const { response } = useFetch(DATA_URL);
+  const { response: greeting } = useFetch(GREETING_URL);
+
   return (
     <div className='App'>
-      <p>test</p>
-      <ExpensesList expenses={response} />
-      {greeting && greeting.message}
+      <div
+        style={{
+          margin: '20px 30px 0 30px',
+        }}
+      >
+        <header
+          style={{
+            marginBottom: '20px',
+          }}
+        >
+          <p>{greeting && greeting.message}</p>
+          <p>expense_tracker_by_erl_2</p>
+        </header>
+        <ExpensesList expenses={response} />
+      </div>
     </div>
   );
 }
