@@ -39,7 +39,7 @@ module.exports = {
         },
         {
           item: 'Nuoto',
-          description: 'Gettone',
+          description: 'Piscina Garda',
           amount: 3.5,
           currency: 'euro',
           CategoryId: 1,
