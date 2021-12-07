@@ -5,7 +5,7 @@ import { Header } from './components';
 import helpers from './services/helpers';
 
 function App() {
-  console.log('ReactIsInDevelomentMode()-->', helpers.ReactIsInDevelomentMode());
+  console.log('App isDev-->', helpers.isDev());
 
   return (
     <div
