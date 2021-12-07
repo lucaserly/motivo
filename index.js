@@ -20,6 +20,9 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
+console.log('BACK END helpers.isDev()-->', helpers.isDev());
+
+
 (async function bootstrap() {
   // await db.sequelize.sync({ force: true });
   if (helpers.isDev()) await db.sequelize.sync();
