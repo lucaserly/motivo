@@ -1,13 +1,16 @@
 'use strict';
 const models = require('../models');
 const helpers = require('../helpers');
+const categoryController = require('./category');
 
 const getAllExpenses = async (req, res) => {
   try {
     const expenses = await models.Expense.findAll({
       include: [{ model: models.Category }, { model: models.Payment }],
     });
-    res.status(201).send(expenses);
+    const parsedExpenses = helpers.parseExpenses(expenses);
+    const sortedExpenses = helpers.sortByDate(parsedExpenses);
+    res.status(201).send(sortedExpenses);
   } catch (error) {
     console.error(error);
     res.status(500).send({
@@ -19,22 +22,80 @@ const getAllExpenses = async (req, res) => {
 
 const postExpense = async (req, res) => {
   try {
-    const { CategoryId, PaymentId } = req.body;
-    if (!CategoryId || !PaymentId)
-      throw new Error('CategoryId and PaymentId are required');
-
     const expense = await models.Expense.create(req.body);
-    res.status(201).send(expense);
+    const { CategoryId, PaymentId, ...rest } = expense.dataValues;
+
+    const category = await models.Category.findOne({
+      where: {
+        id: CategoryId,
+      },
+    });
+
+    const payment = await models.Payment.findOne({
+      where: {
+        id: PaymentId,
+      },
+    });
+
+    // here i could parse description and item so that every word in the string has capital letter -> first i make all strings lowercase then capitalize first letter
+    // as well as for bulk expenses
+
+    const parsedExpense = {
+      ...rest,
+      category: helpers.capitalizeFirstLetter(category.dataValues.name),
+      payment: helpers.capitalizeFirstLetter(payment.dataValues.type),
+    };
+
+    res.status(201).send(parsedExpense);
   } catch (error) {
-    console.error(error);
+    console.error('error ---->', error);
     res.status(500).send({
       message: 'Could not post expense',
       error: helpers.getParsedError(error),
     });
   }
 };
+
+const postBulkExpenses = async (req, res) => {
+  try {
+    await categoryController.postBulkCategory(req.body);
+    const categories = await models.Category.findAll();
+    const payments = await models.Payment.findAll();
+    const parsedExpenses = helpers.parseBulkExpensesWithIds(
+      req.body,
+      categories,
+      payments
+    );
+
+    const newExpenses = await models.Expense.bulkCreate(parsedExpenses, {
+      validate: true,
+    });
+
+    const newParsedExpenses = helpers.parseBulkExpensesWithNames(
+      newExpenses,
+      categories,
+      payments
+    );
+
+    res.status(201).send(newParsedExpenses);
+  } catch (error) {
+    console.error('error ---->', error);
+    res.status(500).send({
+      message: 'Could not post bulk expenses',
+      error: helpers.getParsedError(error),
+    });
+  }
+};
+
 const deleteExpense = async (req, res) => {
   try {
+    const { id } = req.params;
+    await models.Expense.destroy({
+      where: {
+        id: id,
+      },
+    });
+    res.sendStatus(204);
   } catch (error) {
     res.status(500).send({
       message: 'Could not delete expense',
@@ -42,6 +103,37 @@ const deleteExpense = async (req, res) => {
     });
   }
 };
+
+const deleteBulkExpenses = async (req, res) => {
+  try {
+    await models.Expense.destroy({
+      where: {
+        id: req.body,
+      },
+    });
+    res.sendStatus(204);
+  } catch (error) {
+    res.status(500).send({
+      message: 'Could not bulk delete expenses',
+      error: helpers.getParsedError(error),
+    });
+  }
+};
+
+const deleteAllExpenses = async (req, res) => {
+  try {
+    await models.Expense.destroy({
+      where: {},
+    });
+    res.sendStatus(204);
+  } catch (error) {
+    res.status(500).send({
+      message: 'Could not bulk delete expenses',
+      error: helpers.getParsedError(error),
+    });
+  }
+};
+
 const editExpense = async (req, res) => {
   try {
   } catch (error) {
@@ -57,4 +149,7 @@ module.exports = {
   postExpense,
   deleteExpense,
   editExpense,
+  postBulkExpenses,
+  deleteBulkExpenses,
+  deleteAllExpenses,
 };

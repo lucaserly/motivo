@@ -1,31 +1,26 @@
 import { useEffect, useState } from 'react';
-
-export const fetchRequest = (path, options) => {
-  return fetch(path, options)
-    .then((res) => (res.status < 400 ? res : Promise.reject()))
-    .then((res) => (res.status !== 204 ? res.json() : res))
-    .catch((err) => {
-      console.error('Error:', err);
-    });
-};
+import apiService from '../services/apiService';
 
 export const useFetch = (url, options) => {
-  const [response, setResponse] = useState(null);
+  const [response, setResponse] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const res = await apiService.fetchRequest(url, options);
+      setResponse(res);
+      setIsLoading(false);
+    } catch (error) {
+      setError(error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const res = await fetchRequest(url, options);
-        setResponse(res);
-        setIsLoading(false);
-      } catch (error) {
-        setError(error);
-      }
-    };
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return { response, error, isLoading };
+
+  return { response, error, isLoading, setResponse, fetchData };
 };

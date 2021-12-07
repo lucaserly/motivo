@@ -11,12 +11,16 @@ router.get('/greeting', (req, res) => {
 
 router.get('/expenses', expenseController.getAllExpenses);
 router.post('/expense', expenseController.postExpense);
+router.post('/expenses', expenseController.postBulkExpenses);
 router.delete('/expense/:id', expenseController.deleteExpense);
+router.delete('/expenses', expenseController.deleteBulkExpenses);
+router.delete('/expenses/all', expenseController.deleteAllExpenses);
 router.put('/expense/:id', expenseController.editExpense);
 
 router.get('/categories', categoryController.getAllCategories);
 router.post('/category', categoryController.postCategory);
 router.delete('/category/:id', categoryController.deleteCategory);
+router.delete('/categories/all', categoryController.deleteAllCategories);
 router.put('/category/:id', categoryController.editCategory);
 
 router.get('/payments', paymentController.getAllPayments);

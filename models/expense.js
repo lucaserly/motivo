@@ -1,5 +1,7 @@
 'use strict';
 
+const models = require('./index');
+
 module.exports = (sequelize, DataTypes) => {
   const Expense = sequelize.define('Expense', {
     item: {
@@ -8,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     description: DataTypes.STRING,
     amount: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.DECIMAL,
       allowNull: false,
     },
     currency: {

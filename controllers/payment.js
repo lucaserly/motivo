@@ -17,11 +17,15 @@ const getAllPayments = async (req, res) => {
 
 const postPayment = async (req, res) => {
   try {
+    const parsedBody = { type: req.body.type.toLowerCase() };
+
     const payment = await models.Payment.findOne({
-      where: { type: req.body.type },
+      where: { type: parsedBody.type },
     });
+
     if (payment) throw new Error('Payment method already exists');
-    const newPayment = await models.Payment.create(req.body);
+
+    const newPayment = await models.Payment.create(parsedBody);
     res.status(201).send(newPayment);
   } catch (error) {
     console.error(error);
