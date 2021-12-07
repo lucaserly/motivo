@@ -56,6 +56,11 @@ export const Expenses = () => {
     });
   };
 
+  console.log('test-->', );
+
+  console.log('helpers.isDev()-->', helpers.isDev());
+  console.log('EXPENSES_URL-->', EXPENSES_URL);
+
   const deleteExpense = (id) => {
     apiService
       .deleteExpense(id)
