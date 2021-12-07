@@ -16,6 +16,9 @@ const CATEGORIES_URL = helpers.isDev()
   ? 'http://localhost:5001/categories'
   : '/categories';
 
+console.log('helpers.isDev()-->', helpers.isDev());
+console.log('EXPENSES_URL-->', EXPENSES_URL);
+
 const parseExpenses = (rawData) => {
   return rawData.map((el) => {
     const { id, amount, date, ...rest } = el;
