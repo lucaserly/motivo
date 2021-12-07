@@ -2,18 +2,8 @@ import React from 'react';
 import './App.css';
 import { Expenses } from './containers';
 import { Header } from './components';
-import helpers from './services/helpers';
 
 function App() {
-  console.log('App isDev-->', helpers.isDev());
-  function isDev2() {
-    return '_self' in React.createElement('div');
-  }
-
-  console.log('isDev2()-->', isDev2());
-
-
-
   return (
     <div
       className='App'
