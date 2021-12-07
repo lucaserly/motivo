@@ -1,8 +1,12 @@
+import React from 'react';
 import './App.css';
 import { Expenses } from './containers';
 import { Header } from './components';
+import helpers from './services/helpers';
 
 function App() {
+  console.log('ReactIsInDevelomentMode()-->', helpers.ReactIsInDevelomentMode());
+
   return (
     <div
       className='App'

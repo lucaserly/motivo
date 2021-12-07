@@ -1,8 +1,12 @@
 import moment from 'moment';
-import process from 'process';
+import React from 'react';
 
-const isDev = () =>
-  !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+// const isDev = () =>
+//   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+
+function isDev() {
+  return '_self' in React.createElement('div');
+}
 
 const splitter = (item, pattern) => {
   return String(item).split(pattern);
