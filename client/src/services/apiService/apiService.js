@@ -30,7 +30,9 @@ const deleteExpense = (id) => {
 };
 
 const deleteAllExpenses = (id) => {
-  const URL = helpers.isDev() ? `http://localhost:5001/expenses/all` : `/expenses/all`;
+  const URL = helpers.isDev()
+    ? `http://localhost:5001/expenses/all`
+    : `/expenses/all`;
   return fetchRequest(URL, {
     method: 'DELETE',
   });
@@ -79,9 +81,24 @@ const postBulkExpenses = (body) => {
 };
 
 const getCategories = () => {
-  const URL = helpers.isDev() ? 'http://localhost:5001/categories' : '/categories';
-
+  const URL = helpers.isDev()
+    ? 'http://localhost:5001/categories'
+    : '/categories';
   return fetchRequest(URL);
+};
+
+const editBalance = (id, body) => {
+  const URL = helpers.isDev()
+    ? `http://localhost:5001/balance/${id}`
+    : `/balance/${id}`;
+
+  return fetchRequest(URL, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
 };
 
 const apiService = {
@@ -93,6 +110,7 @@ const apiService = {
   deleteAllExpenses,
   deleteAllCategories,
   getCategories,
+  editBalance,
 };
 
 export default apiService;

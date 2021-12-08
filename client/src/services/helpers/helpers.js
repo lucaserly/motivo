@@ -71,6 +71,16 @@ const bulkParser = (rawData) => {
 const sortByDate = (expenses) =>
   expenses.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
 
+const getEmptyColumns = (columns) => {
+  const indexOfAmountCol = columns.findIndex(
+    (column) => column.title === 'Amount'
+  );
+  const beforeCols = new Array(indexOfAmountCol - 1).fill();
+  const afterCols = new Array(columns.length - indexOfAmountCol - 1).fill();
+
+  return { beforeCols, afterCols };
+};
+
 const helpers = {
   isArrayOfEmptyStrings,
   amountParser,
@@ -79,6 +89,7 @@ const helpers = {
   isDev,
   splitter,
   currencyFormatter,
+  getEmptyColumns,
 };
 
 export default helpers;

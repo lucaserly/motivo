@@ -4,6 +4,7 @@ const router = require('express').Router();
 const expenseController = require('./controllers/expense');
 const categoryController = require('./controllers/category');
 const paymentController = require('./controllers/payment');
+const balanceController = require('./controllers/balance');
 
 router.get('/greeting', (req, res) => {
   res.status(201).send({ message: 'hello from backend' });
@@ -27,5 +28,8 @@ router.get('/payments', paymentController.getAllPayments);
 router.post('/payment', paymentController.postPayment);
 router.delete('/payment/:id', paymentController.deletePayment);
 router.put('/payment/:id', paymentController.editPayment);
+
+router.get('/balances', balanceController.getAllBalances);
+router.put('/balance/:id', balanceController.editBalance);
 
 module.exports = router;

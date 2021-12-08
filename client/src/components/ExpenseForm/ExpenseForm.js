@@ -74,6 +74,7 @@ export const ExpenseForm = ({ categories, visible, onSubmit, onCancel }) => {
         <Form.Item
           name='PaymentId'
           label='Payment'
+          initialValue={1}
           required
           rules={[
             {
@@ -104,6 +105,7 @@ export const ExpenseForm = ({ categories, visible, onSubmit, onCancel }) => {
         <Form.Item
           name='currency'
           label='Currency'
+          initialValue={'€'}
           required
           rules={[
             {
@@ -123,4 +125,3 @@ export const ExpenseForm = ({ categories, visible, onSubmit, onCancel }) => {
     </Modal>
   );
 };
-

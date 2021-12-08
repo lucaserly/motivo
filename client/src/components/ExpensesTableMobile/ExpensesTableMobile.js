@@ -20,10 +20,6 @@ const columns = [
     dataIndex: 'description',
   },
   {
-    title: 'Payment',
-    dataIndex: 'payment',
-  },
-  {
     title: 'Amount',
     dataIndex: 'amount',
   },
@@ -32,7 +28,7 @@ const columns = [
     dataIndex: 'date',
   },
   {
-    title: '',
+    title: 'Delete',
     dataIndex: 'delete',
   },
 ];
@@ -45,7 +41,7 @@ const parseDataSource = (rawData, deleteExpense) => {
       id,
       key: id,
       amount: helpers.currencyFormatter(Number(el.amount)),
-      date: moment(date).format('DD/MM/YYYY, h:mm a'),
+      date: moment(date).format('DD/MM/YY'),
       delete: (
         <Button
           type='primary'
@@ -59,25 +55,17 @@ const parseDataSource = (rawData, deleteExpense) => {
   });
 };
 
-export const ExpensesTable = ({
+export const ExpensesTableMobile = ({
   expenses,
-  deleteExpense,
-  setSelectedRows,
   sumOfExpenses,
+  deleteExpense,
 }) => {
-  const copyOfCOls = [...columns];
-  copyOfCOls.unshift({});
-  const { beforeCols, afterCols } = helpers.getEmptyColumns(copyOfCOls);
-  const rowSelection = {
-    onChange: (selectedRowKeys) => setSelectedRows(selectedRowKeys),
-  };
-
+  const { beforeCols, afterCols } = helpers.getEmptyColumns(columns);
   return (
     <div>
       <Table
         dataSource={parseDataSource(expenses, deleteExpense)}
         columns={columns}
-        rowSelection={{ ...rowSelection }}
         summary={(pageData) => {
           let totalExpenses = 0;
           pageData.forEach(({ amount }) => {
