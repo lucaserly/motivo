@@ -29,11 +29,11 @@ const parseExpenses = (expenses) => {
 const parseBulkExpensesWithIds = (expenses, categories, payments) => {
   return expenses.reduce((result, cv) => {
     const CategoryId = categories.find(
-      (category) => category.dataValues.name === cv.category.toLowerCase()
+      (category) => category.dataValues.name.toLowerCase() === cv.category.toLowerCase()
     ).dataValues.id;
 
     const PaymentId = payments.find(
-      (payment) => payment.dataValues.type === cv.payment.toLowerCase()
+      (payment) => payment.dataValues.type.toLowerCase() === cv.payment.toLowerCase()
     ).dataValues.id;
 
     const { category, payment, ...rest } = cv;
