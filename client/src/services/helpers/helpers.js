@@ -7,19 +7,10 @@ const splitter = (item, pattern) => {
   return String(item).split(pattern);
 };
 
-const currencyFormatter = (num) => {
-  const formattedNum = num.toFixed(2);
+const currencyFormatter = (num, decimals = true) => {
+  const formattedNum = decimals ? num.toFixed(2) : Math.round(num);
   const arr = splitter(formattedNum, '.');
-  let splittedDigits;
-  let dash;
-
-  const isEqualToDash = arr[0][0] === '-';
-  if (isEqualToDash) {
-    splittedDigits = splitter(arr[0].slice(1), '');
-    dash = '-';
-  } else {
-    splittedDigits = splitter(arr[0], '');
-  }
+  const splittedDigits = splitter(arr[0], '');
 
   for (let i = splittedDigits.length; i >= 0; i -= 3) {
     const isEqualToNumOfDigits = i === splittedDigits.length;
@@ -31,10 +22,9 @@ const currencyFormatter = (num) => {
       splittedDigits[i] = `,${splittedDigits[i]}`;
     }
   }
+
   const digitsJoined = splittedDigits.join('');
-  const result = dash
-    ? `- ${digitsJoined}.${arr[1]} €`
-    : `${digitsJoined}.${arr[1]} €`;
+  const result = decimals ? `${digitsJoined}.${arr[1]} €` : `${digitsJoined} €`;
   return result;
 };
 

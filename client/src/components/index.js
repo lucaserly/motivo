@@ -1,4 +1,4 @@
-export { ButtonsBar } from './ButtonsBar/ButtonsBar';
+export { SettingsModal } from './SettingsModal/SettingsModal';
 export { CvsReader } from './CvsReader/CvsReader';
 export { ExpenseForm } from './ExpenseForm/ExpenseForm';
 export { ExpenseModal } from './ExpenseModal/ExpenseModal';

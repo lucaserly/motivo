@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { useFetch, useIsMobile } from '../../custom_hooks';
-import { ExpenseModal, ExpensesTable, ButtonsBar } from '../../components';
+import {
+  ExpenseModal,
+  ExpensesTable,
+  ButtonsBar,
+  SettingsModal,
+} from '../../components';
+import { SettingOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import { Balances, BulkUpload } from '..';
 import helpers from '../../services/helpers';
 import apiService from '../../services/apiService';
@@ -64,9 +71,9 @@ export const Expenses = () => {
 
       {!isMobile && <BulkUpload setExpenses={setExpenses} />}
 
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
         <ExpenseModal createExpense={createExpense} categories={categories} />
-        <ButtonsBar
+        <SettingsModal
           deleteBulkExpenses={deleteBulkExpenses}
           selectedRows={selectedRows}
           setExpenses={setExpenses}

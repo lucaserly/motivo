@@ -11,46 +11,47 @@ const columns = [
     title: 'Item',
     dataIndex: 'item',
   },
-  {
-    title: 'Category',
-    dataIndex: 'category',
-  },
-  {
-    title: 'Description',
-    dataIndex: 'description',
-  },
+  // {
+  //   title: 'Category',
+  //   dataIndex: 'category',
+  // },
+  // {
+  //   title: 'Description',
+  //   dataIndex: 'description',
+  // },
   {
     title: 'Amount',
     dataIndex: 'amount',
+    width: 120
   },
   {
     title: 'Date',
     dataIndex: 'date',
   },
-  {
-    title: 'Delete',
-    dataIndex: 'delete',
-  },
+  // {
+  //   title: 'Delete',
+  //   dataIndex: 'delete',
+  // },
 ];
 
 const parseDataSource = (rawData, deleteExpense) => {
   return rawData.map((el) => {
-    const { id, amount, date, ...rest } = el;
+    const { id, item, category, description, amount, date } = el;
     return {
-      ...rest,
       id,
       key: id,
+      item,
       amount: helpers.currencyFormatter(Number(el.amount)),
       date: moment(date).format('DD/MM/YY'),
-      delete: (
-        <Button
-          type='primary'
-          shape='plus'
-          icon={<DeleteOutlined />}
-          style={{ marginBottom: '10px' }}
-          onClick={() => deleteExpense(el.id)}
-        />
-      ),
+      // delete: (
+      //   <Button
+      //     type='primary'
+      //     shape='plus'
+      //     icon={<DeleteOutlined />}
+      //     style={{ marginBottom: '10px' }}
+      //     onClick={() => deleteExpense(el.id)}
+      //   />
+      // ),
     };
   });
 };
@@ -86,7 +87,7 @@ export const ExpensesTableMobile = ({
 
                   <Table.Summary.Cell>
                     <Text style={{ fontWeight: 'bold' }}>
-                      {helpers.currencyFormatter(totalExpenses)}
+                      {helpers.currencyFormatter(totalExpenses, false)}
                     </Text>
                   </Table.Summary.Cell>
 
@@ -107,7 +108,7 @@ export const ExpensesTableMobile = ({
 
                   <Table.Summary.Cell>
                     <Text style={{ fontWeight: 'bold' }}>
-                      {helpers.currencyFormatter(sumOfExpenses)}
+                      {helpers.currencyFormatter(sumOfExpenses, false)}
                     </Text>
                   </Table.Summary.Cell>
 

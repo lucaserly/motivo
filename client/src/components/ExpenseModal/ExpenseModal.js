@@ -24,7 +24,7 @@ export const ExpenseModal = ({ createExpense, categories }) => {
   };
 
   return (
-    <div>
+    <div style={{marginRight:'15px'}}>
       <Button
         type='primary'
         shape='plus'
