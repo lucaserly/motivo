@@ -43,6 +43,7 @@ const bulkParser = (rawData) => {
       const { currency, amount } = amountParser(cv[4]);
       const dateMomentObject = moment(cv[5], 'DD/MM/YY');
       const dateObject = dateMomentObject.toDate();
+
       array.push({
         item: cv[0],
         category: cv[1],
@@ -71,6 +72,13 @@ const getEmptyColumns = (columns) => {
   return { beforeCols, afterCols };
 };
 
+const capitalizeFirstLetter = (string) => {
+  const stringToLowerCase = string.toLowerCase();
+  const splittedStr = stringToLowerCase.split('');
+  splittedStr[0] = splittedStr[0].toUpperCase();
+  return splittedStr.join('');
+};
+
 const helpers = {
   isArrayOfEmptyStrings,
   amountParser,
@@ -80,6 +88,7 @@ const helpers = {
   splitter,
   currencyFormatter,
   getEmptyColumns,
+  capitalizeFirstLetter,
 };
 
 export default helpers;

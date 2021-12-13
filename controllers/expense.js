@@ -12,7 +12,7 @@ const getAllExpenses = async (req, res) => {
     const sortedExpenses = helpers.sortByDate(parsedExpenses);
     res.status(201).send(sortedExpenses);
   } catch (error) {
-    console.error(error);
+    console.error('error', error);
     res.status(500).send({
       message: 'Could not get expenses',
       error: helpers.getParsedError(error),
@@ -48,7 +48,7 @@ const postExpense = async (req, res) => {
 
     res.status(201).send(parsedExpense);
   } catch (error) {
-    console.error('error ---->', error);
+    console.error('error', error);
     res.status(500).send({
       message: 'Could not post expense',
       error: helpers.getParsedError(error),
@@ -79,7 +79,7 @@ const postBulkExpenses = async (req, res) => {
 
     res.status(201).send(newParsedExpenses);
   } catch (error) {
-    console.error('error ---->', error);
+    console.error('error', error);
     res.status(500).send({
       message: 'Could not post bulk expenses',
       error: helpers.getParsedError(error),
@@ -97,6 +97,7 @@ const deleteExpense = async (req, res) => {
     });
     res.sendStatus(204);
   } catch (error) {
+    console.error('error', error);
     res.status(500).send({
       message: 'Could not delete expense',
       error: helpers.getParsedError(error),
@@ -113,6 +114,7 @@ const deleteBulkExpenses = async (req, res) => {
     });
     res.sendStatus(204);
   } catch (error) {
+    console.error('error', error);
     res.status(500).send({
       message: 'Could not bulk delete expenses',
       error: helpers.getParsedError(error),
@@ -127,6 +129,7 @@ const deleteAllExpenses = async (req, res) => {
     });
     res.sendStatus(204);
   } catch (error) {
+    console.error('error', error);
     res.status(500).send({
       message: 'Could not bulk delete expenses',
       error: helpers.getParsedError(error),
@@ -136,7 +139,17 @@ const deleteAllExpenses = async (req, res) => {
 
 const editExpense = async (req, res) => {
   try {
+    const { id } = req.params;
+    const updateExpense = await models.Expense.update(req.body, {
+      where: {
+        id: id,
+      },
+      returning: true,
+      plain: true,
+    });
+    res.status(200).send(updateExpense[1].dataValues);
   } catch (error) {
+    console.error('error', error);
     res.status(500).send({
       message: 'Could not edit expense',
       error: helpers.getParsedError(error),

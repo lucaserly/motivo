@@ -7,6 +7,11 @@ const BALANCES_URL = helpers.isDev()
   ? 'http://localhost:5001/balances'
   : '/balances';
 
+export const extractNumberFromString = (str) => {
+  const splittedText = str.split('');
+  return Number(splittedText.slice(0, splittedText.length - 2).join(''));
+};
+
 export const Balances = ({ sumOfExpenses }) => {
   const { response: balances, error, isLoading } = useFetch(BALANCES_URL);
   const [test, setTest] = useState(0);
@@ -29,8 +34,6 @@ export const Balances = ({ sumOfExpenses }) => {
   const cashOnHandObj = balances.find(
     (balance) => balance.type === 'Cash on Hand'
   );
-
-  const cashOnHand = Number(cashOnHandObj.amount);
 
   const cashFromGolfLessonsObj = balances.find(
     (balance) => balance.type === 'Golf Lessons'
@@ -63,13 +66,10 @@ export const Balances = ({ sumOfExpenses }) => {
     sumOfExpenses;
 
   const handleBlur = (e) => {
-    const splittedText = e.target.innerText.split('');
-    const newValue = Number(
-      splittedText.slice(0, splittedText.length - 2).join('')
-    );
+    const amount = extractNumberFromString(e.target.innerText);
     apiService
-      .editBalance(cashOnHandObj.id, { amount: newValue })
-      .then((newBalance) => setTest(newValue));
+      .editBalance(cashOnHandObj.id, { amount })
+      .then((newBalance) => setTest(amount));
   };
 
   return (

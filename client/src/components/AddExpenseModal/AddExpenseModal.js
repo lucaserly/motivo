@@ -9,7 +9,7 @@ export const paymentMethods = [
   { id: 3, title: 'credit_card' },
 ];
 
-export const ExpenseModal = ({ createExpense, categories }) => {
+export const AddExpenseModal = ({ createExpense, categories }) => {
   const [visible, setVisible] = useState(false);
 
   const onSubmit = (values) => {

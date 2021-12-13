@@ -1,13 +1,24 @@
 import React, { useState, useRef } from 'react';
-import { Table, Button, Typography, Modal } from 'antd';
+import { Table, Button, Typography, Popover } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import helpers from '../../services/helpers';
-import { EditableTable } from '../EditableTable/EditableTable';
-import {
-  parseForDetailedInformation,
-  sortByHeader,
-} from '../ExpensesTable/ExpensesTable';
+import moment from 'moment';
 const { Text } = Typography;
+
+export const filterObject = (obj, predicate) =>
+Object.keys(obj)
+  .filter((key) => predicate(key))
+  .reduce((res, key) => ((res[key] = obj[key]), res), {});
+
+const predicate = (key) =>
+!(
+  key === 'id' ||
+  key === 'createdAt' ||
+  key === 'updatedAt' ||
+  key === 'CategoryId' ||
+  key === 'PaymentId'
+);
 
 const columns = [
   {
@@ -28,52 +39,25 @@ const columns = [
 
 const parseRows = (expenses) => {
   return expenses.map((el) => {
-    const { id, ...rest } = el;
+    const { id, item, amount, date } = el;
     return {
-      ...rest,
       id,
       key: id,
+      item,
+      amount: helpers.currencyFormatter(Number(amount)),
+      date: moment(date).format('DD/MM/YY'),
     };
   });
 };
 
-const filterObject = (obj, predicate) =>
-  Object.keys(obj)
-    .filter((key) => predicate(key))
-    .reduce((res, key) => ((res[key] = obj[key]), res), {});
-
-const predicate = (key) =>
-  !(
-    key === 'id' ||
-    key === 'createdAt' ||
-    key === 'updatedAt' ||
-    key === 'CategoryId' ||
-    key === 'PaymentId'
-  );
-
-export const ExpensesTableMobile = ({
+export const ExpensesTableMobilePopOver = ({
   expenses,
   sumOfExpenses,
   deleteExpense,
-  categories,
-  refetch,
-  check,
 }) => {
   const { beforeCols, afterCols } = helpers.getEmptyColumns(columns);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
+  const [isPopUpVisible, SetIsPopUpVisible] = useState(false);
+  const mousePos = useRef({ x: 0, y: 0 });
   const selectedRow = useRef({
     id: null,
     key: null,
@@ -82,6 +66,21 @@ export const ExpensesTableMobile = ({
     date: null,
   });
 
+  const closePopUp = () => {
+    SetIsPopUpVisible(false);
+  };
+
+  const openPopUp = () => {
+    SetIsPopUpVisible(true);
+  };
+
+  const popOverStyle = {
+    position: 'absolute',
+    left: `${mousePos.current.x}px`,
+    top: `${mousePos.current.y}px`,
+    zIndex: 10,
+  };
+
   const additionalInformation = expenses.find(
     (expense) => expense.id === selectedRow.current.id
   );
@@ -89,38 +88,46 @@ export const ExpensesTableMobile = ({
   const filteredInformation =
     additionalInformation && filterObject(additionalInformation, predicate);
 
-  const detailedInformation = sortByHeader(
-    parseForDetailedInformation(filteredInformation)
-  );
-
   return (
     <div>
-      <Modal
-        title='Details'
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        footer={[
-          <Button key='back' onClick={handleCancel}>
-            Close
-          </Button>,
-        ]}
-      >
-        <EditableTable
-          initialState={detailedInformation}
-          pagination={false}
-          id={selectedRow.current.id}
-          categories={categories}
-          refetch={refetch}
+      <div style={popOverStyle}>
+        <Popover
+          content={
+            <>
+              <Button onClick={closePopUp} icon={<CloseOutlined />} />
+              {additionalInformation &&
+                Object.entries(filteredInformation).map(([key, value]) => {
+                  return (
+                    <>
+                      <div style={{ display: 'flex' }}>
+                        <p>{key}</p> {'\u00A0'} = {'\u00A0'}{' '}
+                        <p>
+                          {key === 'date'
+                            ? moment(value).format('DD/MM/YY')
+                            : value}
+                        </p>
+                      </div>
+                    </>
+                  );
+                })}
+            </>
+          }
+          trigger='click'
+          visible={isPopUpVisible}
+          onVisibleChange={openPopUp}
+          overlayStyle={popOverStyle}
         />
-      </Modal>
-
+      </div>
       <Table
         onRow={(record, rowIndex) => {
           return {
             onClick: (event) => {
-              selectedRow.current = record;
-              showModal();
+              if (!isPopUpVisible) {
+                const { clientX, clientY } = event;
+                SetIsPopUpVisible(true);
+                mousePos.current = { x: clientX, y: clientY + window.scrollY };
+                selectedRow.current = record;
+              } else SetIsPopUpVisible(false);
             },
           };
         }}
@@ -137,7 +144,7 @@ export const ExpensesTableMobile = ({
               <Table.Summary fixed>
                 <Table.Summary.Row>
                   <Table.Summary.Cell>
-                    <Text style={{ fontWeight: '100' }}>Sub Total</Text>
+                    <Text style={{ fontWeight: 'bold' }}>Sub Total</Text>
                   </Table.Summary.Cell>
 
                   {beforeCols.map((__, index) => (
@@ -145,7 +152,7 @@ export const ExpensesTableMobile = ({
                   ))}
 
                   <Table.Summary.Cell>
-                    <Text style={{ fontWeight: '100' }}>
+                    <Text style={{ fontWeight: 'bold' }}>
                       {helpers.currencyFormatter(totalExpenses, false)}
                     </Text>
                   </Table.Summary.Cell>
@@ -169,28 +176,6 @@ export const ExpensesTableMobile = ({
                   <Table.Summary.Cell>
                     <Text style={{ fontWeight: 'bold' }}>
                       {helpers.currencyFormatter(sumOfExpenses, false)}
-                    </Text>
-                  </Table.Summary.Cell>
-
-                  {afterCols.map((__, index) => (
-                    <Table.Summary.Cell key={index}></Table.Summary.Cell>
-                  ))}
-                </Table.Summary.Row>
-              </Table.Summary>
-
-              <Table.Summary fixed>
-                <Table.Summary.Row>
-                  <Table.Summary.Cell>
-                    <Text style={{ fontWeight: '100' }}>Check</Text>
-                  </Table.Summary.Cell>
-
-                  {beforeCols.map((__, index) => (
-                    <Table.Summary.Cell key={index}></Table.Summary.Cell>
-                  ))}
-
-                  <Table.Summary.Cell>
-                    <Text style={{ fontWeight: '100' }}>
-                      {helpers.currencyFormatter(check)}
                     </Text>
                   </Table.Summary.Cell>
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Popover } from 'antd';
 import apiService from '../../services/apiService';
 import { SettingOutlined } from '@ant-design/icons';
 import { useIsMobile } from '../../custom_hooks';
@@ -10,8 +10,9 @@ export const SettingsModal = ({
   setExpenses,
 }) => {
   const isMobile = useIsMobile();
-
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isWarningVisible, setIsWarningVisible] = useState(false);
+
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -19,6 +20,15 @@ export const SettingsModal = ({
   const closeModal = () => {
     setIsModalVisible(false);
   };
+
+  const showWarning = () => {
+    setIsWarningVisible(true);
+  };
+
+  const closeWarning = () => {
+    setIsWarningVisible(false);
+  };
+
   return (
     <div style={{ display: 'flex' }}>
       <Button
@@ -39,7 +49,7 @@ export const SettingsModal = ({
         ]}
       >
         {!isMobile && (
-          <div style={{marginBottom:'10px'}}>
+          <div style={{ marginBottom: '10px' }}>
             <Button
               type='primary'
               style={{ marginRight: '5px' }}
@@ -51,16 +61,29 @@ export const SettingsModal = ({
           </div>
         )}
 
-        <div style={{marginBottom:'10px'}}>
-          <Button
-            type='primary'
-            style={{ marginRight: '5px' }}
-            onClick={() =>
-              apiService.deleteAllExpenses().then(() => setExpenses([]))
+        <div style={{ marginBottom: '10px' }}>
+          <Popover
+            content={
+              <>
+                <Button
+                  onClick={() => {
+                    apiService.deleteAllExpenses().then(() => setExpenses([]));
+                    closeWarning();
+                  }}
+                >
+                  Yes
+                </Button>
+                <Button onClick={closeWarning}>No</Button>
+              </>
             }
+            trigger='click'
+            visible={isWarningVisible}
+            onVisibleChange={showWarning}
           >
-            Delete All Expenses
-          </Button>
+            <Button type='primary' style={{ marginRight: '5px' }}>
+              Delete All Expenses
+            </Button>
+          </Popover>
         </div>
         <div>
           <Button

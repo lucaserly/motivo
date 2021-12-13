@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import { Expenses } from './containers';
-import { Header } from './components';
 import { useIsMobile } from './custom_hooks';
 
 function App() {
@@ -13,7 +12,7 @@ function App() {
       };
   return (
     <div className='App' style={style}>
-      <Header />
+      {/* <Header /> */}
       <Expenses />
     </div>
   );

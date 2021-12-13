@@ -101,6 +101,20 @@ const editBalance = (id, body) => {
   });
 };
 
+const editExpense = (id, body) => {
+  const URL = helpers.isDev()
+    ? `http://localhost:5001/expense/${id}`
+    : `/expense/${id}`;
+
+  return fetchRequest(URL, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+};
+
 const apiService = {
   postExpense,
   fetchRequest,
@@ -111,6 +125,7 @@ const apiService = {
   deleteAllCategories,
   getCategories,
   editBalance,
+  editExpense,
 };
 
 export default apiService;

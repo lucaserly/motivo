@@ -1,10 +1,23 @@
-import React from 'react';
-import { Table, Button, Typography } from 'antd';
+import React, { useRef, useState } from 'react';
+import { Table, Button, Typography, Modal } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import helpers from '../../services/helpers';
-import moment from 'moment';
+import { filterObject } from '../ExpensesTableMobile/ExpensesTableMobilePopOver';
+import { EditableTable } from '../EditableTable/EditableTable';
+
 const { Text } = Typography;
+
+const predicate = (key) =>
+  !(
+    key === 'id' ||
+    key === 'createdAt' ||
+    key === 'updatedAt' ||
+    key === 'CategoryId' ||
+    key === 'PaymentId' ||
+    key === 'key' ||
+    key === 'delete'
+  );
 
 const columns = [
   {
@@ -39,13 +52,11 @@ const columns = [
 
 const parseDataSource = (rawData, deleteExpense) => {
   return rawData.map((el) => {
-    const { id, amount, date, ...rest } = el;
+    const { id, ...rest } = el;
     return {
       ...rest,
       id,
       key: id,
-      amount: helpers.currencyFormatter(Number(el.amount)),
-      date: moment(date).format('DD/MM/YYYY, h:mm a'),
       delete: (
         <Button
           type='primary'
@@ -59,11 +70,36 @@ const parseDataSource = (rawData, deleteExpense) => {
   });
 };
 
+export const parseForDetailedInformation = (filteredInformation) => {
+  if (!filteredInformation) return [];
+  return Object.entries(filteredInformation).map(([key, value], index) => {
+    return {
+      key: index,
+      header: helpers.capitalizeFirstLetter(key),
+      value: value === null ? '-' : value.length === 0 ? '-' : value,
+    };
+  });
+};
+
+export const sortByHeader = (information) => {
+  return information.sort((a, b) => {
+    const headerA = a.header.toLowerCase();
+    const headerB = b.header.toLowerCase();
+
+    if (headerA < headerB) return -1;
+    if (headerA > headerB) return 1;
+    return 0;
+  });
+};
+
 export const ExpensesTable = ({
   expenses,
   deleteExpense,
   setSelectedRows,
   sumOfExpenses,
+  categories,
+  refetch,
+  check
 }) => {
   const copyOfCOls = [...columns];
   copyOfCOls.unshift({});
@@ -72,9 +108,64 @@ export const ExpensesTable = ({
     onChange: (selectedRowKeys) => setSelectedRows(selectedRowKeys),
   };
 
+  const selectedRow = useRef({
+    id: null,
+    key: null,
+    item: '',
+    amount: null,
+    date: null,
+  });
+
+  const filteredInformation =
+    selectedRow.current && filterObject(selectedRow.current, predicate);
+
+  const detailedInformation = sortByHeader(parseForDetailedInformation(filteredInformation))
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <div>
+      <Modal
+        title='Details'
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={[
+          <Button key='back' onClick={handleCancel}>
+            Close
+          </Button>,
+        ]}
+      >
+        <EditableTable
+          initialState={detailedInformation}
+          pagination={false}
+          id={selectedRow.current.id}
+          categories={categories}
+          refetch={refetch}
+        />
+      </Modal>
+
       <Table
+        onRow={(record, rowIndex) => {
+          return {
+            onClick: (event) => {
+              selectedRow.current = record;
+              showModal();
+            },
+          };
+        }}
         dataSource={parseDataSource(expenses, deleteExpense)}
         columns={columns}
         rowSelection={{ ...rowSelection }}
@@ -89,7 +180,7 @@ export const ExpensesTable = ({
               <Table.Summary fixed>
                 <Table.Summary.Row>
                   <Table.Summary.Cell>
-                    <Text style={{ fontWeight: 'bold' }}>Sub Total</Text>
+                    <Text style={{ fontWeight: '100' }}>Sub Total</Text>
                   </Table.Summary.Cell>
 
                   {beforeCols.map((__, index) => (
@@ -97,7 +188,7 @@ export const ExpensesTable = ({
                   ))}
 
                   <Table.Summary.Cell>
-                    <Text style={{ fontWeight: 'bold' }}>
+                    <Text style={{ fontWeight: '100' }}>
                       {helpers.currencyFormatter(totalExpenses)}
                     </Text>
                   </Table.Summary.Cell>
@@ -120,6 +211,27 @@ export const ExpensesTable = ({
                   <Table.Summary.Cell>
                     <Text style={{ fontWeight: 'bold' }}>
                       {helpers.currencyFormatter(sumOfExpenses)}
+                    </Text>
+                  </Table.Summary.Cell>
+
+                  {afterCols.map((__, index) => (
+                    <Table.Summary.Cell key={index}></Table.Summary.Cell>
+                  ))}
+                </Table.Summary.Row>
+              </Table.Summary>
+              <Table.Summary fixed>
+                <Table.Summary.Row>
+                  <Table.Summary.Cell>
+                    <Text style={{ fontWeight: '100' }}>Check</Text>
+                  </Table.Summary.Cell>
+
+                  {beforeCols.map((__, index) => (
+                    <Table.Summary.Cell key={index}></Table.Summary.Cell>
+                  ))}
+
+                  <Table.Summary.Cell>
+                    <Text style={{ fontWeight: '100' }}>
+                      {helpers.currencyFormatter(check)}
                     </Text>
                   </Table.Summary.Cell>
 
