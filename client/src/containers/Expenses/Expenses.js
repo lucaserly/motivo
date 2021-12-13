@@ -79,7 +79,7 @@ export const Expenses = () => {
 
   const sumOfExpenses =
     expenses &&
-    Math.round(expenses.reduce((pv, cv) => pv + Number(cv.amount), 0));
+    (expenses.reduce((pv, cv) => pv + Number(cv.amount), 0));
 
   const check =
     balances && balances.length > 0 ? sanityCheck(balances, sumOfExpenses) : 0;
