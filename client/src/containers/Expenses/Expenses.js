@@ -115,7 +115,7 @@ export const Expenses = () => {
 
   return (
     <div>
-      <Balances sumOfExpenses={sumOfExpenses} />
+      {/* <Balances sumOfExpenses={sumOfExpenses} /> */}
 
       {!isMobile && <BulkUpload setExpenses={setExpenses} />}
 
