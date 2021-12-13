@@ -38,6 +38,7 @@ const filterExpenses = (expenses, query) => {
 };
 
 const parseExpenses = (expenses) => {
+  if (!expenses) return [];
   return expenses.map((expense) => ({
     ...expense,
     date: moment(expense.date).format('DD/MM/YYYY'),
@@ -69,7 +70,8 @@ export const Expenses = () => {
     fetchData: refetch,
   } = useFetch(EXPENSES_URL);
   const { response: categories } = useFetch(CATEGORIES_URL);
-  const { response: balances } = useFetch(BALANCES_URL);
+  const { response: balances, fetchData: refetchBalances } =
+    useFetch(BALANCES_URL);
   const [selectedRows, setSelectedRows] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const parsedExpenses = parseExpenses(expenses);
@@ -115,7 +117,10 @@ export const Expenses = () => {
 
   return (
     <div>
-      {/* <Balances sumOfExpenses={sumOfExpenses} /> */}
+      <Balances
+        sumOfExpenses={sumOfExpenses}
+        refetchBalances={refetchBalances}
+      />
 
       {!isMobile && <BulkUpload setExpenses={setExpenses} />}
 

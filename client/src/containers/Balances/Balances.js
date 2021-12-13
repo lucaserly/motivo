@@ -12,7 +12,7 @@ export const extractNumberFromString = (str) => {
   return Number(splittedText.slice(0, splittedText.length - 2).join(''));
 };
 
-export const Balances = ({ sumOfExpenses }) => {
+export const Balances = ({ sumOfExpenses, refetchBalances }) => {
   const { response: balances, error, isLoading } = useFetch(BALANCES_URL);
   const [test, setTest] = useState(0);
 
@@ -69,19 +69,22 @@ export const Balances = ({ sumOfExpenses }) => {
     const amount = extractNumberFromString(e.target.innerText);
     apiService
       .editBalance(cashOnHandObj.id, { amount })
-      .then((newBalance) => setTest(amount));
+      .then((newBalance) => {
+        setTest(amount)
+        refetchBalances()
+      });
   };
 
   return (
     <div>
-      ------------------------------
+      {/* ------------------------------
       <p>
         Cash From Golf Lessons ={' '}
         {helpers.currencyFormatter(cashFromGolfLessons)}
       </p>
       <p>Cash From Tips = {helpers.currencyFormatter(tips)}</p>
       <p>Miscellaneous Cash = {helpers.currencyFormatter(miscellaneousCash)}</p>
-      <p>Foreign Cash = {helpers.currencyFormatter(foreignCash)}</p>
+      <p>Foreign Cash = {helpers.currencyFormatter(foreignCash)}</p> */}
       <div style={{ display: 'flex' }}>
         <p>Cash on Hand ={'\u00A0'}</p>
         <p
@@ -93,11 +96,11 @@ export const Balances = ({ sumOfExpenses }) => {
           {helpers.currencyFormatter(Number(test))}
         </p>
       </div>
-      <p>Total Expenses = {helpers.currencyFormatter(sumOfExpenses)}</p>
+      {/* <p>Total Expenses = {helpers.currencyFormatter(sumOfExpenses)}</p>
       <p style={{ fontWeight: 'bold' }}>
         Sanity Check = {helpers.currencyFormatter(sanityCheck)}
       </p>
-      ------------------------------
+      ------------------------------ */}
     </div>
   );
 };
