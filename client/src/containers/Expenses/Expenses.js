@@ -37,7 +37,9 @@ const filterExpenses = (expenses, query) => {
       // console.log('expense.item-->', expense.item);
       // console.log('expense.category-->', expense.category);
       // console.log('expense.description-->', expense.description);
-
+      if (expense === null || expense.item === null || expense.category === null || expense.description === null) {
+        console.log('expense-->', expense);
+      }
       return expense.item.toLowerCase().includes(query.toLowerCase()) ||
       expense.category.toLowerCase().includes(query.toLowerCase()) ||
       expense.description.toLowerCase().includes(query.toLowerCase())
