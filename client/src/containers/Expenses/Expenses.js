@@ -29,11 +29,19 @@ const BALANCES_URL = helpers.isDev()
 
 const filterExpenses = (expenses, query) => {
   if (!query) return expenses;
+  console.log('query-->', query);
+  console.log('expenses-->', expenses);
+
   return expenses.filter(
-    (expense) =>
-      expense.item.toLowerCase().includes(query.toLowerCase()) ||
+    (expense) => {
+      // console.log('expense.item-->', expense.item);
+      // console.log('expense.category-->', expense.category);
+      // console.log('expense.description-->', expense.description);
+
+      return expense.item.toLowerCase().includes(query.toLowerCase()) ||
       expense.category.toLowerCase().includes(query.toLowerCase()) ||
       expense.description.toLowerCase().includes(query.toLowerCase())
+    }
   );
 };
 
