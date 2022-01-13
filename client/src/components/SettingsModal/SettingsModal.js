@@ -30,7 +30,7 @@ export const SettingsModal = ({
   };
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex', marginRight: '15px' }}>
       <Button
         type='primary'
         icon={<SettingOutlined />}

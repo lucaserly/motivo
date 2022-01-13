@@ -9,22 +9,32 @@ export const paymentMethods = [
   { id: 3, title: 'credit_card' },
 ];
 
+const convertDate = (date) => {
+  if (!date) return new Date();
+  if (typeof date === 'string') return new Date(Date.parse(date));
+  return date.toDate();
+};
+
 export const AddExpenseModal = ({ createExpense, categories }) => {
   const [visible, setVisible] = useState(false);
 
   const onSubmit = (values) => {
     const { date, ...rest } = values;
-    const convertedDate = date ? date.toDate() : new Date();
+    const convertedDate = convertDate(date);
+
     const body = {
       ...rest,
       date: convertedDate,
+      ...(!rest.PaymentId && { PaymentId: 1 }),
+      ...(!rest.currency && { currency: '€' }),
+      ...(!rest.CategoryId && { CategoryId: rest.categoryid }),
     };
     createExpense(body);
     setVisible(false);
   };
 
   return (
-    <div style={{marginRight:'15px'}}>
+    <div style={{ marginRight: '15px' }}>
       <Button
         type='primary'
         shape='plus'
@@ -35,6 +45,7 @@ export const AddExpenseModal = ({ createExpense, categories }) => {
       <ExpenseForm
         categories={categories}
         visible={visible}
+        setVisible={setVisible}
         onSubmit={onSubmit}
         onCancel={() => {
           setVisible(false);
@@ -43,4 +54,3 @@ export const AddExpenseModal = ({ createExpense, categories }) => {
     </div>
   );
 };
-

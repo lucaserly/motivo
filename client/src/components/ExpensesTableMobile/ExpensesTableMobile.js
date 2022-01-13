@@ -3,6 +3,7 @@ import { Table, Button, Typography, Modal } from 'antd';
 import 'antd/dist/antd.css';
 import helpers from '../../services/helpers';
 import { EditableTable } from '../EditableTable/EditableTable';
+import { DeleteOutlined } from '@ant-design/icons';
 import {
   parseForDetailedInformation,
   sortByHeader,
@@ -104,6 +105,13 @@ export const ExpensesTableMobile = ({
           <Button key='back' onClick={handleCancel}>
             Close
           </Button>,
+          <Button
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              deleteExpense(selectedRow.current.id);
+              handleCancel();
+            }}
+          />,
         ]}
       >
         <EditableTable

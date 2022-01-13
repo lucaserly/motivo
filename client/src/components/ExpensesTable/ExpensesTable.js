@@ -99,7 +99,7 @@ export const ExpensesTable = ({
   sumOfExpenses,
   categories,
   refetch,
-  check
+  check,
 }) => {
   const copyOfCOls = [...columns];
   copyOfCOls.unshift({});
@@ -119,7 +119,9 @@ export const ExpensesTable = ({
   const filteredInformation =
     selectedRow.current && filterObject(selectedRow.current, predicate);
 
-  const detailedInformation = sortByHeader(parseForDetailedInformation(filteredInformation))
+  const detailedInformation = sortByHeader(
+    parseForDetailedInformation(filteredInformation)
+  );
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -161,8 +163,11 @@ export const ExpensesTable = ({
         onRow={(record, rowIndex) => {
           return {
             onClick: (event) => {
-              selectedRow.current = record;
-              showModal();
+              // don't open modal when delete button is pressed
+              if (event.target.innerText) {
+                selectedRow.current = record;
+                showModal();
+              }
             },
           };
         }}

@@ -13,6 +13,7 @@ import 'antd/dist/antd.css';
 import './Expenses.css';
 import { SearchBar } from '../../components/SearchBar/SearchBar';
 import moment from 'moment';
+import { BulkDownload } from '../BulkDownload/BulkDownload';
 
 const EXPENSES_URL = helpers.isDev()
   ? 'http://localhost:5001/expenses'
@@ -28,7 +29,6 @@ const BALANCES_URL = helpers.isDev()
 
 const filterExpenses = (expenses, query) => {
   if (!query) return expenses;
-
   return expenses.filter(
     (expense) =>
       expense.item.toLowerCase().includes(query.toLowerCase()) ||
@@ -78,8 +78,7 @@ export const Expenses = () => {
   const filteredExpenses = filterExpenses(parsedExpenses, searchValue);
 
   const sumOfExpenses =
-    expenses &&
-    (expenses.reduce((pv, cv) => pv + Number(cv.amount), 0));
+    expenses && expenses.reduce((pv, cv) => pv + Number(cv.amount), 0);
 
   const check =
     balances && balances.length > 0 ? sanityCheck(balances, sumOfExpenses) : 0;
@@ -122,8 +121,6 @@ export const Expenses = () => {
         refetchBalances={refetchBalances}
       />
 
-      {!isMobile && <BulkUpload setExpenses={setExpenses} />}
-
       <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
 
       <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
@@ -131,11 +128,19 @@ export const Expenses = () => {
           createExpense={createExpense}
           categories={categories}
         />
+
         <SettingsModal
           deleteBulkExpenses={deleteBulkExpenses}
           selectedRows={selectedRows}
           setExpenses={setExpenses}
         />
+
+        {!isMobile && (
+          <>
+            <BulkUpload setExpenses={setExpenses} />
+            <BulkDownload expenses={parsedExpenses} />
+          </>
+        )}
       </div>
 
       {filteredExpenses && !isMobile ? (
