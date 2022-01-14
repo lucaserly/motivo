@@ -12,6 +12,11 @@ const headers = [
   'Date',
 ];
 
+const parseDate = (date) => {
+  const splittedDate = date.split('/');
+  return `${splittedDate[1]}/ ${splittedDate[0]}/${splittedDate[2]}`;
+};
+
 export const BulkDownload = ({ expenses }) => {
   const handleDownload = () => {
     const parsedData = expenses.map((expense) => ({
@@ -23,7 +28,11 @@ export const BulkDownload = ({ expenses }) => {
       Date: expense.date,
     }));
 
-    const sheet = XLSX.utils.json_to_sheet(parsedData, { headers });
+    const sortedData = parsedData.sort(
+      (a, b) => new Date(parseDate(a.Date)) - new Date(parseDate(b.Date))
+    );
+
+    const sheet = XLSX.utils.json_to_sheet(sortedData, { headers });
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, sheet, 'Expenses');
 
