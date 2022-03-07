@@ -11,6 +11,7 @@ const sortByDate = (expenses) => expenses.sort((a, b) => b.date - a.date);
 const capitalizeFirstLetter = (string) => {
   const stringToLowerCase = string.toLowerCase();
   const splittedStr = stringToLowerCase.split('');
+  if (splittedStr.length === 0) return '';
   splittedStr[0] = splittedStr[0].toUpperCase();
   return splittedStr.join('');
 };
@@ -29,12 +30,14 @@ const parseExpenses = (expenses) => {
 const parseBulkExpensesWithIds = (expenses, categories, payments) => {
   return expenses.reduce((result, cv) => {
     const CategoryId = categories.find(
-      (category) => category.dataValues.name.toLowerCase() === cv.category.toLowerCase()
+      (category) =>
+        category.dataValues.name.toLowerCase() === cv.category.toLowerCase()
     ).dataValues.id;
 
     const PaymentId = payments.find(
-      (payment) => payment.dataValues.type.toLowerCase() === cv.payment.toLowerCase()
-    ).dataValues.id;
+      (payment) =>
+        payment.dataValues.type.toLowerCase() === cv.payment.toLowerCase()
+    )?.dataValues?.id;
 
     const { category, payment, ...rest } = cv;
     result.push({
@@ -51,11 +54,11 @@ const parseBulkExpensesWithNames = (expenses, categories, payments) => {
   return expenses.reduce((result, cv) => {
     const category = categories.find(
       (category) => category.dataValues.id === cv.CategoryId
-    ).dataValues.name;
+    )?.dataValues?.name;
 
     const payment = payments.find(
       (payment) => payment.dataValues.id === cv.PaymentId
-    ).dataValues.type;
+    )?.dataValues?.type;
 
     const { CategoryId, PaymentId, ...rest } = cv.dataValues;
     result.push({

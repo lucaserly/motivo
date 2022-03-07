@@ -42,9 +42,8 @@ const bulkExpenseParser = (rawData) => {
   return rawData.reduce((array, cv, index) => {
     if (index > 0 && !isArrayOfEmptyStrings(cv)) {
       const { currency, amount } = amountParser(cv[4]);
-      const dateMomentObject = moment(cv[5], 'DD/MM/YY');
+      const dateMomentObject = moment(cv[5], 'DD/MM/YYYY');
       const dateObject = dateMomentObject.toDate();
-
       array.push({
         item: cv[0],
         category: cv[1],
