@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFetch, useIsMobile } from '../../custom_hooks';
+import { useIsMobile } from '../../custom_hooks';
 import { Table, Button } from 'antd';
 import helpers from '../../services/helpers';
 import { AddIncome } from '../../components';
@@ -68,9 +68,8 @@ const columns = [
   },
 ];
 
-export const Income = () => {
+export const Income = ({ income, setIncome }) => {
   const isMobile = useIsMobile();
-  const { response: income, setResponse: setIncome } = useFetch(INCOME_URL);
 
   const createIncome = (body) => {
     apiService.postIncome(body).then((income) => {

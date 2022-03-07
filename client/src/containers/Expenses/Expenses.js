@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFetch, useIsMobile } from '../../custom_hooks';
 import {
   AddExpense,
@@ -13,7 +13,6 @@ import 'antd/dist/antd.css';
 import './Expenses.css';
 import { SearchBar } from '../../components/SearchBar/SearchBar';
 import moment from 'moment';
-import { INCOME_URL } from '../Income/Income';
 
 const EXPENSES_URL = helpers.isDev()
   ? 'http://localhost:5001/expenses'
@@ -72,7 +71,7 @@ const getSanityCheck = (balances, sumOfExpenses, income) => {
   );
 };
 
-export const Expenses = () => {
+export const Expenses = ({ income }) => {
   const isMobile = useIsMobile();
   const {
     response: expenses,
@@ -82,15 +81,20 @@ export const Expenses = () => {
   const { response: categories } = useFetch(CATEGORIES_URL);
   const { response: balances, fetchData: refetchBalances } =
     useFetch(BALANCES_URL);
-  const { response: income } = useFetch(INCOME_URL);
 
   const [selectedRows, setSelectedRows] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const parsedExpenses = parseExpenses(expenses);
   const filteredExpenses = filterExpenses(parsedExpenses, searchValue);
 
+  useEffect(() => {
+    console.log('expenses useeffect-->');
+  }, []);
+
   const sumOfExpenses =
     expenses && expenses.reduce((pv, cv) => pv + Number(cv.amount), 0);
+
+  console.log('balances-->', balances);
 
   const sanityCheck =
     balances && balances.length > 0
