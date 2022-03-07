@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { useFetch, useIsMobile } from '../../custom_hooks';
 import {
-  AddExpenseModal,
+  AddExpense,
   ExpensesTable,
   SettingsModal,
   ExpensesTableMobile,
 } from '../../components';
-import { Balances, BulkUpload } from '..';
+import { Balances, BulkUpload, BulkDownload } from '..';
 import helpers from '../../services/helpers';
 import apiService from '../../services/apiService';
 import 'antd/dist/antd.css';
 import './Expenses.css';
 import { SearchBar } from '../../components/SearchBar/SearchBar';
 import moment from 'moment';
-import { BulkDownload } from '../BulkDownload/BulkDownload';
+import { INCOME_URL } from '../Income/Income';
 
 const EXPENSES_URL = helpers.isDev()
   ? 'http://localhost:5001/expenses'
@@ -49,20 +49,27 @@ const parseExpenses = (expenses) => {
   }));
 };
 
-const sanityCheck = (balances, sumOfExpenses) => {
-  const sum = balances.reduce((pv, cv) => {
-    if (cv.type !== 'Cash on Hand' && cv.type !== 'Foreign Currency')
+const getSanityCheck = (balances, sumOfExpenses, income) => {
+  const golfLessonsAndTips = balances.reduce((pv, cv) => {
+    if (
+      cv.type !== 'Cash on Hand' &&
+      cv.type !== 'Foreign Currency' &&
+      cv.type !== 'Miscellaneous'
+    )
       return pv + Number(cv.amount);
     else return pv;
   }, 0);
 
+  const totalIncome = income.reduce((pv, cv) => pv + Number(cv.amount), 0);
   const cashOnHand = Number(
     balances.find((balance) => balance.type === 'Cash on Hand').amount
   );
   const foreignCash = Number(
     balances.find((balance) => balance.type === 'Foreign Currency').amount
   );
-  return sum - cashOnHand - foreignCash - sumOfExpenses;
+  return (
+    golfLessonsAndTips + totalIncome - cashOnHand - foreignCash - sumOfExpenses
+  );
 };
 
 export const Expenses = () => {
@@ -75,6 +82,8 @@ export const Expenses = () => {
   const { response: categories } = useFetch(CATEGORIES_URL);
   const { response: balances, fetchData: refetchBalances } =
     useFetch(BALANCES_URL);
+  const { response: income } = useFetch(INCOME_URL);
+
   const [selectedRows, setSelectedRows] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const parsedExpenses = parseExpenses(expenses);
@@ -83,8 +92,10 @@ export const Expenses = () => {
   const sumOfExpenses =
     expenses && expenses.reduce((pv, cv) => pv + Number(cv.amount), 0);
 
-  const check =
-    balances && balances.length > 0 ? sanityCheck(balances, sumOfExpenses) : 0;
+  const sanityCheck =
+    balances && balances.length > 0
+      ? getSanityCheck(balances, sumOfExpenses, income)
+      : 0;
 
   const createExpense = (body) => {
     apiService.postExpense(body).then((expense) => {
@@ -124,13 +135,8 @@ export const Expenses = () => {
         refetchBalances={refetchBalances}
       />
 
-      <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
-
       <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-        <AddExpenseModal
-          createExpense={createExpense}
-          categories={categories}
-        />
+        <AddExpense createExpense={createExpense} categories={categories} />
 
         <SettingsModal
           deleteBulkExpenses={deleteBulkExpenses}
@@ -144,6 +150,8 @@ export const Expenses = () => {
             <BulkDownload expenses={parsedExpenses} />
           </>
         )}
+
+        <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
       </div>
 
       {filteredExpenses && !isMobile ? (
@@ -155,7 +163,7 @@ export const Expenses = () => {
           sumOfExpenses={sumOfExpenses}
           categories={categories}
           refetch={refetch}
-          check={check}
+          sanityCheck={sanityCheck}
         />
       ) : (
         filteredExpenses && (
@@ -165,7 +173,7 @@ export const Expenses = () => {
             sumOfExpenses={sumOfExpenses}
             categories={categories}
             refetch={refetch}
-            check={check}
+            sanityCheck={sanityCheck}
           />
         )
       )}

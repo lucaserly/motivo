@@ -35,35 +35,35 @@ export const Balances = ({ sumOfExpenses, refetchBalances }) => {
     (balance) => balance.type === 'Cash on Hand'
   );
 
-  const cashFromGolfLessonsObj = balances.find(
-    (balance) => balance.type === 'Golf Lessons'
-  );
+  // const cashFromGolfLessonsObj = balances.find(
+  //   (balance) => balance.type === 'Golf Lessons'
+  // );
 
-  const cashFromGolfLessons = Number(cashFromGolfLessonsObj.amount);
+  // const cashFromGolfLessons = Number(cashFromGolfLessonsObj.amount);
 
-  const tipsObj = balances.find((balance) => balance.type === 'Tips');
+  // const tipsObj = balances.find((balance) => balance.type === 'Tips');
 
-  const tips = Number(tipsObj.amount);
+  // const tips = Number(tipsObj.amount);
 
-  const miscellaneousCashObj = balances.find(
-    (balance) => balance.type === 'Miscellaneous'
-  );
+  // const miscellaneousCashObj = balances.find(
+  //   (balance) => balance.type === 'Miscellaneous'
+  // );
 
-  const miscellaneousCash = Number(miscellaneousCashObj.amount);
+  // const miscellaneousCash = Number(miscellaneousCashObj.amount);
 
-  const foreignCashObj = balances.find(
-    (balance) => balance.type === 'Foreign Currency'
-  );
+  // const foreignCashObj = balances.find(
+  //   (balance) => balance.type === 'Foreign Currency'
+  // );
 
-  const foreignCash = Number(foreignCashObj.amount);
+  // const foreignCash = Number(foreignCashObj.amount);
 
-  const totalCashOnHand = foreignCash + test;
-  const sanityCheck =
-    cashFromGolfLessons +
-    tips +
-    miscellaneousCash -
-    totalCashOnHand -
-    sumOfExpenses;
+  // const totalCashOnHand = foreignCash + test;
+  // const sanityCheck =
+  //   cashFromGolfLessons +
+  //   tips +
+  //   miscellaneousCash -
+  //   totalCashOnHand -
+  //   sumOfExpenses;
 
   const handleBlur = (e) => {
     const amount = extractNumberFromString(e.target.innerText);

@@ -5,6 +5,7 @@ const expenseController = require('./controllers/expense');
 const categoryController = require('./controllers/category');
 const paymentController = require('./controllers/payment');
 const balanceController = require('./controllers/balance');
+const incomeController = require('./controllers/income');
 
 router.get('/greeting', (req, res) => {
   res.status(201).send({ message: 'hello from backend' });
@@ -31,5 +32,17 @@ router.put('/payment/:id', paymentController.editPayment);
 
 router.get('/balances', balanceController.getAllBalances);
 router.put('/balance/:id', balanceController.editBalance);
+
+router.get('/income', incomeController.getAllIncome);
+router.post('/income', incomeController.postIncome);
+router.post('/incomes', incomeController.postBulkIncome);
+router.delete('/income/:id', incomeController.deleteIncome);
+router.delete('/incomes/all', incomeController.deleteAllIncomes);
+
+
+
+// router.delete('/income/:id', incomeController.deleteIncome);
+// router.put('/income/:id', incomeController.editIncome);
+
 
 module.exports = router;

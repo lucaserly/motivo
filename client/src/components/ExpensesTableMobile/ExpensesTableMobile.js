@@ -14,16 +14,19 @@ const columns = [
   {
     title: 'Item',
     dataIndex: 'item',
+    key: 'item'
   },
 
   {
     title: 'Amount',
     dataIndex: 'amount',
     width: 120,
+    key: 'amount'
   },
   {
     title: 'Date',
     dataIndex: 'date',
+    key: 'date'
   },
 ];
 
@@ -58,7 +61,7 @@ export const ExpensesTableMobile = ({
   deleteExpense,
   categories,
   refetch,
-  check,
+  sanityCheck,
 }) => {
   const { beforeCols, afterCols } = helpers.getEmptyColumns(columns);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -198,7 +201,7 @@ export const ExpensesTableMobile = ({
 
                   <Table.Summary.Cell>
                     <Text style={{ fontWeight: '100' }}>
-                      {helpers.currencyFormatter(check)}
+                      {helpers.currencyFormatter(sanityCheck)}
                     </Text>
                   </Table.Summary.Cell>
 

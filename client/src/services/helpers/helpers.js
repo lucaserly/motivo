@@ -8,6 +8,7 @@ const splitter = (item, pattern) => {
 };
 
 const currencyFormatter = (num, decimals = true) => {
+  if (!num) return;
   const formattedNum = decimals ? num.toFixed(2) : Math.round(num);
   const arr = splitter(formattedNum, '.');
   const splittedDigits = splitter(arr[0], '');
@@ -37,7 +38,7 @@ const amountParser = (string) => {
   return { currency, amount };
 };
 
-const bulkParser = (rawData) => {
+const bulkExpenseParser = (rawData) => {
   return rawData.reduce((array, cv, index) => {
     if (index > 0 && !isArrayOfEmptyStrings(cv)) {
       const { currency, amount } = amountParser(cv[4]);
@@ -52,6 +53,24 @@ const bulkParser = (rawData) => {
         amount: amount,
         currency,
         date: dateObject,
+      });
+    }
+
+    return array;
+  }, []);
+};
+
+const bulkIncomeParser = (rawData) => {
+  return rawData.reduce((array, cv, index) => {
+    if (index > 0 && !isArrayOfEmptyStrings(cv)) {
+      const { amount } = amountParser(cv[1]);
+      // const dateMomentObject =
+      //   cv[2] === '' ? '' : moment(cv[2], 'DD/MM/YY').toDate();
+
+      array.push({
+        description: cv[0],
+        amount: amount,
+        // date: dateMomentObject,
       });
     }
 
@@ -82,13 +101,14 @@ const capitalizeFirstLetter = (string) => {
 const helpers = {
   isArrayOfEmptyStrings,
   amountParser,
-  bulkParser,
+  bulkExpenseParser,
   sortByDate,
   isDev,
   splitter,
   currencyFormatter,
   getEmptyColumns,
   capitalizeFirstLetter,
+  bulkIncomeParser,
 };
 
 export default helpers;

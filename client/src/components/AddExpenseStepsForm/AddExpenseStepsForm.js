@@ -1,9 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Steps, Button, message } from 'antd';
-import { Form, Input, Select, DatePicker, InputNumber, Modal } from 'antd';
-import './AddExpenseStepsModal.css';
+import { Form, Input, Select, DatePicker, InputNumber } from 'antd';
+import './AddExpenseStepsForm.css';
 
-export const AddExpenseStepsModal = ({ categories, onSubmit, setVisible }) => {
+export const AddExpenseStepsForm = ({ categories, onSubmit, setVisible }) => {
   const [current, setCurrent] = useState(0);
   const [form] = Form.useForm();
 

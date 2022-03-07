@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExpenseForm } from '..';
+import { ExpenseModal } from '..';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
@@ -9,13 +9,13 @@ export const paymentMethods = [
   { id: 3, title: 'credit_card' },
 ];
 
-const convertDate = (date) => {
+export const convertDate = (date) => {
   if (!date) return new Date();
   if (typeof date === 'string') return new Date(Date.parse(date));
   return date.toDate();
 };
 
-export const AddExpenseModal = ({ createExpense, categories }) => {
+export const AddExpense = ({ createExpense, categories }) => {
   const [visible, setVisible] = useState(false);
 
   const onSubmit = (values) => {
@@ -42,7 +42,7 @@ export const AddExpenseModal = ({ createExpense, categories }) => {
         style={{ marginBottom: '10px' }}
         onClick={() => setVisible(true)}
       />
-      <ExpenseForm
+      <ExpenseModal
         categories={categories}
         visible={visible}
         setVisible={setVisible}

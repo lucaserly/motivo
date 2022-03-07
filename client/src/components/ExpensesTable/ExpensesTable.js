@@ -23,30 +23,37 @@ const columns = [
   {
     title: 'Item',
     dataIndex: 'item',
+    key: 'item'
   },
   {
     title: 'Category',
     dataIndex: 'category',
+    key: 'category'
   },
   {
     title: 'Description',
     dataIndex: 'description',
+    key: 'description'
   },
   {
     title: 'Payment',
     dataIndex: 'payment',
+    key: 'payment'
   },
   {
     title: 'Amount',
     dataIndex: 'amount',
+    key: 'amount'
   },
   {
     title: 'Date',
     dataIndex: 'date',
+    key: 'date'
   },
   {
     title: '',
     dataIndex: 'delete',
+    key: 'delete'
   },
 ];
 
@@ -99,7 +106,7 @@ export const ExpensesTable = ({
   sumOfExpenses,
   categories,
   refetch,
-  check,
+  sanityCheck,
 }) => {
   const copyOfCOls = [...columns];
   copyOfCOls.unshift({});
@@ -227,7 +234,7 @@ export const ExpensesTable = ({
               <Table.Summary fixed>
                 <Table.Summary.Row>
                   <Table.Summary.Cell>
-                    <Text style={{ fontWeight: '100' }}>Check</Text>
+                    <Text style={{ fontWeight: '100' }}>sanityCheck</Text>
                   </Table.Summary.Cell>
 
                   {beforeCols.map((__, index) => (
@@ -236,7 +243,7 @@ export const ExpensesTable = ({
 
                   <Table.Summary.Cell>
                     <Text style={{ fontWeight: '100' }}>
-                      {helpers.currencyFormatter(check)}
+                      {helpers.currencyFormatter(sanityCheck)}
                     </Text>
                   </Table.Summary.Cell>
 

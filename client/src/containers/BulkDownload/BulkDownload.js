@@ -46,7 +46,7 @@ export const BulkDownload = ({ expenses }) => {
   };
 
   return (
-    <div>
+    <div style={{ marginRight: '15px' }}>
       <Button
         icon={<DownloadOutlined />}
         style={{ marginBottom: '10px' }}

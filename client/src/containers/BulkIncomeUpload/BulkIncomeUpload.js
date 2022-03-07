@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import apiService from '../../services/apiService';
-import helpers from '../../services/helpers';
 import { Button, Modal } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import apiService from '../../services/apiService';
+import helpers from '../../services/helpers';
 import CSVReader from 'react-csv-reader';
 
-export const BulkUpload = ({ setExpenses }) => {
+export const BulkIncomeUpload = ({ setIncome }) => {
   const [bulkData, setBulkData] = useState();
   const [fileSelected, setFileSelected] = useState(false);
   const [visible, setVisible] = useState(false);
 
   const handleCvsSubmit = (bulkData) => {
-    apiService.postBulkExpenses(bulkData).then((expenses) => {
-      expenses &&
-        setExpenses((expensesList) =>
-          helpers.sortByDate([...expensesList, ...expenses])
+    apiService.postBulkIncome(bulkData).then((income) => {
+      income &&
+        setIncome((incomeList) =>
+          helpers.sortByDate([...incomeList, ...income])
         );
     });
   };
@@ -50,11 +50,9 @@ export const BulkUpload = ({ setExpenses }) => {
           cssClass='csv-reader-input'
           onFileLoaded={(data) => {
             setFileSelected(true);
-            setBulkData(helpers.bulkExpenseParser(data));
+            setBulkData(helpers.bulkIncomeParser(data));
           }}
-          // onError={this.handleDarkSideForce}
-          // parserOptions={papaparseOptions}
-          inputStyle={{ color: 'red' }}
+          // inputStyle={{ color: 'red' }}
         />
       </Modal>
     </div>
