@@ -149,7 +149,7 @@ const deleteIncome = (id) => {
 const deleteAllIncomes = (id) => {
   const URL = helpers.isDev()
     ? `http://localhost:5001/incomes/all`
-    : `/expenses/all`;
+    : `/incomes/all`;
   return fetchRequest(URL, {
     method: 'DELETE',
   });
