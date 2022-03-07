@@ -10,7 +10,7 @@ import apiService from '../../services/apiService';
 
 export const INCOME_URL = helpers.isDev()
   ? 'http://localhost:5001/income'
-  : '/expenses';
+  : '/income';
 
 const parseDataSource = (rawData, deleteIncome) => {
   return sortIncomeByDate(
