@@ -1,0 +1,46 @@
+.add__income__form {
+  height: 30vh;
+  max-height: 500px;
+  display: table;
+  border-collapse: separate;
+  border-spacing: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.add__income__form__amount,
+.add__income__form__date,
+.add__income__form__description {
+  display: table-row;
+
+}
+
+.add__income__form__input,
+.add__income__form__select {
+  outline: none;
+  border: 1px solid rgba(149, 165, 166);
+  border-radius: 0.2rem;
+  min-width: 190px;
+  min-height: 27px;
+  background: #1a1a1a;
+  color: rgba(149, 165, 166)
+}
+
+.add__income__form__select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.add__income__form__input,
+.add__income__form__select,
+.add__income__form__label {
+  display: table-cell;
+}
+
+@media only screen and (max-width: 350px) {
+  .add__income__form {
+    display: flex;
+    flex-direction: column;
+  }
+}

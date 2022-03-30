@@ -1,0 +1,80 @@
+.edit__expense__modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit__expense__modal__content {
+  width: 85vw;
+  max-width: 600px;
+  height: 65vh;
+  max-height: 750px;
+  border-radius: 0.4rem;
+  background: #1a1a1a;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit__expense__modal__exit__btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+}
+
+/* .edit__expense__modal__title {
+  position: absolute;
+  top: 0;
+  padding: 1rem;
+  color: #95a5a6;
+  font-weight: bold;
+} */
+
+.edit__expense__modal__submit__btn,
+.spinning__icon {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 5px;
+}
+
+.edit__expense__modal__succss_msg,
+.edit__expense__modal__succss_msg__show {
+  position: absolute;
+  bottom: 0;
+  left: 3rem;
+  margin-bottom: 0.7rem;
+  transition: all 0.5s ease-out;
+}
+.edit__expense__modal__succss_msg {
+  opacity: 0;
+}
+
+.edit__expense__modal__succss_msg__show {
+  opacity: 1;
+}
+
+.edit__expense__modal__separator {
+  margin-bottom: 2rem;
+}
+
+.spinning__icon {
+  animation: spin 4s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: scale(1) rotate(0deg);
+  }
+  to {
+    transform: scale(1) rotate(360deg);
+  }
+}

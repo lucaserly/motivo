@@ -1,0 +1,86 @@
+.add__transaction {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.add__transaction__content {
+  width: 85vw;
+  max-width: 600px;
+  height: 65vh;
+  max-height: 750px;
+  border-radius: 0.4rem;
+  background: #1a1a1a;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: rgba(149, 165, 166)
+}
+
+.add__transaction__submit__btn, .add__transaction__spinning__icon {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 5px;
+}
+
+.add__transaction__back__btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+
+}
+
+.add__transaction__text {
+  border: 1px solid white;
+  width: 40%;
+  text-align: center;
+  border-radius: 3px;
+}
+
+.add__transaction__text:hover {
+  transform: scale(1.1);
+}
+
+.add__transaction__spinning__icon {
+  animation: spin 4s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: scale(1) rotate(0deg);
+  }
+  to {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+.add__transaction__succss_msg,
+.add__transaction__succss_msg__show {
+  position: absolute;
+  bottom: 0;
+  left: 1;
+  margin-bottom: 0.7rem;
+  transition: all 0.5s ease-out;
+
+}
+.add__transaction__succss_msg {
+  opacity: 0;
+}
+
+.add__transaction__succss_msg__show {
+  opacity: 1;
+}
+
+.add__transaction__separator {
+  margin-bottom: 2rem;
+}

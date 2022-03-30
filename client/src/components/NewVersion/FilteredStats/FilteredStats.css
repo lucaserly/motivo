@@ -1,0 +1,47 @@
+.filtered__stats__container {
+  min-height: 6rem;
+  margin: 0 1rem 4rem 1rem;
+  background: #525151;
+  border-radius: 0.4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.filtered__stats__header {
+  height: 10px;
+  background: #3a3939;
+  padding: 0.9rem;
+  border-radius: 0.4rem 0.4rem 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filtered__stats__header__left {
+  display: flex;
+  align-items: center;
+}
+
+section {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+section > * {
+  display: table-row;
+  word-wrap: break-word;
+}
+
+section .col {
+  border-bottom: 1px solid #5f5e5e;
+}
+
+section .col,
+.col__last {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 1rem 0 1rem 1rem;
+
+}
+

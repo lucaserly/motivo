@@ -1,0 +1,8 @@
+.stats__container {
+  height: 100%;
+  border-radius: 0.4rem;
+  color: #d2d3d4;
+  background: #1a1a1a;
+  padding-top: 1rem;
+  padding-bottom: 10rem
+}

@@ -1,0 +1,35 @@
+.expenses__tiles__container {
+  height: 100%;
+  width: 100%;
+  border-radius: 0.4rem;
+  color: rgba(149, 165, 166);
+  background: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+}
+
+.search__bar__container {
+  margin: 1rem 1rem 1rem 1rem;
+  display: flex;
+  position: relative
+
+}
+
+.search__bar {
+  margin: auto;
+  width: 100%;
+  height: 45px;
+  outline: none;
+  border-radius: 0.4rem;
+
+}
+
+.search__bar__clear__btn {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+

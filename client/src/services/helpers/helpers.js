@@ -97,6 +97,22 @@ const capitalizeFirstLetter = (string) => {
   return splittedStr.join('');
 };
 
+const filterExpenses = (expenses, query) => {
+  if (!expenses) return [];
+  if (!query) return expenses;
+  return expenses.filter(
+    (expense) =>
+      (expense.item &&
+        expense.item.toLowerCase().includes(query.toLowerCase())) ||
+      (expense.category &&
+        expense.category.toLowerCase().includes(query.toLowerCase())) ||
+      (expense.description &&
+        expense.description.toLowerCase().includes(query.toLowerCase()))
+  );
+};
+
+const validateNumInput = (input) => !isNaN(Number(input));
+
 const helpers = {
   isArrayOfEmptyStrings,
   amountParser,
@@ -108,6 +124,8 @@ const helpers = {
   getEmptyColumns,
   capitalizeFirstLetter,
   bulkIncomeParser,
+  filterExpenses,
+  validateNumInput
 };
 
 export default helpers;

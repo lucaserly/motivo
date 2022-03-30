@@ -1,0 +1,42 @@
+.sanitycheck__container {
+  min-height: 7rem;
+  margin: 0 1rem 1rem 1rem;
+  background: #525151;
+  border-radius: 0.4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.sanitycheck__header {
+  height: 10px;
+  background: #3a3939;
+  padding: 0.9rem;
+  border-radius: 0.4rem 0.4rem 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sanitycheck__header__left {
+  display: flex;
+  align-items: center;
+}
+
+.sanitycheck__content {
+  display: flex;
+  justify-content: space-around;
+  margin: auto 0;
+}
+
+.sanitycheck__content__column {
+  display: flex;
+  flex-direction: column;
+}
+
+.sanitycheck__content__value {
+  text-align: center;
+}
+
+.sanity__check__value {
+  font-weight: bold;
+}

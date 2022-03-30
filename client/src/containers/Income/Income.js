@@ -8,10 +8,6 @@ import moment from 'moment';
 import { BulkIncomeUpload } from '..';
 import apiService from '../../services/apiService';
 
-export const INCOME_URL = helpers.isDev()
-  ? 'http://localhost:5001/income'
-  : '/income';
-
 const parseDataSource = (rawData, deleteIncome) => {
   return sortIncomeByDate(
     rawData.map((el) => {

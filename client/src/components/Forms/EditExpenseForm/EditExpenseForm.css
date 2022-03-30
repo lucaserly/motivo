@@ -1,0 +1,48 @@
+.edit__expense__form {
+  height: 50vh;
+  max-height: 500px;
+  display: table;
+  border-collapse: separate;
+  border-spacing: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.edit__expense__form__amount,
+.edit__expense__form__category,
+.edit__expense__form__date,
+.edit__expense__form__description,
+.edit__expense__form__item,
+.edit__expense__form__payment {
+  display: table-row;
+}
+
+.edit__expense__form__input,
+.edit__expense__form__select {
+  outline: none;
+  border: 1px solid rgba(149, 165, 166);
+  border-radius: 0.2rem;
+  min-width: 190px;
+  min-height: 27px;
+  background: #1a1a1a;
+  color: rgba(149, 165, 166)
+}
+
+.edit__expense__form__select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.edit__expense__form__input,
+.edit__expense__form__select,
+.edit__expense__form__label {
+  display: table-cell;
+}
+
+@media only screen and (max-width: 350px) {
+  .edit__expense__form {
+    display: flex;
+    flex-direction: column;
+  }
+}

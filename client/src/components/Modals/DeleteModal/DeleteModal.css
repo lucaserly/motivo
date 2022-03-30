@@ -1,0 +1,57 @@
+.delete_modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.delete__modal__content {
+  width: 55vw;
+  max-width: 400px;
+  height: 30vh;
+  max-height: 100px;
+  border-radius: 0.4rem;
+  background: #1a1a1a;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.delete_spinning__icon {
+  animation: spin 4s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: scale(1) rotate(0deg);
+  }
+  to {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+.delete__modal__succss_msg,
+.delete__modal__succss_msg__show,
+.delete__modal__error_msg__show,
+.delete__modal__error_msg {
+  position: absolute;
+  bottom: 1.5rem;
+  transition: all 0.5s ease-out;
+}
+
+.delete__modal__succss_msg,
+.delete__modal__error_msg {
+  opacity: 0;
+  width: 0;
+}
+
+.delete__modal__succss_msg__show,
+.delete__modal__error_msg__show {
+  opacity: 1;
+}

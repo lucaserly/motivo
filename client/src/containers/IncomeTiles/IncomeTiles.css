@@ -1,0 +1,9 @@
+.test__container {
+  height: 100%;
+  border-radius: 0.4rem;
+  color: rgba(149, 165, 166);
+  background: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+}

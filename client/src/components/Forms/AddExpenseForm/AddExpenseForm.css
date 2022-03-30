@@ -1,0 +1,48 @@
+.add__expense__form {
+  height: 50vh;
+  max-height: 500px;
+  display: table;
+  border-collapse: separate;
+  border-spacing: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.add__expense__form__amount,
+.add__expense__form__category,
+.add__expense__form__date,
+.add__expense__form__description,
+.add__expense__form__item,
+.add__expense__form__payment {
+  display: table-row;
+}
+
+.add__expense__form__input,
+.add__expense__form__select {
+  outline: none;
+  border: 1px solid rgba(149, 165, 166);
+  border-radius: 0.2rem;
+  min-width: 190px;
+  min-height: 27px;
+  background: #1a1a1a;
+  color: rgba(149, 165, 166)
+}
+
+.add__expense__form__select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.add__expense__form__input,
+.add__expense__form__select,
+.add__expense__form__label {
+  display: table-cell;
+}
+
+@media only screen and (max-width: 350px) {
+  .add__expense__form {
+    display: flex;
+    flex-direction: column;
+  }
+}
