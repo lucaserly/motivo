@@ -10,6 +10,7 @@ import { AddExpenseForm, AddIncomeForm } from '../../components';
 import { useIsMobile } from '../../custom_hooks';
 import { MdClose } from 'react-icons/md';
 import { Message } from '../../components/NewVersion/Message/Message';
+import moment from 'moment';
 
 const validateExpenseInputs = (inputs) => {
   return (
@@ -44,7 +45,7 @@ export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
   const [expenseInputs, setExpenseInputs] = useState({
     amount: '',
     category: categories[0] && categories[0].id ? categories[0].id : '',
-    date: new Date(),
+    date: moment(new Date()).format('YYYY-MM-DD'),
     item: '',
     description: '',
     payment: 'Cash',
@@ -52,7 +53,7 @@ export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
 
   const [incomeInputs, setIncomeInputs] = useState({
     amount: '',
-    date: new Date(),
+    date: moment(new Date()).format('YYYY-MM-DD'),
     description: '',
   });
 
@@ -194,14 +195,11 @@ export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
         {form && (
           <>
             {isLoading ? (
-              <FaSpinner
-                size={isMobile ? 20 : 30}
-                className='AddTransaction__spinning__icon'
-              />
+              <FaSpinner size={30} className='AddTransaction__spinning__icon' />
             ) : (
               <MdSend
                 className='AddTransaction__submit__btn'
-                size={isMobile ? 20 : 30}
+                size={30}
                 onClick={(event) => {
                   if (form === 'expense') onSubmitExpense(event);
                   else onSubmitIncome(event);
@@ -210,7 +208,7 @@ export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
             )}
             <BiArrowBack
               className='AddTransaction__back__btn'
-              size={isMobile ? 20 : 30}
+              size={30}
               onClick={() => setForm(false)}
             />
           </>

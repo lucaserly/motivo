@@ -6,7 +6,6 @@ import { FaSpinner } from 'react-icons/fa';
 import apiService from '../../../services/apiService';
 import { EditExpenseForm } from '../../Forms/EditExpenseForm/EditExpenseForm';
 import { Message } from '../../NewVersion/Message/Message';
-import { useIsMobile } from '../../../custom_hooks';
 
 export const EditExpenseModal = ({
   expense,
@@ -16,7 +15,6 @@ export const EditExpenseModal = ({
   editVisible,
 }) => {
   const { id, amount, category, date, description, item, payment } = expense;
-  const isMobile = useIsMobile();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -80,7 +78,7 @@ export const EditExpenseModal = ({
       <div className='EditExpenseModal__content'>
         <MdClose
           className='EditExpenseModal__exit__btn'
-          size={isMobile ? 20 : 30}
+          size={30}
           onClick={closeEditModal}
         />
         <p className='EditExpenseModal__title'>EDIT EXPENSE</p>
@@ -92,11 +90,11 @@ export const EditExpenseModal = ({
         />
         {/* <div className='EditExpenseModal__separator'></div> */}
         {isLoading ? (
-          <FaSpinner size={isMobile ? 20 : 30} className='spinning__icon' />
+          <FaSpinner size={30} className='spinning__icon' />
         ) : (
           <MdSend
             className='EditExpenseModal__submit__btn'
-            size={isMobile ? 20 : 30}
+            size={30}
             onClick={onSubmit}
           />
         )}

@@ -18,8 +18,16 @@ const CATEGORIES_URL = helpers.isDev()
 function App() {
   const isMobile = useIsMobile();
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
-  const { response: expenses, fetchData: refetchExpenses, setResponse: setExpenses} = useFetch(EXPENSES_URL);
-  const { response: income, fetchData: refetchIncome, setResponse: setIncome} = useFetch(INCOME_URL);
+  const {
+    response: expenses,
+    fetchData: refetchExpenses,
+    setResponse: setExpenses,
+  } = useFetch(EXPENSES_URL);
+  const {
+    response: income,
+    fetchData: refetchIncome,
+    setResponse: setIncome,
+  } = useFetch(INCOME_URL);
   const { response: categories } = useFetch(CATEGORIES_URL);
 
   const showSearchBar = () => {
@@ -46,10 +54,9 @@ function App() {
             path='/stats'
             element={
               <Stats
-                expenses={expenses}
-                income={income}
+                expenses={expenses ? expenses : []}
+                income={income ? income : []}
                 categories={categories}
-
               />
             }
           />
@@ -59,7 +66,7 @@ function App() {
               <AddTransaction
                 setExpenses={setExpenses}
                 setIncome={setIncome}
-                categories={categories}
+                categories={categories ? categories : []}
               />
             }
           />
@@ -68,17 +75,14 @@ function App() {
             element={
               <Expenses
                 isSearchBarVisible={isSearchBarVisible}
-                expenses={expenses}
+                expenses={expenses ? expenses : []}
                 refetch={refetchExpenses}
                 categories={categories}
                 setExpenses={setExpenses}
               />
             }
           />
-          <Route
-            path='/'
-            element={<Navigate to='/expenses' />}
-          />
+          <Route path='/' element={<Navigate to='/expenses' />} />
         </Routes>
       </BrowserRouter>
     </div>

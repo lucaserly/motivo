@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { MdClose, MdSend } from 'react-icons/md';
 import { VscClearAll } from 'react-icons/vsc';
-import { useIsMobile } from '../../../custom_hooks';
 import './DateModal.css';
 
 export const ranges = [
@@ -44,7 +43,6 @@ export const DateModal = ({
   currentFilter,
   range,
 }) => {
-  const isMobile = useIsMobile();
   const [dateFilter, setDateFilter] = useState({
     ranges: '',
     date_from: range.date_from,
@@ -79,18 +77,18 @@ export const DateModal = ({
       <div className='DateModal__content'>
         <MdClose
           className='DateModal__exit__btn'
-          size={isMobile ? 20 : 30}
+          size={  30}
           onClick={closeDateModal}
         />
 
         <MdSend
           className='DateModal__submit__btn'
-          size={isMobile ? 20 : 30}
+          size={  30}
           onClick={handleSubmit}
         />
 
         <VscClearAll
-          size={isMobile ? 20 : 30}
+          size={  30}
           className='DateModal__clear__btn'
           onClick={clearDateFilter}
         />

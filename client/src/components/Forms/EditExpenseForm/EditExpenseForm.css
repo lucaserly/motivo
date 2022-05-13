@@ -19,6 +19,9 @@
 
 .EditExpenseForm__input,
 .EditExpenseForm__select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
   margin: auto;
   outline: none;
   border-radius: 0.4rem;
@@ -40,9 +43,6 @@
 }
 
 .EditExpenseForm__select {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
   width: 241px;
   height: 51px;
 }

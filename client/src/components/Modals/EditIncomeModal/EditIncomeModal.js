@@ -6,7 +6,6 @@ import { FaSpinner } from 'react-icons/fa';
 import apiService from '../../../services/apiService';
 import { EditIncomeForm } from '../../Forms/EditIncomeForm/EditIncomeForm';
 import { Message } from '../../NewVersion/Message/Message';
-import { useIsMobile } from '../../../custom_hooks';
 
 export const EditIncomeModal = ({
   income,
@@ -15,7 +14,6 @@ export const EditIncomeModal = ({
   editVisible,
 }) => {
   const { id, amount, date, description } = income;
-  const isMobile = useIsMobile();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -75,7 +73,7 @@ export const EditIncomeModal = ({
       <div className='EditIncomeModal__content'>
         <MdClose
           className='EditIncomeModal__exit__btn'
-          size={isMobile ? 20 : 30}
+          size={30}
           onClick={closeEditModal}
         />
         <p className='EditIncomeModal__title'>EDIT INCOME</p>
@@ -84,11 +82,11 @@ export const EditIncomeModal = ({
         <EditIncomeForm inputs={inputs} handleChange={handleChange} />
 
         {isLoading ? (
-          <FaSpinner size={isMobile ? 20 : 30} className='EditIncomeModal__spinning__icon' />
+          <FaSpinner size={30} className='EditIncomeModal__spinning__icon' />
         ) : (
           <MdSend
             className='EditIncomeModal__submit__btn'
-            size={isMobile ? 20 : 30}
+            size={30}
             onClick={onSubmit}
           />
         )}

@@ -8,6 +8,9 @@
 
 .AddExpenseForm__input,
 .AddExpenseForm__select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
   margin: auto;
   outline: none;
   border-radius: 0.4rem;
@@ -29,9 +32,6 @@
 }
 
 .AddExpenseForm__select {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
   width: 233px;
   height: 51px;
 }
@@ -48,8 +48,8 @@
   }
 
   .AddExpenseForm__select {
-    height: 37px;
-    width: 156px;
+    height: 43px;
+    width: 166px;
   }
 
   #date.AddExpenseForm__input {

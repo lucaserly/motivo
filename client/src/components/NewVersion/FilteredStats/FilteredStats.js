@@ -166,7 +166,7 @@ export const FilteredStats = ({ expenses, income }) => {
 
   useEffect(() => {
     const getPersistedDateFilter = window.localStorage.getItem('currentFilter');
-    if (!getPersistedDateFilter.includes('date_from'))
+    if (getPersistedDateFilter && !getPersistedDateFilter.includes('date_from'))
       setCurrentFilter(getPersistedDateFilter);
     else {
       const dateFrom = getPersistedDateFilter
@@ -186,7 +186,7 @@ export const FilteredStats = ({ expenses, income }) => {
         `date_from: ${range.date_from}; date_to: ${range.date_to}`
       );
     else window.localStorage.setItem('currentFilter', currentFilter);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentFilter]);
 
   const openDateModal = () => {

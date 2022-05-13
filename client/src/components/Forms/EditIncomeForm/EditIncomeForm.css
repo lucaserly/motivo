@@ -16,6 +16,9 @@
 
 .EditIncomeForm__input,
 .EditIncomeForm__select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
   margin: auto;
   outline: none;
   border-radius: 0.4rem;
@@ -37,9 +40,6 @@
 }
 
 .EditIncomeForm__select {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
   width: 233px;
   height: 51px;
 }
