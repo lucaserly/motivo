@@ -1,0 +1,37 @@
+.Message__succss_msg,
+.Message__succss_msg__show {
+  position: absolute;
+  bottom: 0;
+  width: 40%;
+  left: 1;
+  margin-bottom: 0.7rem;
+  transition: all 0.5s ease-out;
+}
+
+.Message__succss_msg {
+  opacity: 0;
+}
+
+.Message__succss_msg__show {
+  opacity: 1;
+  color: green
+}
+
+.Message__error_msg,
+.Message__error_msg__show {
+  position: absolute;
+  bottom: 0;
+  width: 60%;
+  left: 1;
+  margin-bottom: 0.7rem;
+  transition: all 0.5s ease-out;
+}
+
+.Message__error_msg {
+  opacity: 0;
+}
+
+.Message__error_msg__show {
+  opacity: 1;
+  color: red
+}

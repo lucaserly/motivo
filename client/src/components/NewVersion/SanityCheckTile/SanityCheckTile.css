@@ -1,5 +1,5 @@
-.sanitycheck__container {
-  min-height: 7rem;
+.SanityCheckTile__container {
+  min-height: 10rem;
   margin: 0 1rem 1rem 1rem;
   background: #525151;
   border-radius: 0.4rem;
@@ -7,8 +7,8 @@
   flex-direction: column;
 }
 
-.sanitycheck__header {
-  height: 10px;
+.SanityCheckTile__header {
+  height: 20px;
   background: #3a3939;
   padding: 0.9rem;
   border-radius: 0.4rem 0.4rem 0 0;
@@ -17,23 +17,23 @@
   align-items: center;
 }
 
-.sanitycheck__header__left {
+.SanityCheckTile__header__left {
   display: flex;
   align-items: center;
 }
 
-.sanitycheck__content {
+.SanityCheckTile__content {
   display: flex;
   justify-content: space-around;
   margin: auto 0;
 }
 
-.sanitycheck__content__column {
+.SanityCheckTile__content__column {
   display: flex;
   flex-direction: column;
 }
 
-.sanitycheck__content__value {
+.SanityCheckTile__content__value {
   text-align: center;
 }
 

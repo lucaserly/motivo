@@ -1,23 +1,16 @@
 import helpers from '../helpers';
 
-const checkStatus = async (response) => {
-  const { status } = response;
-  if (status >= 400 && status < 500) Promise.reject(response);
-  if (status === 204) return response;
-  const parsed = await response.json();
-  if (status >= 200 && status < 300) return parsed;
-  return Promise.reject(parsed);
-};
-
 const fetchRequest = async (path, options) => {
-  return await fetch(path, options)
-    .then((response) => checkStatus(response))
-    // .then((res) => (res.status < 400 ? res : Promise.reject(res)))
-    // .then((res) => (res.status !== 204 ? res.json() : res))
-    .catch((err) => {
-      console.error('fetchRequest Error:', err);
-      // throw new Error(err);
-    });
+  try {
+    const response = await fetch(path, options);
+    const { status } = response;
+    if (status === 204) return response;
+    const parsed = await response.json();
+    if (status >= 200 && status < 300) return parsed;
+    throw Error(JSON.stringify(parsed));
+  } catch (err) {
+    console.error('fetchRequest Error:', err);
+  }
 };
 
 const deleteExpense = (id) => {
@@ -155,6 +148,20 @@ const deleteAllIncomes = (id) => {
   });
 };
 
+const editIncome = (id, body) => {
+  const URL = helpers.isDev()
+    ? `http://localhost:5001/income/${id}`
+    : `/income/${id}`;
+
+  return fetchRequest(URL, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+};
+
 const apiService = {
   postExpense,
   fetchRequest,
@@ -170,6 +177,7 @@ const apiService = {
   postIncome,
   deleteIncome,
   deleteAllIncomes,
+  editIncome
 };
 
 export default apiService;

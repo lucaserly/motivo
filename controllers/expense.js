@@ -140,14 +140,14 @@ const deleteAllExpenses = async (req, res) => {
 const editExpense = async (req, res) => {
   try {
     const { id } = req.params;
-    const updateExpense = await models.Expense.update(req.body, {
+    const updatedExpense = await models.Expense.update(req.body, {
       where: {
         id: id,
       },
       returning: true,
       plain: true,
     });
-    res.status(200).send(updateExpense[1].dataValues);
+    res.status(200).send(updatedExpense[1].dataValues);
   } catch (error) {
     console.error('error', error);
     res.status(500).send({

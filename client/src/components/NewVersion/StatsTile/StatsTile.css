@@ -1,4 +1,4 @@
-.stats__tile__container {
+.StatsTile__container {
   min-height: 6rem;
   margin: 0 1rem 1rem 1rem;
   background: #525151;
@@ -7,8 +7,8 @@
   flex-direction: column;
 }
 
-.stats__tile__header {
-  height: 10px;
+.StatsTile__header {
+  height: 20px;
   background: #3a3939;
   padding: 0.9rem;
   border-radius: 0.4rem 0.4rem 0 0;
@@ -17,7 +17,7 @@
   align-items: center;
 }
 
-.stats__tile__header__left {
+.StatsTile__header__left {
   display: flex;
   align-items: center;
 }
@@ -42,5 +42,4 @@ section .col,
   display: table-cell;
   vertical-align: middle;
   padding: 1rem 0 1rem 1rem;
-
 }

@@ -1,46 +1,38 @@
 import React from 'react';
 import './AddIncomeForm.css';
 
-export const AddIncomeForm = ({ inputs, handleChange }) => {
+export const AddIncomeForm = ({ inputs, handleChange, categories }) => {
   return (
-    <form className='add__income__form'>
-      <div className='add__income__form__description'>
-        <label className='add__income__form__label'>description: </label>
-        <input
+    <form className='AddIncomeForm'>
+       <input
           onChange={handleChange}
-          className='add__income__form__input'
+          className='AddIncomeForm__input'
           type='text'
           name='description'
           id='description'
           required
           value={inputs.description}
+          placeholder='description'
         />
-      </div>
-      <div className='add__income__form__amount'>
-        <label className='add__income__form__label'>amount: </label>
-        <input
+          <input
           onChange={handleChange}
-          className='add__income__form__input'
+          className='AddIncomeForm__input'
           type='number'
           name='amount'
           id='amount'
           required
           value={inputs.amount}
+          placeholder='amount'
         />
-      </div>
-
-      <div className='add__income__form__date'>
-        <label className='add__income__form__label'>date: </label>
-        <input
+         <input
           onChange={handleChange}
-          className='add__income__form__input'
+          className='AddIncomeForm__input'
           type='date'
           name='date'
           id='date'
           required
           value={inputs.date}
         />
-      </div>
     </form>
   );
 };

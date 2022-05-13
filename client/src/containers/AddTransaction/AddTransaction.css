@@ -1,4 +1,4 @@
-.add__transaction {
+.AddTransaction {
   position: fixed;
   left: 0;
   top: 0;
@@ -7,10 +7,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
+  background-color: rgba(255, 255, 255, 1);
+  height: 100%;
 }
 
-.add__transaction__content {
+.AddTransaction__content {
   width: 85vw;
   max-width: 600px;
   height: 65vh;
@@ -22,36 +23,52 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: rgba(149, 165, 166)
+  color: rgba(149, 165, 166);
 }
 
-.add__transaction__submit__btn, .add__transaction__spinning__icon {
+.AddTransaction__title {
+  position: absolute;
+  top: 0;
+  right: 50;
+
+  color: #95a5a6;
+  letter-spacing: 4px;
+}
+
+.AddTransaction__submit__btn,
+.AddTransaction__spinning__icon {
   position: absolute;
   bottom: 0;
   left: 0;
   padding: 5px;
 }
 
-.add__transaction__back__btn {
+.AddTransaction__submit__btn,
+.AddTransaction__back__btn {
+  cursor: pointer;
+}
+
+.AddTransaction__back__btn {
   position: absolute;
   top: 0;
   right: 0;
   padding: 5px;
-
 }
 
-.add__transaction__text {
+.AddTransaction__text {
   border: 1px solid white;
   width: 40%;
   text-align: center;
-  border-radius: 3px;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 1rem
 }
 
-.add__transaction__text:hover {
+.AddTransaction__text:hover {
   transform: scale(1.1);
 }
 
-.add__transaction__spinning__icon {
+.AddTransaction__spinning__icon {
   animation: spin 4s infinite linear;
 }
 
@@ -64,23 +81,6 @@
   }
 }
 
-.add__transaction__succss_msg,
-.add__transaction__succss_msg__show {
-  position: absolute;
-  bottom: 0;
-  left: 1;
-  margin-bottom: 0.7rem;
-  transition: all 0.5s ease-out;
-
-}
-.add__transaction__succss_msg {
-  opacity: 0;
-}
-
-.add__transaction__succss_msg__show {
-  opacity: 1;
-}
-
-.add__transaction__separator {
-  margin-bottom: 2rem;
-}
+/* .AddTransaction__separator {
+  margin-bottom: 1rem;
+} */

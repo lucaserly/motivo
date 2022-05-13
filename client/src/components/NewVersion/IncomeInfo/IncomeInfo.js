@@ -8,8 +8,8 @@ const headerStyle = { fontWeight: 'bold' };
 export const IncomeInfo = ({ income }) => {
   const { amount, date, description } = income;
   return (
-    <div className='income__info'>
-      <table className='income__info__table'>
+    <div className='IncomeInfo'>
+      <table className='IncomeInfo__table'>
         <tbody>
           <tr>
             <td>

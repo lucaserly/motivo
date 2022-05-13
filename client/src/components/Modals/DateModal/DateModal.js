@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
-import { MdClose, MdSend, MdOutlineClear } from 'react-icons/md';
+import { MdClose, MdSend } from 'react-icons/md';
 import { VscClearAll } from 'react-icons/vsc';
+import { useIsMobile } from '../../../custom_hooks';
 import './DateModal.css';
 
-const ranges = [
+export const ranges = [
+  {
+    id: 0,
+    name: '',
+  },
   {
     id: 1,
     name: 'this week',
@@ -14,22 +19,10 @@ const ranges = [
   },
   {
     id: 3,
-    name: 'last two weeks',
-  },
-  {
-    id: 4,
     name: 'this month',
   },
   {
-    id: 5,
-    name: 'last month',
-  },
-  {
-    id: 6,
-    name: 'last two months',
-  },
-  {
-    id: 7,
+    id: 4,
     name: 'this year',
   },
 ];
@@ -45,8 +38,18 @@ const initialState = {
   date_to: '',
 };
 
-export const DateModal = ({ closeDateModal, handleDateFilterSubmit }) => {
-  const [dateFilter, setDateFilter] = useState(initialState);
+export const DateModal = ({
+  closeDateModal,
+  handleDateFilterSubmit,
+  currentFilter,
+  range,
+}) => {
+  const isMobile = useIsMobile();
+  const [dateFilter, setDateFilter] = useState({
+    ranges: '',
+    date_from: range.date_from,
+    date_to: range.date_to,
+  });
 
   const handleDateChange = (event) => {
     const { name, value } = event.target;
@@ -72,62 +75,60 @@ export const DateModal = ({ closeDateModal, handleDateFilterSubmit }) => {
   };
 
   return (
-    <div className='datemodal'>
-      {console.log('dateFilter-->', dateFilter)}
-      <div className='datemodal__content'>
+    <div className='DateModal'>
+      <div className='DateModal__content'>
         <MdClose
-          className='datemodal__exit__btn'
-          size={40}
+          className='DateModal__exit__btn'
+          size={isMobile ? 20 : 30}
           onClick={closeDateModal}
         />
 
         <MdSend
-          className='datemodal__submit__btn'
-          size={40}
+          className='DateModal__submit__btn'
+          size={isMobile ? 20 : 30}
           onClick={handleSubmit}
         />
 
         <VscClearAll
-          size={40}
-          className='datemodal__clear__btn'
-          color='white'
+          size={isMobile ? 20 : 30}
+          className='DateModal__clear__btn'
           onClick={clearDateFilter}
         />
 
-        <div className='datemodal__from'>
-          <label className='datemodal__form__label'>from: </label>
+        <div className='DateModal__from'>
+          <label className='DateModal__form__label'>from: </label>
           <input
             onChange={handleDateChange}
             type='date'
             name='date_from'
             id='date_from'
             required
-            className='datemodal__form__input'
+            className='DateModal__form__input'
             disabled={dateFilter.ranges.length > 0 ? true : false}
             value={dateFilter.date_from}
           />
         </div>
 
-        <div className='datemodal__to'>
-          <label className='datemodal__form__label'>to: </label>
+        <div className='DateModal__to'>
+          <label className='DateModal__form__label'>to: </label>
           <input
             onChange={handleDateChange}
             type='date'
             name='date_to'
             id='date_to'
             required
-            className='datemodal__form__input'
+            className='DateModal__form__input'
             disabled={dateFilter.ranges.length > 0 ? true : false}
             value={dateFilter.date_to}
           />
         </div>
 
-        <div className='datemodal__ranges'>
-          <label className='datemodal__form__label'>ranges: </label>
+        <div className='DateModal__ranges'>
+          <label className='DateModal__form__label'>ranges: </label>
           <select
             name='ranges'
             id='ranges'
-            className='datemodal__form__select'
+            className='DateModal__form__select'
             onChange={handleDateChange}
             value={dateFilter.ranges}
             disabled={

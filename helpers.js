@@ -8,6 +8,16 @@ const isDev = () =>
 
 const sortByDate = (expenses) => expenses.sort((a, b) => b.date - a.date);
 
+const sortIncomeByDate = (incomes) => {
+  const incomesWithDate = incomes.filter((income) => income.date !== null);
+  const incomesNoDate = incomes.filter((income) => income.date === null);
+  const result = [
+    ...incomesWithDate.sort((a, b) => Date.parse(b.date) - Date.parse(a.date)),
+    ...incomesNoDate,
+  ];
+  return result
+};
+
 const capitalizeFirstLetter = (string) => {
   const stringToLowerCase = string.toLowerCase();
   const splittedStr = stringToLowerCase.split('');
@@ -79,4 +89,5 @@ module.exports = {
   parseExpenses,
   parseBulkExpensesWithIds,
   parseBulkExpensesWithNames,
+  sortIncomeByDate
 };

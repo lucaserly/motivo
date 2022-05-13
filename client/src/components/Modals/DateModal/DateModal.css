@@ -1,4 +1,4 @@
-.datemodal {
+.DateModal {
   position: fixed;
   left: 0;
   top: 0;
@@ -8,13 +8,17 @@
   align-items: center;
   justify-content: center;
   background: rgba(255, 255, 255, 0.9);
+  color: rgba(149, 165, 166);
+  z-index: 10;
 }
 
-.datemodal__content {
+.DateModal__content {
   width: 85vw;
   max-width: 600px;
   height: 45vh;
+  min-width: 200px;
   max-height: 500px;
+  min-height: 250px;
   border-radius: 0.4rem;
   background: #1a1a1a;
   position: absolute;
@@ -24,66 +28,89 @@
   justify-content: center;
 }
 
-.datemodal__exit__btn {
+.DateModal__exit__btn {
   position: absolute;
   padding: 5px;
   top: 0;
   right: 0;
 }
 
-.datemodal__submit__btn {
+.DateModal__submit__btn {
   position: absolute;
   padding: 5px;
   bottom: 0;
   left: 0;
 }
 
-.datemodal__clear__btn {
+.DateModal__clear__btn {
   position: absolute;
   padding: 5px;
   bottom: 0;
   right: 0;
 }
 
-.datemodal__separator {
-  margin-bottom: 3rem;
-}
-
-.datemodal__from,
-.datemodal__to,
-.datemodal__ranges {
+.DateModal__from,
+.DateModal__to,
+.DateModal__ranges {
   display: table-row;
   margin-bottom: 15px;
 }
 
-.datemodal__form__input,
-.datemodal__form__select {
+.DateModal__form__input,
+.DateModal__form__select {
+  margin: auto;
   outline: none;
-  border: 1px solid;
-  border-radius: 0.2rem;
-  width: 170px;
-  min-height: 35px;
+  border-radius: 0.4rem;
+  text-indent: 10px;
   background: #1a1a1a;
+  border: 1px solid rgba(149, 165, 166);
+  color: rgba(149, 165, 166);
 }
 
-.datemodal__form__input,
-.datemodal__form__label,
-.datemodal__form__select {
-  display: table-cell;
+.DateModal__form__input {
+  width: 185px;
+  height: 42px;
 }
 
-.datemodal__form__select {
-  outline: none;
-  border: 1px solid;
-  border-radius: 0.2rem;
-  min-width: 170px;
-  min-height: 35px;
-  background: #1a1a1a;
-}
-
-.datemodal__form__select {
+.DateModal__form__select {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
+  width: 190px;
+  height: 45px;
 }
 
+@media only screen and (max-width: 400px) {
+  .DateModal__form__input,
+  .DateModal__form__select {
+    font-size: 12px;
+  }
+
+  .DateModal__form__input {
+    height: 32px;
+    width: 155px;
+  }
+
+  .DateModal__form__select {
+    height: 34px;
+    width: 158px;
+  }
+}
+
+@media only screen and (min-width: 400px) {
+  .DateModal__form__input,
+  .DateModal__form__select {
+    font-size: 20px;
+    border: 2px solid rgba(149, 165, 166);
+  }
+}
+
+.DateModal__form__input,
+.DateModal__form__label,
+.DateModal__form__select {
+  display: table-cell;
+}
+
+.DateModal__form__label {
+  padding-bottom: 14%;
+}

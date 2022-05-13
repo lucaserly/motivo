@@ -4,7 +4,6 @@ import { IoStatsChartSharp } from 'react-icons/io5';
 import { GiMoneyStack } from 'react-icons/gi';
 import { BsArrowUpRight, BsArrowDownRight } from 'react-icons/bs';
 import { MdCategory } from 'react-icons/md';
-import helpers from '../../../services/helpers';
 
 const categories = [
   { amount: 125, title: 'Drinks' },
@@ -21,9 +20,9 @@ const getCommonSize = (amount) => {
 
 export const ThisWeekStats = () => {
   return (
-    <div className='thisweek__container'>
-      <div className='thisweek__header'>
-        <div className='thisweek__header__left'>
+    <div className='ThisWeekStats__container'>
+      <div className='ThisWeekStats__header'>
+        <div className='ThisWeekStats__header__left'>
           <div>This Week</div>
         </div>
         <IoStatsChartSharp size={20} />

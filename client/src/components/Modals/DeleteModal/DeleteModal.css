@@ -1,4 +1,4 @@
-.delete_modal {
+.DeleteModal.show {
   position: fixed;
   left: 0;
   top: 0;
@@ -8,9 +8,23 @@
   align-items: center;
   justify-content: center;
   background: rgba(255, 255, 255, 0.9);
+  animation: fadein 0.8s;
 }
 
-.delete__modal__content {
+.DeleteModal {
+  display: none;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.DeleteModal__content {
   width: 55vw;
   max-width: 400px;
   height: 30vh;
@@ -23,7 +37,7 @@
   justify-content: space-around;
 }
 
-.delete_spinning__icon {
+.DeleteModal__spinning__icon {
   animation: spin 4s infinite linear;
 }
 
@@ -36,22 +50,26 @@
   }
 }
 
-.delete__modal__succss_msg,
-.delete__modal__succss_msg__show,
-.delete__modal__error_msg__show,
-.delete__modal__error_msg {
+.DeleteModal__succss_msg,
+.DeleteModal__succss_msg__show,
+.DeleteModal__error_msg__show,
+.DeleteModal__error_msg {
   position: absolute;
   bottom: 1.5rem;
   transition: all 0.5s ease-out;
 }
 
-.delete__modal__succss_msg,
-.delete__modal__error_msg {
+.DeleteModal__succss_msg,
+.DeleteModal__error_msg {
   opacity: 0;
   width: 0;
 }
 
-.delete__modal__succss_msg__show,
-.delete__modal__error_msg__show {
+.DeleteModal__succss_msg__show,
+.DeleteModal__error_msg__show {
   opacity: 1;
+}
+
+.DeleteModal__icon {
+  cursor: pointer;
 }

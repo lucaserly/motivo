@@ -1,0 +1,62 @@
+.SearchBar__container__mobile {
+  margin: 1rem 1rem 1rem 1rem;
+  display: flex;
+  position: relative;
+}
+
+.SearchBar__container {
+  margin: 1rem 1rem 1rem 1rem;
+  display: flex;
+  width: 0;
+  position: relative;
+  transition: all 0.5s ease-in-out;
+  opacity: 0;
+}
+
+.SearchBar__container.show {
+  margin: 1rem 1rem 1rem 1rem;
+  display: flex;
+  width: 200px;
+  position: relative;
+  transition: all 0.5s ease-in-out;
+  opacity: 1;
+}
+
+.SearchBar__mobile {
+  margin: auto;
+  width: 100%;
+  height: 45px;
+  outline: none;
+  border-radius: 0.4rem;
+  text-indent: 10px;
+  background: #1a1a1a;
+  border: 2px solid rgba(149, 165, 166);
+  font-size: 18px;
+  color: rgba(149, 165, 166);
+}
+
+.SearchBar__clear__btn__mobile {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.SearchBar__clear__btn {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.SearchBar {
+  width: 100%;
+  height: 35px;
+  outline: none;
+  border-radius: 0.4rem;
+  text-indent: 10px;
+  color: rgba(149, 165, 166);
+  background: #1a1a1a;
+  border: 2px solid rgba(149, 165, 166);
+  font-size: 18px;
+}

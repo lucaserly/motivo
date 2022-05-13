@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
-import { AddTransaction, ExpensesTiles, IncomeTiles, Stats } from './containers';
+import { AddTransaction, Expenses, Income, Stats } from './containers';
 import { useIsMobile, useFetch } from './custom_hooks';
 import helpers from './services/helpers';
-import { NavBar } from './components';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { NavBar, NavBarTop } from './components';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 const INCOME_URL = helpers.isDev() ? 'http://localhost:5001/income' : '/income';
 const EXPENSES_URL = helpers.isDev()
@@ -18,44 +18,66 @@ const CATEGORIES_URL = helpers.isDev()
 function App() {
   const isMobile = useIsMobile();
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
-  const { response: income, fetchData: refetchIncome, setResponse: setIncome } = useFetch(INCOME_URL);
+  const { response: expenses, fetchData: refetchExpenses, setResponse: setExpenses} = useFetch(EXPENSES_URL);
+  const { response: income, fetchData: refetchIncome, setResponse: setIncome} = useFetch(INCOME_URL);
   const { response: categories } = useFetch(CATEGORIES_URL);
-  const { response: expenses, fetchData: refetchExpenses, setResponse: setExpenses } = useFetch(EXPENSES_URL);
 
   const showSearchBar = () => {
     setIsSearchBarVisible(!isSearchBarVisible);
   };
 
-  const style = isMobile
-    ? { margin: '20px 10px 0 10px' }
-    : {
-        margin: '20px 30px 0 30px',
-      };
-
   return (
-    <div className='App' style={style}>
+    <div className='App'>
       <BrowserRouter>
-        <NavBar showSearchBar={showSearchBar} />
+        {isMobile ? <NavBar showSearchBar={showSearchBar} /> : <NavBarTop />}
         <Routes>
-          <Route path='/income' element={<IncomeTiles income={income} refetch={refetchIncome}/>} />
+          <Route
+            path='/income'
+            element={
+              <Income
+                income={income}
+                refetch={refetchIncome}
+                isSearchBarVisible={isSearchBarVisible}
+                setIncome={setIncome}
+              />
+            }
+          />
           <Route
             path='/stats'
-            element={<Stats expenses={expenses} income={income} categories={categories} />}
+            element={
+              <Stats
+                expenses={expenses}
+                income={income}
+                categories={categories}
+
+              />
+            }
           />
           <Route
             path='/add'
-            element={<AddTransaction  setExpenses={setExpenses} setIncome={setIncome} categories={categories}/>}
+            element={
+              <AddTransaction
+                setExpenses={setExpenses}
+                setIncome={setIncome}
+                categories={categories}
+              />
+            }
           />
           <Route
             path='/expenses'
             element={
-              <ExpensesTiles
+              <Expenses
                 isSearchBarVisible={isSearchBarVisible}
                 expenses={expenses}
                 refetch={refetchExpenses}
                 categories={categories}
+                setExpenses={setExpenses}
               />
             }
+          />
+          <Route
+            path='/'
+            element={<Navigate to='/expenses' />}
           />
         </Routes>
       </BrowserRouter>

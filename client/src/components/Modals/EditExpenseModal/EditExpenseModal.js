@@ -5,18 +5,24 @@ import moment from 'moment';
 import { FaSpinner } from 'react-icons/fa';
 import apiService from '../../../services/apiService';
 import { EditExpenseForm } from '../../Forms/EditExpenseForm/EditExpenseForm';
+import { Message } from '../../NewVersion/Message/Message';
+import { useIsMobile } from '../../../custom_hooks';
 
 export const EditExpenseModal = ({
   expense,
   categories,
   closeEditModal,
-  refetchItems,
+  refetch,
+  editVisible,
 }) => {
   const { id, amount, category, date, description, item, payment } = expense;
-
+  const isMobile = useIsMobile();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const className = editVisible ? 'EditExpenseModal show' : 'EditExpenseModal';
+
   const [inputs, setInputs] = useState({
     amount: Number(amount),
     category,
@@ -45,7 +51,7 @@ export const EditExpenseModal = ({
         if (response) {
           setTimeout(() => {
             setIsLoading(false);
-            refetchItems();
+            refetch();
             setFieldsChanged(false);
             setIsSuccess(true);
           }, 1000);
@@ -59,43 +65,47 @@ export const EditExpenseModal = ({
           }, 5000);
         } else {
           setIsLoading(false);
-          alert('error in editing expense');
+          // alert('error in editing expense');
+          setIsError(true);
+          setTimeout(() => {
+            setIsError(false);
+          }, 2000);
         }
       });
     }
   };
 
   return (
-    <div className='edit__expense__modal'>
-      <div className='edit__expense__modal__content'>
+    <div className={className}>
+      <div className='EditExpenseModal__content'>
         <MdClose
-          className='edit__expense__modal__exit__btn'
-          size={30}
+          className='EditExpenseModal__exit__btn'
+          size={isMobile ? 20 : 30}
           onClick={closeEditModal}
         />
-        <h4 className='edit__expense__modal__title'>EDIT EXPENSE</h4>
-
-        <EditExpenseForm inputs={inputs} handleChange={handleChange} />
-        <div className='edit__expense__modal__separator'></div>
-
+        <p className='EditExpenseModal__title'>EDIT EXPENSE</p>
+        <div className='EditExpenseModal__separator'></div>
+        <EditExpenseForm
+          inputs={inputs}
+          handleChange={handleChange}
+          categories={categories}
+        />
+        {/* <div className='EditExpenseModal__separator'></div> */}
         {isLoading ? (
-          <FaSpinner size={30} className='spinning__icon' />
+          <FaSpinner size={isMobile ? 20 : 30} className='spinning__icon' />
         ) : (
           <MdSend
-            className='edit__expense__modal__submit__btn'
-            size={30}
+            className='EditExpenseModal__submit__btn'
+            size={isMobile ? 20 : 30}
             onClick={onSubmit}
           />
         )}
-        <p
-          className={
-            isSuccess
-              ? 'edit__expense__modal__succss_msg__show'
-              : 'edit__expense__modal__succss_msg'
-          }
-        >
-          expense updated
-        </p>
+        <Message
+          isSuccess={isSuccess}
+          isError={isError}
+          successText='expense updated'
+          errorText='error in updating expense'
+        />
       </div>
     </div>
   );

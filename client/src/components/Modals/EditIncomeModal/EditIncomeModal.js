@@ -5,13 +5,22 @@ import moment from 'moment';
 import { FaSpinner } from 'react-icons/fa';
 import apiService from '../../../services/apiService';
 import { EditIncomeForm } from '../../Forms/EditIncomeForm/EditIncomeForm';
+import { Message } from '../../NewVersion/Message/Message';
+import { useIsMobile } from '../../../custom_hooks';
 
-export const EditIncomeModal = ({ income, closeEditModal, refetchItems }) => {
+export const EditIncomeModal = ({
+  income,
+  closeEditModal,
+  refetch,
+  editVisible,
+}) => {
   const { id, amount, date, description } = income;
-
+  const isMobile = useIsMobile();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const className = editVisible ? 'EditIncomeModal show' : 'EditIncomeModal';
   const [inputs, setInputs] = useState({
     amount: Number(amount),
     date: moment(date).format('YYYY-MM-DD'),
@@ -33,11 +42,11 @@ export const EditIncomeModal = ({ income, closeEditModal, refetchItems }) => {
       setIsLoading(true);
       const body = { ...inputs };
       body.date = new Date(body.date);
-      apiService.editExpense(id, body).then((response) => {
+      apiService.editIncome(id, body).then((response) => {
         if (response) {
           setTimeout(() => {
             setIsLoading(false);
-            refetchItems();
+            refetch();
             setFieldsChanged(false);
             setIsSuccess(true);
           }, 1000);
@@ -51,44 +60,44 @@ export const EditIncomeModal = ({ income, closeEditModal, refetchItems }) => {
           }, 5000);
         } else {
           setIsLoading(false);
-          alert('error in editing income');
+          setIsError(true);
+          setTimeout(() => {
+            setIsError(false);
+          }, 2000);
+          // alert('error in editing income');
         }
       });
     }
   };
 
   return (
-    <div className='edit__income__modal'>
-      <div className='edit__income__modal__content'>
+    <div className={className}>
+      <div className='EditIncomeModal__content'>
         <MdClose
-          className='edit__income__modal__exit__btn'
-          size={30}
+          className='EditIncomeModal__exit__btn'
+          size={isMobile ? 20 : 30}
           onClick={closeEditModal}
         />
-        <h4 className='edit__income__modal__title'>EDIT INCOME</h4>
+        <p className='EditIncomeModal__title'>EDIT INCOME</p>
 
+        <div className='EditIncomeModal__separator'></div>
         <EditIncomeForm inputs={inputs} handleChange={handleChange} />
 
-        <div className='edit__income__modal__separator'></div>
-
         {isLoading ? (
-          <FaSpinner size={30} className='spinning__icon' />
+          <FaSpinner size={isMobile ? 20 : 30} className='EditIncomeModal__spinning__icon' />
         ) : (
           <MdSend
-            className='edit__income__modal__submit__btn'
-            size={30}
+            className='EditIncomeModal__submit__btn'
+            size={isMobile ? 20 : 30}
             onClick={onSubmit}
           />
         )}
-        <p
-          className={
-            isSuccess
-              ? 'edit__income__modal__succss_msg__show'
-              : 'edit__income__modal__succss_msg'
-          }
-        >
-          income updated
-        </p>
+        <Message
+          isSuccess={isSuccess}
+          isError={isError}
+          successText='income updated'
+          errorText='error in updating income'
+        />
       </div>
     </div>
   );

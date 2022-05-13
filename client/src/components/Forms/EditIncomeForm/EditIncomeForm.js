@@ -3,12 +3,13 @@ import './EditIncomeForm.css';
 
 export const EditIncomeForm = ({ inputs, handleChange }) => {
   return (
-    <form className='edit__income__form'>
-      <div className='edit__income__form__description'>
-        <label className='edit__income__form__label'>description: </label>
+    <form className='EditIncomeForm'>
+
+      <div className='EditIncomeForm__description'>
+        <label className='EditIncomeForm__label'>description: </label>
         <input
           onChange={handleChange}
-          className='edit__income__form__input'
+          className='EditIncomeForm__input'
           type='text'
           name='description'
           id='description'
@@ -16,11 +17,12 @@ export const EditIncomeForm = ({ inputs, handleChange }) => {
           value={inputs.description}
         />
       </div>
-      <div className='edit__income__form__amount'>
-        <label className='edit__income__form__label'>amount: </label>
+
+      <div className='EditIncomeForm__amount'>
+        <label className='EditIncomeForm__label'>amount: </label>
         <input
           onChange={handleChange}
-          className='edit__income__form__input'
+          className='EditIncomeForm__input'
           type='number'
           name='amount'
           id='amount'
@@ -29,11 +31,11 @@ export const EditIncomeForm = ({ inputs, handleChange }) => {
         />
       </div>
 
-      <div className='edit__income__form__date'>
-        <label className='edit__income__form__label'>date: </label>
+      <div className='EditIncomeForm__date'>
+        <label className='EditIncomeForm__label'>date: </label>
         <input
           onChange={handleChange}
-          className='edit__income__form__input'
+          className='EditIncomeForm__input'
           type='date'
           name='date'
           id='date'

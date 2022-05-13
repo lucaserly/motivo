@@ -1,15 +1,14 @@
 import React from 'react';
 import './EditExpenseForm.css';
-import { mockedCategories } from '../../../services/mockedCategories';
 
-export const EditExpenseForm = ({ inputs, handleChange }) => {
+export const EditExpenseForm = ({ inputs, handleChange, categories }) => {
   return (
-    <form className='edit__expense__form'>
-      <div className='edit__expense__form__amount'>
-        <label className='edit__expense__form__label'>amount: </label>
+    <form className='EditExpenseForm'>
+      <div className='EditExpenseForm__amount'>
+        <label className='EditExpenseForm__label'>amount: </label>
         <input
           onChange={handleChange}
-          className='edit__expense__form__input'
+          className='EditExpenseForm__input'
           type='number'
           name='amount'
           id='amount'
@@ -17,26 +16,26 @@ export const EditExpenseForm = ({ inputs, handleChange }) => {
           value={inputs.amount}
         />
       </div>
-      <div className='edit__expense__form__category'>
-        <label className='edit__expense__form__label'>category: </label>
+      <div className='EditExpenseForm__category'>
+        <label className='EditExpenseForm__label'>category: </label>
         <select
           name='category'
           id='category'
-          className='edit__expense__form__select'
+          className='EditExpenseForm__select'
           onChange={handleChange}
         >
-          {mockedCategories.map((category) => (
+          {categories.map((category) => (
             <option value={category.id} key={category.id}>
               {category.name}
             </option>
           ))}
         </select>
       </div>
-      <div className='edit__expense__form__date'>
-        <label className='edit__expense__form__label'>date: </label>
+      <div className='EditExpenseForm__date'>
+        <label className='EditExpenseForm__label'>date: </label>
         <input
           onChange={handleChange}
-          className='edit__expense__form__input'
+          className='EditExpenseForm__input'
           type='date'
           name='date'
           id='date'
@@ -44,11 +43,11 @@ export const EditExpenseForm = ({ inputs, handleChange }) => {
           value={inputs.date}
         />
       </div>
-      <div className='edit__expense__form__description'>
-        <label className='edit__expense__form__label'>description: </label>
+      <div className='EditExpenseForm__description'>
+        <label className='EditExpenseForm__label'>description: </label>
         <input
           onChange={handleChange}
-          className='edit__expense__form__input'
+          className='EditExpenseForm__input'
           type='text'
           name='description'
           id='description'
@@ -56,11 +55,11 @@ export const EditExpenseForm = ({ inputs, handleChange }) => {
           value={inputs.description}
         />
       </div>
-      <div className='edit__expense__form__item'>
-        <label className='edit__expense__form__label'>item: </label>
+      <div className='EditExpenseForm__item'>
+        <label className='EditExpenseForm__label'>item: </label>
         <input
           onChange={handleChange}
-          className='edit__expense__form__input'
+          className='EditExpenseForm__input'
           type='text'
           name='item'
           id='item'
@@ -68,11 +67,11 @@ export const EditExpenseForm = ({ inputs, handleChange }) => {
           value={inputs.item}
         />
       </div>
-      <div className='edit__expense__form__payment'>
-        <label className='edit__expense__form__label'>payment: </label>
+      <div className='EditExpenseForm__payment'>
+        <label className='EditExpenseForm__label'>payment: </label>
         <input
           onChange={handleChange}
-          className='edit__expense__form__input'
+          className='EditExpenseForm__input'
           type='text'
           name='payment'
           id='payment'

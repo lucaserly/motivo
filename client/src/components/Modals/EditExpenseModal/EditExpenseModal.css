@@ -1,4 +1,4 @@
-.edit__expense__modal {
+.EditExpenseModal.show {
   position: fixed;
   left: 0;
   top: 0;
@@ -7,9 +7,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: fadein 0.8s;
 }
 
-.edit__expense__modal__content {
+.EditExpenseModal {
+  display: none;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.EditExpenseModal__content {
   width: 85vw;
   max-width: 600px;
   height: 65vh;
@@ -23,22 +37,29 @@
   justify-content: center;
 }
 
-.edit__expense__modal__exit__btn {
+.EditExpenseModal__exit__btn {
   position: absolute;
   top: 0;
   right: 0;
   padding: 5px;
+  cursor: pointer;
 }
 
-/* .edit__expense__modal__title {
+.EditExpenseModal__submit__btn,
+.EditExpenseModal__exit__btn {
+  cursor: pointer;
+}
+
+.EditExpenseModal__title {
   position: absolute;
   top: 0;
+  right: 50;
   padding: 1rem;
   color: #95a5a6;
-  font-weight: bold;
-} */
+  letter-spacing: 4px;
+}
 
-.edit__expense__modal__submit__btn,
+.EditExpenseModal__submit__btn,
 .spinning__icon {
   position: absolute;
   bottom: 0;
@@ -46,23 +67,7 @@
   padding: 5px;
 }
 
-.edit__expense__modal__succss_msg,
-.edit__expense__modal__succss_msg__show {
-  position: absolute;
-  bottom: 0;
-  left: 3rem;
-  margin-bottom: 0.7rem;
-  transition: all 0.5s ease-out;
-}
-.edit__expense__modal__succss_msg {
-  opacity: 0;
-}
-
-.edit__expense__modal__succss_msg__show {
-  opacity: 1;
-}
-
-.edit__expense__modal__separator {
+.EditExpenseModal__separator {
   margin-bottom: 2rem;
 }
 

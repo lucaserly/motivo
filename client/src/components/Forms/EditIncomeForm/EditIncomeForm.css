@@ -1,4 +1,4 @@
-.edit__income__form {
+.EditIncomeForm {
   height: 30vh;
   max-height: 500px;
   display: table;
@@ -8,38 +8,82 @@
   overflow-x: hidden;
 }
 
-.edit__income__form__amount,
-.edit__income__form__date,
-.edit__income__form__description {
+.EditIncomeForm__amount,
+.EditIncomeForm__date,
+.EditIncomeForm__description {
   display: table-row;
 }
 
-.edit__income__form__input,
-.edit__income__form__select {
+.EditIncomeForm__input,
+.EditIncomeForm__select {
+  margin: auto;
   outline: none;
-  border: 1px solid rgba(149, 165, 166);
-  border-radius: 0.2rem;
-  min-width: 190px;
-  min-height: 27px;
+  border-radius: 0.4rem;
+  text-indent: 10px;
   background: #1a1a1a;
-  color: rgba(149, 165, 166)
+  border: 1px solid rgba(149, 165, 166);
+  color: rgba(149, 165, 166);
 }
 
-.edit__income__form__select {
+.EditIncomeForm__input {
+  width: 225px;
+  height: 45px;
+}
+
+#date.EditIncomeForm__input {
+  width: 228px;
+  height: 47px;
+  text-indent: 4px;
+}
+
+.EditIncomeForm__select {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
+  width: 233px;
+  height: 51px;
 }
 
-.edit__income__form__input,
-.edit__income__form__select,
-.edit__income__form__label {
+.EditIncomeForm__input,
+.EditIncomeForm__select,
+.EditIncomeForm__label {
   display: table-cell;
+  padding-left: 10px;
+}
+
+@media only screen and (max-width: 400px) {
+  .EditIncomeForm__input,
+  .EditIncomeForm__select {
+    font-size: 12px;
+  }
+
+  .EditIncomeForm__input {
+    height: 33px;
+    width: 150px;
+  }
+
+  .EditIncomeForm__select {
+    height: 37px;
+    width: 156px;
+  }
+
+  #date.EditIncomeForm__input {
+    height: 35px;
+    width: 153px;
+  }
 }
 
 @media only screen and (max-width: 350px) {
-  .edit__income__form {
+  .EditIncomeForm {
     display: flex;
     flex-direction: column;
+  }
+}
+
+@media only screen and (min-width: 400px) {
+  .EditIncomeForm__input,
+  .EditIncomeForm__select {
+    font-size: 20px;
+    border: 2px solid rgba(149, 165, 166);
   }
 }

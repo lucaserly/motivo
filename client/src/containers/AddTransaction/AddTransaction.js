@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { MdClose, MdSend } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
+import { MdSend } from 'react-icons/md';
 import { BiArrowBack } from 'react-icons/bi';
 import { FaSpinner } from 'react-icons/fa';
 import './AddTransaction.css';
 import apiService from '../../services/apiService';
 import helpers from '../../services/helpers';
 import { AddExpenseForm, AddIncomeForm } from '../../components';
+import { useIsMobile } from '../../custom_hooks';
+import { MdClose } from 'react-icons/md';
+import { Message } from '../../components/NewVersion/Message/Message';
 
 const validateExpenseInputs = (inputs) => {
   return (
@@ -19,20 +23,23 @@ const validateIncomeInputs = (inputs) => {
   return inputs.amount.length !== 0 && inputs.description.length !== 0;
 };
 
-const sortIncomeByDate = (incomes) => {
+export const sortIncomeByDate = (incomes) => {
   const incomesWithDate = incomes.filter((income) => income.date !== null);
   const incomesNoDate = incomes.filter((income) => income.date === null);
   const result = [
     ...incomesWithDate.sort((a, b) => Date.parse(b.date) - Date.parse(a.date)),
     ...incomesNoDate,
   ];
-  return result
+  return result;
 };
 
 export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
+  let navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [form, setForm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const [expenseInputs, setExpenseInputs] = useState({
     amount: '',
@@ -62,10 +69,15 @@ export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
 
         setTimeout(() => {
           setIsSuccess(false);
+          navigate('/expenses', { replace: true });
         }, 4000);
       } else {
         setIsLoading(false);
-        alert('error in adding expense');
+        setIsError(true);
+        // alert('error in adding expense');
+        setTimeout(() => {
+          setIsError(false);
+        }, 2000);
       }
     });
   };
@@ -81,10 +93,15 @@ export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
 
         setTimeout(() => {
           setIsSuccess(false);
+          navigate('/income', { replace: true });
         }, 4000);
       } else {
         setIsLoading(false);
-        alert('error in adding income');
+        // alert('error in adding income');
+        setIsError(true);
+        setTimeout(() => {
+          setIsError(false);
+        }, 2000);
       }
     });
   };
@@ -101,7 +118,6 @@ export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
 
   const onSubmitExpense = (event) => {
     event.preventDefault();
-
     if (!validateExpenseInputs(expenseInputs))
       alert('please insert something in either amount, category or item');
     else {
@@ -130,27 +146,35 @@ export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
   };
 
   return (
-    <div className='add__transaction'>
-      <div className='add__transaction__content'>
+    <div className='AddTransaction'>
+      <div className='AddTransaction__content'>
+        {/* <div className='AddTransaction__separator'></div> */}
         {!form ? (
           <>
             <div
-              className='add__transaction__text'
+              className='AddTransaction__text'
               onClick={() => setForm('expense')}
             >
               EXPENSE
             </div>
             <div style={{ margin: '10px 0 10px 0' }}>or</div>
             <div
-              className='add__transaction__text'
+              className='AddTransaction__text'
               onClick={() => setForm('income')}
             >
               INCOME
             </div>
+            {!isMobile && (
+              <MdClose
+                className='AddTransaction__back__btn'
+                size={30}
+                onClick={() => navigate(-1)}
+              />
+            )}
           </>
         ) : form === 'expense' ? (
           <>
-            <h4 className='add__transaction__title'>ADD EXPENSE</h4>
+            <p className='AddTransaction__title'>ADD EXPENSE</p>
             <AddExpenseForm
               inputs={expenseInputs}
               handleChange={handleExpenseChange}
@@ -159,25 +183,25 @@ export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
           </>
         ) : (
           <>
-            <h4 className='add__transaction__title'>ADD INCOME</h4>
+            <p className='AddTransaction__title'>ADD INCOME</p>
             <AddIncomeForm
               inputs={incomeInputs}
               handleChange={handleIncomeChange}
             />
           </>
         )}
-        <div className='add__transaction__separator'></div>
+        {/* <div className='AddTransaction__separator'></div> */}
         {form && (
           <>
             {isLoading ? (
               <FaSpinner
-                size={30}
-                className='add__transaction__spinning__icon'
+                size={isMobile ? 20 : 30}
+                className='AddTransaction__spinning__icon'
               />
             ) : (
               <MdSend
-                className='add__transaction__submit__btn'
-                size={30}
+                className='AddTransaction__submit__btn'
+                size={isMobile ? 20 : 30}
                 onClick={(event) => {
                   if (form === 'expense') onSubmitExpense(event);
                   else onSubmitIncome(event);
@@ -185,21 +209,18 @@ export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
               />
             )}
             <BiArrowBack
-              className='add__transaction__back__btn'
-              size={30}
+              className='AddTransaction__back__btn'
+              size={isMobile ? 20 : 30}
               onClick={() => setForm(false)}
             />
           </>
         )}
-        <p
-          className={
-            isSuccess
-              ? 'add__transaction__succss_msg__show'
-              : 'add__transaction__succss_msg'
-          }
-        >
-          {form} created
-        </p>
+        <Message
+          isSuccess={isSuccess}
+          isError={isError}
+          successText={`${form} created`}
+          errorText={` error in creating ${form}`}
+        />
       </div>
     </div>
   );

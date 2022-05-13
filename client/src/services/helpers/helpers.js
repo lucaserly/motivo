@@ -7,9 +7,10 @@ const splitter = (item, pattern) => {
   return String(item).split(pattern);
 };
 
-const currencyFormatter = (num, decimals = true) => {
-  if (!num) return;
+const currencyFormatter = (num, decimals = true, currency = true) => {
+  if (num === undefined) return;
   const formattedNum = decimals ? num.toFixed(2) : Math.round(num);
+
   const arr = splitter(formattedNum, '.');
   const splittedDigits = splitter(arr[0], '');
 
@@ -25,7 +26,10 @@ const currencyFormatter = (num, decimals = true) => {
   }
 
   const digitsJoined = splittedDigits.join('');
-  const result = decimals ? `${digitsJoined}.${arr[1]} €` : `${digitsJoined} €`;
+  const digitsWithDecimals = decimals
+    ? `${digitsJoined}.${arr[1]}`
+    : `${digitsJoined}`;
+  const result = currency ? `${digitsWithDecimals} €` : digitsWithDecimals;
   return result;
 };
 
@@ -100,6 +104,7 @@ const capitalizeFirstLetter = (string) => {
 const filterExpenses = (expenses, query) => {
   if (!expenses) return [];
   if (!query) return expenses;
+  if (typeof query !== 'string') return expenses;
   return expenses.filter(
     (expense) =>
       (expense.item &&
@@ -108,6 +113,17 @@ const filterExpenses = (expenses, query) => {
         expense.category.toLowerCase().includes(query.toLowerCase())) ||
       (expense.description &&
         expense.description.toLowerCase().includes(query.toLowerCase()))
+  );
+};
+
+const filterIncome = (income, query) => {
+  if (!income) return [];
+  if (!query) return income;
+  if (typeof query !== 'string') return income;
+  return income.filter(
+    (income) =>
+      income.description &&
+      income.description.toLowerCase().includes(query.toLowerCase())
   );
 };
 
@@ -125,7 +141,8 @@ const helpers = {
   capitalizeFirstLetter,
   bulkIncomeParser,
   filterExpenses,
-  validateNumInput
+  validateNumInput,
+  filterIncome,
 };
 
 export default helpers;

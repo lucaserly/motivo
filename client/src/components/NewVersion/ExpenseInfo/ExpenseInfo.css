@@ -1,4 +1,4 @@
-.expense__info {
+.ExpenseInfo {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -6,7 +6,7 @@
   flex-direction: column;
 }
 
-.expense__info__table {
+.ExpenseInfo__table {
   border-collapse: separate;
   border-spacing: 2rem 0;
   margin: auto;

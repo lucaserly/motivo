@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from 'antd';
-import { DownloadOutlined } from '@ant-design/icons';
+import { BiDownload } from 'react-icons/bi';
 import * as XLSX from 'xlsx';
+import { removeTwoDigitsFromYear } from '../BulkIncomeDownload/BulkIncomeDownload';
 
 const headers = [
   'Item',
@@ -13,17 +13,13 @@ const headers = [
 ];
 
 const parseDate = (date) => {
-  const splittedDate = date.split('/');
-  return `${splittedDate[1]}/ ${splittedDate[0]}/${splittedDate[2]}`;
+  const removedMinutes = date.split('T');
+  const splittedDate = removedMinutes[0].split('-');
+  const result = `${splittedDate[0]}/${splittedDate[1]}/${splittedDate[2]}`;
+  return result;
 };
 
-const removeTwoDigitsFromYear = (date) => {
-  const splittedDate = date.split('/');
-  const splittedYear = splittedDate[2];
-  return `${splittedDate[0]}/${splittedDate[1]}/${splittedYear[2]}${splittedYear[3]}`;
-};
-
-export const BulkDownload = ({ expenses }) => {
+export const BulkExpensesDownload = ({ expenses }) => {
   const handleDownload = () => {
     const sortedData = expenses.sort(
       (a, b) => new Date(parseDate(a.date)) - new Date(parseDate(b.date))
@@ -46,12 +42,10 @@ export const BulkDownload = ({ expenses }) => {
   };
 
   return (
-    <div style={{ marginRight: '15px' }}>
-      <Button
-        icon={<DownloadOutlined />}
-        style={{ marginBottom: '10px' }}
-        onClick={handleDownload}
-      />
-    </div>
+    <BiDownload
+      size={35}
+      style={{ marginRight: '1.2rem', cursor: 'pointer' }}
+      onClick={handleDownload}
+    />
   );
 };

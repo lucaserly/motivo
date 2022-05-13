@@ -5,7 +5,8 @@ const helpers = require('../helpers');
 const getAllIncome = async (req, res) => {
   try {
     const incomes = await models.Income.findAll();
-    res.status(201).send(incomes);
+    const sortedIncomes = helpers.sortIncomeByDate(incomes);
+    res.status(201).send(sortedIncomes);
   } catch (error) {
     console.error('error', error);
     res.status(500).send({
@@ -76,10 +77,31 @@ const deleteAllIncomes = async (req, res) => {
   }
 };
 
+const editIncome = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedIncome = await models.Income.update(req.body, {
+      where: {
+        id: id,
+      },
+      returning: true,
+      plain: true,
+    });
+    res.status(200).send(updatedIncome[1].dataValues);
+  } catch (error) {
+    console.error('error', error);
+    res.status(500).send({
+      message: 'Could not edit income',
+      error: helpers.getParsedError(error),
+    });
+  }
+};
+
 module.exports = {
   getAllIncome,
   postIncome,
   postBulkIncome,
   deleteIncome,
   deleteAllIncomes,
+  editIncome
 };
