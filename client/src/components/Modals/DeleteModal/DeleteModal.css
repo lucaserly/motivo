@@ -73,3 +73,9 @@
 .DeleteModal__icon {
   cursor: pointer;
 }
+
+@media only screen and (max-width: 768px) {
+  .DeleteModal.show {
+    bottom: calc(60px)
+  }
+}

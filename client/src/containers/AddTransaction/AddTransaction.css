@@ -3,18 +3,17 @@
   left: 0;
   top: 0;
   right: 0;
-  bottom: 10%;
+  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: rgba(255, 255, 255, 1);
-  height: 100%;
 }
 
 .AddTransaction__content {
   width: 85vw;
   max-width: 600px;
-  height: 65vh;
+  height: 80vh;
   max-height: 750px;
   border-radius: 0.4rem;
   background: #1a1a1a;
@@ -30,7 +29,6 @@
   position: absolute;
   top: 0;
   right: 50;
-
   color: #95a5a6;
   letter-spacing: 4px;
 }
@@ -59,9 +57,9 @@
   border: 1px solid white;
   width: 40%;
   text-align: center;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  padding: 1rem
+  padding: 1rem;
 }
 
 .AddTransaction__text:hover {
@@ -81,6 +79,8 @@
   }
 }
 
-/* .AddTransaction__separator {
-  margin-bottom: 1rem;
-} */
+@media only screen and (max-width: 768px) {
+  .AddTransaction {
+    bottom: calc(60px);
+  }
+}

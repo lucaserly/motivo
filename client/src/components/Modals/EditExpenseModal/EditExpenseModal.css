@@ -1,9 +1,5 @@
 .EditExpenseModal.show {
   position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,9 +20,9 @@
 }
 
 .EditExpenseModal__content {
-  width: 85vw;
+  width: 86vw;
   max-width: 600px;
-  height: 65vh;
+  height: 80vh;
   max-height: 750px;
   border-radius: 0.4rem;
   background: #1a1a1a;

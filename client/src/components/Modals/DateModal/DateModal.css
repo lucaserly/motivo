@@ -13,19 +13,19 @@
 }
 
 .DateModal__content {
-  width: 85vw;
-  max-width: 600px;
-  height: 45vh;
-  min-width: 200px;
+  width: 80vw;
+  max-width: 500px;
+  height: 60%;
   max-height: 500px;
-  min-height: 250px;
-  border-radius: 0.4rem;
-  background: #1a1a1a;
-  position: absolute;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  border-radius: 0.4rem;
+  box-sizing: border-box;
+  padding: 20px;
+  background: #1a1a1a;
+  position: absolute;
 }
 
 .DateModal__exit__btn {
@@ -49,68 +49,96 @@
   right: 0;
 }
 
-.DateModal__from,
-.DateModal__to,
-.DateModal__ranges {
-  display: table-row;
-  margin-bottom: 15px;
+.DateModal__title {
+  font-size: 34px;
+  font-weight: 600;
+  margin-bottom: 20%;
 }
 
-.DateModal__form__input,
-.DateModal__form__select {
+.DateModal__input__container {
+  height: 50px;
+  position: relative;
+  width: 80%;
+  margin-bottom: 15%;
+}
+
+.DateModal__input__container.ic1 {
+  margin-top: 1%;
+}
+
+.DateModal__input {
+  background: #2d2d2d;
+  color: #65657b;
+  border-radius: 12px;
+  border: 0;
+  box-sizing: border-box;
+  height: 7vh;
+  outline: 0;
+  padding: 4px 20px 0;
+  width: 100%;
+  font-size: 18px;
+}
+
+.DateModal__cut {
+  background: #1a1a1a;
+  border-radius: 10px;
+  height: 20px;
+  left: 20px;
+  position: absolute;
+  top: -20px;
+  transform: translateY(0);
+  transition: transform 200ms;
+  width: 7vh;
+}
+
+.DateModal__cut.from {
+  width: 5vh;
+}
+
+.DateModal__cut.to {
+  width: 3vh;
+}
+
+.DateModal__input:focus ~ .DateModal__cut,
+.DateModal__input:not(:placeholder-shown) ~ .DateModal__cut {
+  transform: translateY(8px);
+}
+
+.DateModal__placeholder {
+  left: 20px;
+  line-height: 14px;
+  pointer-events: none;
+  position: absolute;
+  transform-origin: 0 50%;
+  transition: transform 200ms, color 200ms;
+  top: 20px;
+}
+
+.DateModal__input:focus ~ .DateModal__placeholder,
+.DateModal__input:not(:placeholder-shown) ~ .DateModal__placeholder {
+  transform: translateY(-30px) translateX(8px) scale(0.75);
+}
+
+input,
+select {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
-  margin: auto;
-  outline: none;
-  border-radius: 0.4rem;
-  text-indent: 10px;
-  background: #1a1a1a;
-  border: 1px solid rgba(149, 165, 166);
-  color: rgba(149, 165, 166);
-}
-
-.DateModal__form__input {
-  width: 185px;
-  height: 42px;
-}
-
-.DateModal__form__select {
-  width: 190px;
-  height: 45px;
 }
 
 @media only screen and (max-width: 400px) {
-  .DateModal__form__input,
-  .DateModal__form__select {
-    font-size: 12px;
+  .title {
+    font-size: 24px;
   }
 
-  .DateModal__form__input {
-    height: 32px;
-    width: 155px;
-  }
-
-  .DateModal__form__select {
-    height: 34px;
-    width: 158px;
+  .DateModal__input {
+    height: 100%;
+    font-size: 14px;
   }
 }
 
-@media only screen and (min-width: 400px) {
-  .DateModal__form__input,
-  .DateModal__form__select {
-    font-size: 20px;
-    border: 2px solid rgba(149, 165, 166);
+@media only screen and (max-width: 768px) {
+  .DateModal {
+    bottom: calc(60px);
   }
-}
-
-.DateModal__form__input,
-.DateModal__form__label,
-.DateModal__form__select {
-  display: table-cell;
-}
-
-.DateModal__form__label {
-  padding-bottom: 14%;
 }

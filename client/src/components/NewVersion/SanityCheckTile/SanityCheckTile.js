@@ -96,7 +96,7 @@ export const SanityCheckTile = ({ expenses, income }) => {
       ? getSanityCheck(balances, getSumOfEntries(expenses), income)
       : 0;
 
-  const isSanityCheckOk = sanityCheck === -0.33;
+  const isSanityCheckOk = sanityCheck.toFixed(2) === -0.33;
   const color = isSanityCheckOk ? 'green' : 'red';
 
   return (
@@ -137,7 +137,6 @@ export const SanityCheckTile = ({ expenses, income }) => {
             className='SanityCheckTile__content__column'
             style={{ cursor: 'pointer' }}
             onClick={() => {
-              console.log('onclick-->');
               setIsOpenCashModal(!isOpenCashModal);
             }}
           >

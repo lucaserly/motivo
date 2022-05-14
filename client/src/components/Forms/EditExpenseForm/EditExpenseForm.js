@@ -24,6 +24,9 @@ export const EditExpenseForm = ({ inputs, handleChange, categories }) => {
           className='EditExpenseForm__select'
           onChange={handleChange}
         >
+          <option value={inputs.category} selected>
+            {inputs.category}
+          </option>
           {categories.map((category) => (
             <option value={category.id} key={category.id}>
               {category.name}
@@ -82,4 +85,3 @@ export const EditExpenseForm = ({ inputs, handleChange, categories }) => {
     </form>
   );
 };
-

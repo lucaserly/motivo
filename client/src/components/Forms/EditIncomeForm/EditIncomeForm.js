@@ -4,9 +4,8 @@ import './EditIncomeForm.css';
 export const EditIncomeForm = ({ inputs, handleChange }) => {
   return (
     <form className='EditIncomeForm'>
-
-      <div className='EditIncomeForm__description'>
-        <label className='EditIncomeForm__label'>description: </label>
+      <div className='EditIncomeForm__title'>Edit Income</div>
+      <div className='EditIncomeForm__input__container ic1'>
         <input
           onChange={handleChange}
           className='EditIncomeForm__input'
@@ -16,10 +15,12 @@ export const EditIncomeForm = ({ inputs, handleChange }) => {
           required
           value={inputs.description}
         />
+        <div className='EditIncomeForm__cut description'></div>
+        <label for='description' className='EditIncomeForm__placeholder'>
+          Description
+        </label>
       </div>
-
-      <div className='EditIncomeForm__amount'>
-        <label className='EditIncomeForm__label'>amount: </label>
+      <div className='EditIncomeForm__input__container'>
         <input
           onChange={handleChange}
           className='EditIncomeForm__input'
@@ -28,11 +29,14 @@ export const EditIncomeForm = ({ inputs, handleChange }) => {
           id='amount'
           required
           value={inputs.amount}
+          pattern='\d*'
         />
+        <div className='EditIncomeForm__cut amount'></div>
+        <label for='amount' className='EditIncomeForm__placeholder'>
+          Amount
+        </label>
       </div>
-
-      <div className='EditIncomeForm__date'>
-        <label className='EditIncomeForm__label'>date: </label>
+      <div className='EditIncomeForm__input__container'>
         <input
           onChange={handleChange}
           className='EditIncomeForm__input'
@@ -42,6 +46,10 @@ export const EditIncomeForm = ({ inputs, handleChange }) => {
           required
           value={inputs.date}
         />
+        <div className='EditIncomeForm__cut date'></div>
+        <label for='date' className='EditIncomeForm__placeholder'>
+          Date
+        </label>
       </div>
     </form>
   );

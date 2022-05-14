@@ -1,33 +1,33 @@
-.AddIncomeForm {
+.EditExpenseForm2 {
+  background: #1a1a1a;
   width: 80vw;
   max-width: 500px;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  background: #1a1a1a;
+  justify-content: space-between;
   border-radius: 20px;
   box-sizing: border-box;
   padding: 20px;
   margin-bottom: 10%;
 }
 
-.AddIncomeForm__title {
+.EditExpenseForm2__title {
   font-size: 34px;
   font-weight: 600;
 }
 
-.AddIncomeForm__input__container {
+.EditExpenseForm2__input__container {
   height: 50px;
   position: relative;
   width: 100%;
 }
 
-.AddIncomeForm__input__container.ic1 {
+.EditExpenseForm2__input__container.ic1 {
   margin-top: 1%;
 }
 
-.AddIncomeForm__input {
+.EditExpenseForm2__input {
   background: #2d2d2d;
   color: #65657b;
   border-radius: 12px;
@@ -40,7 +40,7 @@
   font-size: 18px;
 }
 
-.AddIncomeForm__cut {
+.EditExpenseForm2__cut {
   background: #1a1a1a;
   border-radius: 10px;
   height: 20px;
@@ -52,25 +52,25 @@
   width: 9vh;
 }
 
-.AddIncomeForm__cut.amount {
+.EditExpenseForm2__cut.amount {
   width: 7.5vh;
 }
 
-.AddIncomeForm__cut.date,
+.EditExpenseForm2__cut.short,
 .item {
   width: 5.5vh;
 }
 
-.AddIncomeForm__cut.description {
+.EditExpenseForm2__cut.description {
   width: 10vh;
 }
 
-.AddIncomeForm__input:focus ~ .AddIncomeForm__cut,
-.AddIncomeForm__input:not(:placeholder-shown) ~ .AddIncomeForm__cut {
+.EditExpenseForm2__input:focus ~ .EditExpenseForm2__cut,
+.EditExpenseForm2__input:not(:placeholder-shown) ~ .EditExpenseForm2__cut {
   transform: translateY(8px);
 }
 
-.AddIncomeForm__placeholder {
+.EditExpenseForm2__placeholder {
   left: 20px;
   line-height: 14px;
   pointer-events: none;
@@ -80,8 +80,9 @@
   top: 20px;
 }
 
-.AddIncomeForm__input:focus ~ .AddIncomeForm__placeholder,
-.AddIncomeForm__input:not(:placeholder-shown) ~ .AddIncomeForm__placeholder {
+.EditExpenseForm2__input:focus ~ .EditExpenseForm2__placeholder,
+.EditExpenseForm2__input:not(:placeholder-shown)
+  ~ .EditExpenseForm2__placeholder {
   transform: translateY(-30px) translateX(10px) scale(0.75);
 }
 
@@ -92,12 +93,31 @@ select {
   appearance: none;
 }
 
+/* .submit {
+  background-color: #08d;
+  border-radius: 12px;
+  border: 0;
+  box-sizing: border-box;
+  color: #eee;
+  cursor: pointer;
+  font-size: 18px;
+  height: 50px;
+  margin-top: 38px;
+  outline: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.submit:active {
+  background-color: #06b;
+} */
+
 @media only screen and (max-width: 400px) {
   .title {
     font-size: 24px;
   }
 
-  .AddIncomeForm__input {
+  .EditExpenseForm2__input {
     height: 100%;
     font-size: 14px;
   }

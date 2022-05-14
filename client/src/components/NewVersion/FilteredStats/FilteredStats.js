@@ -1,193 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './FilteredStats.css';
 import { IoStatsChartSharp } from 'react-icons/io5';
 import { GiMoneyStack } from 'react-icons/gi';
 import { BsArrowUpRight, BsArrowDownRight } from 'react-icons/bs';
 import { BsCalendar2Date } from 'react-icons/bs';
 import { MdCategory } from 'react-icons/md';
-import { DateModal, ranges } from '../../Modals/DateModal/DateModal';
-import {
-  getCategoriesData,
-  getThisWeek,
-} from '../CategoriesStats/CategoriesStats';
+import { DateModal } from '../../Modals/DateModal/DateModal';
+import { getCategoriesData } from '../CategoriesStats/CategoriesStats';
 import {
   getCommonSize,
   getDelta,
-  getPreviousWeek,
   getTotalTransactions,
 } from '../StatsTile/StatsTile';
 import helpers from '../../../services/helpers';
 import { useIsMobile } from '../../../custom_hooks';
 import { ToolTip } from '../ToolTip/ToolTip';
+import { getTransactionsBasedOnDateFilter } from '../../../containers/Stats/Stats';
 
-export const getTwoWeeksAgo = () => {
-  const [monday, sunday] = getPreviousWeek();
-  const parsedMonday = new Date(monday);
-  const prevMonday = parsedMonday.setDate(parsedMonday.getDate() - 7);
-  const parsedSunday = new Date(sunday);
-  const prevSunday = parsedSunday.setDate(parsedSunday.getDate() - 7);
-  return [prevMonday, prevSunday];
-};
-
-export const getThisMonthTransactions = (transactions) => {
-  const today = new Date();
-  const thisMonth = today.getMonth();
-  const thisYear = today.getFullYear();
-
-  return transactions.filter((transaction) => {
-    const transDate = new Date(transaction.date);
-    const transMonth = transDate.getMonth();
-    const transYear = transDate.getFullYear();
-    return thisMonth === transMonth && thisYear === transYear;
-  });
-};
-
-const getPrevMonthTransactions = (transactions) => {
-  const today = new Date();
-  const prevMonth = today.getMonth() - 1;
-  const thisYear = today.getFullYear();
-  return transactions.filter((transaction) => {
-    const transDate = new Date(transaction.date);
-    const transMonth = transDate.getMonth();
-    const transYear = transDate.getFullYear();
-    return prevMonth === transMonth && thisYear === transYear;
-  });
-};
-
-const getThisYearTransactions = (transactions) => {
-  const today = new Date();
-  const thisYear = today.getFullYear();
-  return transactions.filter((transaction) => {
-    const transDate = new Date(transaction.date);
-    const transYear = transDate.getFullYear();
-    return thisYear === transYear;
-  });
-};
-
-const getPrevYearTransactions = (transactions) => {
-  const today = new Date();
-  const prevYear = today.getFullYear() - 1;
-  return transactions.filter((transaction) => {
-    const transDate = new Date(transaction.date);
-    const transYear = transDate.getFullYear();
-    return prevYear === transYear;
-  });
-};
-
-const getDateFilter = (dateFilter) => {
-  if (dateFilter === 'this week') return [getThisWeek, getPreviousWeek];
-  if (dateFilter === 'last week') return [getPreviousWeek, getTwoWeeksAgo];
-};
-
-const getFilteredTransactions = (transactions, dateFilter) =>
-  transactions.filter(
-    (transaction) =>
-      new Date(transaction.date) >= dateFilter()[0] &&
-      new Date(transaction.date) <= dateFilter()[1]
-  );
-
-const getPrevRangeTransactions = (transactions, range) => {
-  const delta = new Date(range.date_to) - new Date(range.date_from);
-  const endDate = new Date(range.date_from);
-  endDate.setDate(endDate.getDate() - 1);
-  const startDate = new Date(range.date_from);
-  startDate.setDate(
-    startDate.getDate() - 1 - Math.floor(delta / (24 * 60 * 60 * 1000))
-  );
-  const check = endDate - startDate === delta;
-
-  if (check)
-    return transactions.filter(
-      (transaction) => startDate >= range.date_from && endDate <= range.date_to
-    );
-};
-
-const getTransactionsBasedOnDateFilter = (transactions, dateFilter, range) => {
-  let currentTransactions;
-  let prevTransactions;
-
-  if (dateFilter !== 'range') {
-    if (dateFilter === 'this month') {
-      currentTransactions = getThisMonthTransactions(transactions);
-      prevTransactions = getPrevMonthTransactions(transactions);
-    } else if (dateFilter === 'this year') {
-      currentTransactions = getThisYearTransactions(transactions);
-      prevTransactions = getPrevYearTransactions(transactions);
-    } else {
-      const [currentFilter, prevFilter] = getDateFilter(dateFilter);
-      currentTransactions = getFilteredTransactions(
-        transactions,
-        currentFilter
-      );
-      prevTransactions = getFilteredTransactions(transactions, prevFilter);
-    }
-  } else {
-    currentTransactions = transactions.filter(
-      (transaction) =>
-        transaction.date >= range.date_from && transaction.date <= range.date_to
-    );
-    prevTransactions = getPrevRangeTransactions(transactions, range);
-  }
-
-  return [currentTransactions, prevTransactions];
-};
-
-const truncYear = (date) => {
+export const truncYear = (date) => {
   const splittedDate = date.split('-');
   const year = splittedDate[0];
   const parsedYear = year.slice(2);
   return `${splittedDate[2]}/${splittedDate[1]}/${parsedYear}`;
 };
 
-export const FilteredStats = ({ expenses, income }) => {
+export const FilteredStats = ({
+  handleDateFilterSubmit,
+  currentFilter,
+  range,
+  income,
+  currentExpenses,
+  prevExpenses,
+}) => {
   const isMobile = useIsMobile();
   const [dateVisible, setDateVisible] = useState(false);
-  const [currentFilter, setCurrentFilter] = useState('this month');
-  const [range, setRange] = useState({ date_from: '', date_to: '' });
-
-  const [currentExpenses, prevExpenses] = getTransactionsBasedOnDateFilter(
-    expenses,
-    currentFilter,
-    range
-  );
   const [currentIncome, prevIncome] = getTransactionsBasedOnDateFilter(
     income,
     currentFilter,
     range
   );
 
-  const { categoriesAmount, totalExpensesAmount } =
-    getCategoriesData(currentExpenses);
+  const {
+    categoriesAmount: currentCategories,
+    totalExpensesAmount: currentTotalExpenses,
+  } = getCategoriesData(currentExpenses);
 
   const {
-    categoriesAmount: prevCatAmount,
-    totalExpensesAmount: prevTotExpensesAmount,
+    categoriesAmount: prevCategories,
+    totalExpensesAmount: prevTotalExpenses,
   } = getCategoriesData(prevExpenses);
-
-  useEffect(() => {
-    const getPersistedDateFilter = window.localStorage.getItem('currentFilter');
-    if (getPersistedDateFilter && !getPersistedDateFilter.includes('date_from'))
-      setCurrentFilter(getPersistedDateFilter);
-    else {
-      const dateFrom = getPersistedDateFilter
-        .split(';')[0]
-        .split(':')[1]
-        .trim();
-      const dateTo = getPersistedDateFilter.split(';')[1].split(':')[1].trim();
-      setCurrentFilter('range');
-      setRange({ date_from: dateFrom, date_to: dateTo });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (currentFilter === 'range')
-      window.localStorage.setItem(
-        'currentFilter',
-        `date_from: ${range.date_from}; date_to: ${range.date_to}`
-      );
-    else window.localStorage.setItem('currentFilter', currentFilter);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentFilter]);
 
   const openDateModal = () => {
     if (!dateVisible) setDateVisible(true);
@@ -197,30 +58,15 @@ export const FilteredStats = ({ expenses, income }) => {
     setDateVisible(false);
   };
 
-  const handleDateFilterSubmit = (dateFilter) => {
-    if (dateFilter.ranges.length > 0) {
-      setCurrentFilter(
-        ranges.find((el) => el.id === Number(dateFilter.ranges)).name
-      );
-      setRange({ date_from: '', date_to: '' });
-    } else if (
-      dateFilter.date_from.length > 0 &&
-      dateFilter.date_to.length > 0
-    ) {
-      setCurrentFilter('range');
-      setRange(dateFilter);
-    }
-  };
-
-  // console.log('currentExpenses', currentExpenses);
-  // console.log('prevExpenses', prevExpenses);
+  // console.log('currentTotalExpenses', currentTotalExpenses);
+  // console.log('prevTotalExpenses', prevTotalExpenses);
   // console.log('currentIncome', currentIncome);
   // console.log('currentFilter-->', currentFilter);
 
-  // console.log('totalExpensesAmount-->', totalExpensesAmount);
-  // console.log('prevTotExpensesAmount-->', prevTotExpensesAmount);
-  // console.log('currentExpenses', currentExpenses);
-  // console.log('prevExpenses', prevExpenses);
+  // console.log('currentTotalExpenses-->', currentTotalExpenses);
+  // console.log('prevTotalExpenses-->', prevTotalExpenses);
+  // console.log('currentTotalExpenses', currentTotalExpenses);
+  // console.log('prevTotalExpenses', prevTotalExpenses);
   // console.log('currentIncome-->', currentIncome);
 
   return (
@@ -273,7 +119,9 @@ export const FilteredStats = ({ expenses, income }) => {
                 justifyContent: 'flex-start',
               }}
             >
-              <div>{helpers.currencyFormatter(totalExpensesAmount, false)}</div>
+              <div>
+                {helpers.currencyFormatter(currentTotalExpenses, false)}
+              </div>
             </div>
           </div>
           <div className='col' style={{ width: '5%', padding: '0 0 0 0' }}>
@@ -284,7 +132,7 @@ export const FilteredStats = ({ expenses, income }) => {
                 justifyContent: 'flex-start',
               }}
             >
-              {totalExpensesAmount > prevTotExpensesAmount ? (
+              {currentTotalExpenses > prevTotalExpenses ? (
                 <BsArrowUpRight color='red' strokeWidth={1} />
               ) : (
                 <BsArrowDownRight color='green' strokeWidth={1} />
@@ -293,34 +141,32 @@ export const FilteredStats = ({ expenses, income }) => {
           </div>
           <div className='col'>
             <ToolTip
-              element={getDelta(totalExpensesAmount, prevTotExpensesAmount)}
+              element={getDelta(currentTotalExpenses, prevTotalExpenses)}
               text1={`${helpers.currencyFormatter(
-                totalExpensesAmount,
+                currentTotalExpenses,
                 false,
                 false
               )} (current expenses)`}
               text2={`${helpers.currencyFormatter(
-                prevTotExpensesAmount,
+                prevTotalExpenses,
                 false,
                 false
               )} (prev expenses)`}
               operation='-'
+              active={isMobile}
             />
           </div>
           {!isMobile && (
             <div className='col'>
               <ToolTip
-                element={getCommonSize(
-                  totalExpensesAmount,
-                  prevTotExpensesAmount
-                )}
+                element={getCommonSize(currentTotalExpenses, prevTotalExpenses)}
                 text1={`${helpers.currencyFormatter(
-                  totalExpensesAmount,
+                  currentTotalExpenses,
                   false,
                   false
                 )} (current expenses)`}
                 text2={`${helpers.currencyFormatter(
-                  prevTotExpensesAmount,
+                  prevTotalExpenses,
                   false,
                   false
                 )} (prev expenses)`}
@@ -411,10 +257,10 @@ export const FilteredStats = ({ expenses, income }) => {
           )}
         </div>
 
-        {Object.entries(categoriesAmount).map(([key, value], index) => {
-          const prevWeekValue = prevCatAmount[key] ? prevCatAmount[key] : 0;
+        {Object.entries(currentCategories).map(([key, value], index) => {
+          const prevWeekValue = prevCategories[key] ? prevCategories[key] : 0;
           const colClassName =
-            index === Object.entries(categoriesAmount).length - 1
+            index === Object.entries(currentCategories).length - 1
               ? 'col__last'
               : 'col';
           return (
@@ -488,14 +334,14 @@ export const FilteredStats = ({ expenses, income }) => {
               {!isMobile && (
                 <div className={colClassName}>
                   <ToolTip
-                    element={getCommonSize(value, totalExpensesAmount)}
+                    element={getCommonSize(value, currentTotalExpenses)}
                     text1={`${helpers.currencyFormatter(
                       value,
                       false,
                       false
                     )} (current value)`}
                     text2={`${helpers.currencyFormatter(
-                      totalExpensesAmount,
+                      currentTotalExpenses,
                       false,
                       false
                     )} (total expenses)`}

@@ -3,6 +3,7 @@ import './CategoriesStats.css';
 import { IoStatsChartSharp } from 'react-icons/io5';
 import { MdCategory } from 'react-icons/md';
 import helpers from '../../../services/helpers';
+import { truncYear } from '../FilteredStats/FilteredStats';
 
 const getSumOfPercentages = (index, array) => {
   return array
@@ -78,17 +79,9 @@ export const getCategoriesData = (expenses) => {
 
 const colors = ['#2456a0', '#8d1d1d', '#1dbb32', '#9d2cac'];
 
-export const CategoriesStats = ({ expenses }) => {
-  const thisWeekExpenses = getThisWeekTransactions(expenses);
+export const CategoriesStats = ({ currentExpenses, currentFilter, range }) => {
   const { categoriesData, categoriesTotalVal } =
-    getCategoriesData(thisWeekExpenses);
-
-  // console.log('CategoriesStatsthis WeekExpenses-->', thisWeekExpenses);
-  // console.log('CategoriesStats expenses-->', expenses);
-  // console.log(
-  //   'CategoriesStats categoriesData.length-->',
-  //   categoriesData.length
-  // );
+    getCategoriesData(currentExpenses);
 
   return (
     <div className='CategoriesStats__container'>
@@ -99,7 +92,12 @@ export const CategoriesStats = ({ expenses }) => {
             size={20}
             color='#2456a0'
           />
-          <div>Categories - this week</div>
+          <div>
+            Categories -{' '}
+            {currentFilter !== 'range'
+              ? currentFilter
+              : `${truncYear(range.date_from)} to ${truncYear(range.date_to)}`}
+          </div>
         </div>
         <IoStatsChartSharp size={20} />
       </div>

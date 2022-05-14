@@ -174,17 +174,14 @@ export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
             )}
           </>
         ) : form === 'expense' ? (
-          <>
-            <p className='AddTransaction__title'>ADD EXPENSE</p>
-            <AddExpenseForm
-              inputs={expenseInputs}
-              handleChange={handleExpenseChange}
-              categories={categories}
-            />
-          </>
+          <AddExpenseForm
+            inputs={expenseInputs}
+            handleChange={handleExpenseChange}
+            categories={categories}
+          />
         ) : (
           <>
-            <p className='AddTransaction__title'>ADD INCOME</p>
+            {/* <p className='AddTransaction__title'>ADD INCOME</p> */}
             <AddIncomeForm
               inputs={incomeInputs}
               handleChange={handleIncomeChange}

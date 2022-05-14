@@ -4,8 +4,8 @@ import { MdSend, MdClose } from 'react-icons/md';
 import moment from 'moment';
 import { FaSpinner } from 'react-icons/fa';
 import apiService from '../../../services/apiService';
-import { EditExpenseForm } from '../../Forms/EditExpenseForm/EditExpenseForm';
 import { Message } from '../../NewVersion/Message/Message';
+import { EditExpenseForm2 } from '../../Forms/EditExpenseForm2/EditExpenseForm2';
 
 export const EditExpenseModal = ({
   expense,
@@ -81,9 +81,9 @@ export const EditExpenseModal = ({
           size={30}
           onClick={closeEditModal}
         />
-        <p className='EditExpenseModal__title'>EDIT EXPENSE</p>
-        <div className='EditExpenseModal__separator'></div>
-        <EditExpenseForm
+        {/* <p className='EditExpenseModal__title'>EDIT EXPENSE</p> */}
+        {/* <div className='EditExpenseModal__separator'></div> */}
+        <EditExpenseForm2
           inputs={inputs}
           handleChange={handleChange}
           categories={categories}

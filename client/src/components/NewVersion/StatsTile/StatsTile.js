@@ -12,8 +12,8 @@ import {
   getTotalAmount,
 } from '../CategoriesStats/CategoriesStats';
 import { useIsMobile } from '../../../custom_hooks';
-import { getThisMonthTransactions } from '../FilteredStats/FilteredStats';
 import { ToolTip } from '../ToolTip/ToolTip';
+import { getThisMonthTransactions } from '../../../containers/Stats/Stats';
 
 export const getCommonSize = (amount, totalAmount) => {
   return `${((amount / totalAmount) * 100).toFixed(2)} %`;

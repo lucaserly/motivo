@@ -57,3 +57,9 @@
   bottom: 0;
   right: 0;
 }
+
+@media only screen and (max-width: 768px) {
+  .InfoModal.show {
+    bottom: calc(60px);
+  }
+}
