@@ -97,6 +97,9 @@ export const SanityCheckTile = ({ expenses, income }) => {
       : 0;
 
   const isSanityCheckOk = sanityCheck.toFixed(2) === -0.33;
+
+  console.log('sanityCheck.toFixed(2)-->', sanityCheck.toFixed(2));
+
   const color = isSanityCheckOk ? 'green' : 'red';
 
   return (

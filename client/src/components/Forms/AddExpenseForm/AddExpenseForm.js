@@ -29,7 +29,7 @@ export const AddExpenseForm = ({ inputs, handleChange, categories }) => {
           name='amount'
           id='amount'
           required
-          pattern='\d*'
+          pattern='^[+-]?[1-9]\d*|0$'
           value={inputs.amount}
           placeholder=' '
         />

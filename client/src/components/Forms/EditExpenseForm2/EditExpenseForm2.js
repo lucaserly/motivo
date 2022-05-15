@@ -14,7 +14,7 @@ export const EditExpenseForm2 = ({ inputs, handleChange, categories }) => {
           value={inputs.amount}
           onChange={handleChange}
           required
-          pattern='\d*'
+          pattern='^[+-]?[1-9]\d*|0$'
         />
         <div className='EditExpenseForm2__cut amount'></div>
         <label for='amount' className='EditExpenseForm2__placeholder'>
