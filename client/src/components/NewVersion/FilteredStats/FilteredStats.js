@@ -58,16 +58,18 @@ export const FilteredStats = ({
     setDateVisible(false);
   };
 
-  // console.log('currentTotalExpenses', currentTotalExpenses);
-  // console.log('prevTotalExpenses', prevTotalExpenses);
-  // console.log('currentIncome', currentIncome);
-  // console.log('currentFilter-->', currentFilter);
+  const noData =
+    currentIncome.length === 0 &&
+    prevIncome.length === 0 &&
+    currentTotalExpenses === 0 &&
+    prevTotalExpenses === 0;
 
-  // console.log('currentTotalExpenses-->', currentTotalExpenses);
-  // console.log('prevTotalExpenses-->', prevTotalExpenses);
-  // console.log('currentTotalExpenses', currentTotalExpenses);
-  // console.log('prevTotalExpenses', prevTotalExpenses);
-  // console.log('currentIncome-->', currentIncome);
+  console.log('currentIncome', currentIncome);
+  console.log('prevIncome', prevIncome);
+  console.log('currentCategories', currentCategories);
+  console.log('currentTotalExpenses', currentTotalExpenses);
+  console.log('prevCategories', prevCategories);
+  console.log('prevTotalExpenses', prevTotalExpenses);
 
   return (
     <div className='FilteredStats__container'>
@@ -96,70 +98,53 @@ export const FilteredStats = ({
         <IoStatsChartSharp size={20} />
       </div>
 
-      <section>
-        <div className='row'>
-          <div className='col' style={{ width: '35%' }}>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                marginLeft: '5%',
-              }}
-            >
-              <GiMoneyStack size={20} style={{ marginRight: '10px' }} />
-              <div>Expenses</div>
-            </div>
-          </div>
-          <div className='col'>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-              }}
-            >
-              <div>
-                {helpers.currencyFormatter(currentTotalExpenses, false)}
+      {!noData ? (
+        <section>
+          <div className='row'>
+            <div className='col' style={{ width: '35%' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  marginLeft: '5%',
+                }}
+              >
+                <GiMoneyStack size={20} style={{ marginRight: '10px' }} />
+                <div>Expenses</div>
               </div>
             </div>
-          </div>
-          <div className='col' style={{ width: '5%', padding: '0 0 0 0' }}>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-              }}
-            >
-              {currentTotalExpenses > prevTotalExpenses ? (
-                <BsArrowUpRight color='red' strokeWidth={1} />
-              ) : (
-                <BsArrowDownRight color='green' strokeWidth={1} />
-              )}
+            <div className='col'>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                }}
+              >
+                <div>
+                  {helpers.currencyFormatter(currentTotalExpenses, false)}
+                </div>
+              </div>
             </div>
-          </div>
-          <div className='col'>
-            <ToolTip
-              element={getDelta(currentTotalExpenses, prevTotalExpenses)}
-              text1={`${helpers.currencyFormatter(
-                currentTotalExpenses,
-                false,
-                false
-              )} (current expenses)`}
-              text2={`${helpers.currencyFormatter(
-                prevTotalExpenses,
-                false,
-                false
-              )} (prev expenses)`}
-              operation='-'
-              active={isMobile}
-            />
-          </div>
-          {!isMobile && (
+            <div className='col' style={{ width: '5%', padding: '0 0 0 0' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                }}
+              >
+                {currentTotalExpenses > prevTotalExpenses ? (
+                  <BsArrowUpRight color='red' strokeWidth={1} />
+                ) : (
+                  <BsArrowDownRight color='green' strokeWidth={1} />
+                )}
+              </div>
+            </div>
             <div className='col'>
               <ToolTip
-                element={getCommonSize(currentTotalExpenses, prevTotalExpenses)}
+                element={getDelta(currentTotalExpenses, prevTotalExpenses)}
                 text1={`${helpers.currencyFormatter(
                   currentTotalExpenses,
                   false,
@@ -170,74 +155,75 @@ export const FilteredStats = ({
                   false,
                   false
                 )} (prev expenses)`}
-                operation='/'
+                operation='-'
+                active={isMobile}
               />
             </div>
-          )}
-        </div>
-        <div className='row'>
-          <div className='col'>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                marginLeft: '5%',
-              }}
-            >
-              <GiMoneyStack size={20} style={{ marginRight: '10px' }} />
-              <div>Income</div>
-            </div>
+            {!isMobile && (
+              <div className='col'>
+                <ToolTip
+                  element={getCommonSize(
+                    currentTotalExpenses,
+                    prevTotalExpenses
+                  )}
+                  text1={`${helpers.currencyFormatter(
+                    currentTotalExpenses,
+                    false,
+                    false
+                  )} (current expenses)`}
+                  text2={`${helpers.currencyFormatter(
+                    prevTotalExpenses,
+                    false,
+                    false
+                  )} (prev expenses)`}
+                  operation='/'
+                />
+              </div>
+            )}
           </div>
+          <div className='row'>
+            <div className='col'>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginLeft: '5%',
+                }}
+              >
+                <GiMoneyStack size={20} style={{ marginRight: '10px' }} />
+                <div>Income</div>
+              </div>
+            </div>
 
-          <div className='col'>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div>
-                {helpers.currencyFormatter(
-                  getTotalTransactions(currentIncome),
-                  false
+            <div className='col'>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div>
+                  {helpers.currencyFormatter(
+                    getTotalTransactions(currentIncome),
+                    false
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className='col' style={{ width: '5%', padding: '0 0 0 0' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                {getTotalTransactions(currentIncome) >
+                getTotalTransactions(prevIncome) ? (
+                  <BsArrowUpRight color='green' strokeWidth={1} />
+                ) : (
+                  <BsArrowDownRight color='red' strokeWidth={1} />
                 )}
               </div>
             </div>
-          </div>
-
-          <div className='col' style={{ width: '5%', padding: '0 0 0 0' }}>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              {getTotalTransactions(currentIncome) >
-              getTotalTransactions(prevIncome) ? (
-                <BsArrowUpRight color='green' strokeWidth={1} />
-              ) : (
-                <BsArrowDownRight color='red' strokeWidth={1} />
-              )}
-            </div>
-          </div>
-          <div className='col'>
-            <ToolTip
-              element={getDelta(
-                getTotalTransactions(currentIncome),
-                getTotalTransactions(prevIncome)
-              )}
-              text1={`${helpers.currencyFormatter(
-                getTotalTransactions(currentIncome),
-                false,
-                false
-              )} (current income)`}
-              text2={`${helpers.currencyFormatter(
-                getTotalTransactions(prevIncome),
-                false,
-                false
-              )} (prev income)`}
-              operation='-'
-            />
-          </div>
-          {!isMobile && (
             <div className='col'>
               <ToolTip
-                element={getCommonSize(
+                element={getDelta(
                   getTotalTransactions(currentIncome),
                   getTotalTransactions(prevIncome)
                 )}
@@ -251,108 +237,131 @@ export const FilteredStats = ({
                   false,
                   false
                 )} (prev income)`}
-                operation='/'
+                operation='-'
               />
             </div>
-          )}
-        </div>
-
-        {Object.entries(currentCategories).map(([key, value], index) => {
-          const prevWeekValue = prevCategories[key] ? prevCategories[key] : 0;
-          const colClassName =
-            index === Object.entries(currentCategories).length - 1
-              ? 'col__last'
-              : 'col';
-          return (
-            <div className='row' key={index}>
-              <div className={colClassName}>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    marginLeft: '5%',
-                  }}
-                >
-                  <MdCategory size={20} style={{ marginRight: '10px' }} />
-                  <div
-                    style={{
-                      textOverflow: 'ellipsis',
-                      overflow: 'hidden',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {key}
-                  </div>
-                </div>
-              </div>
-
-              <div className={colClassName}>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <div>{helpers.currencyFormatter(value, false)}</div>
-                </div>
-              </div>
-
-              <div
-                className={colClassName}
-                style={{ width: '5%', padding: '0 0 0 0' }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  {value > prevWeekValue ? (
-                    <BsArrowUpRight color='red' strokeWidth={1} />
-                  ) : (
-                    <BsArrowDownRight color='green' strokeWidth={1} />
-                  )}
-                </div>
-              </div>
-
-              <div className={colClassName}>
+            {!isMobile && (
+              <div className='col'>
                 <ToolTip
-                  element={getDelta(value, prevWeekValue)}
+                  element={getCommonSize(
+                    getTotalTransactions(currentIncome),
+                    getTotalTransactions(prevIncome)
+                  )}
                   text1={`${helpers.currencyFormatter(
-                    value,
+                    getTotalTransactions(currentIncome),
                     false,
                     false
-                  )} (current value)`}
+                  )} (current income)`}
                   text2={`${helpers.currencyFormatter(
-                    prevWeekValue,
+                    getTotalTransactions(prevIncome),
                     false,
                     false
-                  )} (prev value)`}
-                  operation='-'
+                  )} (prev income)`}
+                  operation='/'
                 />
               </div>
-              {!isMobile && (
+            )}
+          </div>
+
+          {Object.entries(currentCategories).map(([key, value], index) => {
+            const prevWeekValue = prevCategories[key] ? prevCategories[key] : 0;
+            const colClassName =
+              index === Object.entries(currentCategories).length - 1
+                ? 'col__last'
+                : 'col';
+            return (
+              <div className='row' key={index}>
+                <div className={colClassName}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginLeft: '5%',
+                    }}
+                  >
+                    <MdCategory size={20} style={{ marginRight: '10px' }} />
+                    <div
+                      style={{
+                        textOverflow: 'ellipsis',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {key}
+                    </div>
+                  </div>
+                </div>
+
+                <div className={colClassName}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <div>{helpers.currencyFormatter(value, false)}</div>
+                  </div>
+                </div>
+
+                <div
+                  className={colClassName}
+                  style={{ width: '5%', padding: '0 0 0 0' }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    {value > prevWeekValue ? (
+                      <BsArrowUpRight color='red' strokeWidth={1} />
+                    ) : (
+                      <BsArrowDownRight color='green' strokeWidth={1} />
+                    )}
+                  </div>
+                </div>
+
                 <div className={colClassName}>
                   <ToolTip
-                    element={getCommonSize(value, currentTotalExpenses)}
+                    element={getDelta(value, prevWeekValue)}
                     text1={`${helpers.currencyFormatter(
                       value,
                       false,
                       false
                     )} (current value)`}
                     text2={`${helpers.currencyFormatter(
-                      currentTotalExpenses,
+                      prevWeekValue,
                       false,
                       false
-                    )} (total expenses)`}
-                    operation='/'
+                    )} (prev value)`}
+                    operation='-'
                   />
                 </div>
-              )}
-            </div>
-          );
-        })}
-      </section>
+                {!isMobile && (
+                  <div className={colClassName}>
+                    <ToolTip
+                      element={getCommonSize(value, currentTotalExpenses)}
+                      text1={`${helpers.currencyFormatter(
+                        value,
+                        false,
+                        false
+                      )} (current value)`}
+                      text2={`${helpers.currencyFormatter(
+                        currentTotalExpenses,
+                        false,
+                        false
+                      )} (total expenses)`}
+                      operation='/'
+                    />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </section>
+      ) : (
+        <p>no data for this week</p>
+      )}
     </div>
   );
 };

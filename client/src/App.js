@@ -34,6 +34,11 @@ function App() {
     setIsSearchBarVisible(!isSearchBarVisible);
   };
 
+
+  // const categories = []
+  // const income = []
+  // const expenses = []
+
   // console.log('expenses-->', expenses);
   // console.log('categories-->', categories);
 
