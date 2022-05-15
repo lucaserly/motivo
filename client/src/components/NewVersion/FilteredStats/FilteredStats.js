@@ -64,12 +64,12 @@ export const FilteredStats = ({
     currentTotalExpenses === 0 &&
     prevTotalExpenses === 0;
 
-  console.log('currentIncome', currentIncome);
-  console.log('prevIncome', prevIncome);
-  console.log('currentCategories', currentCategories);
-  console.log('currentTotalExpenses', currentTotalExpenses);
-  console.log('prevCategories', prevCategories);
-  console.log('prevTotalExpenses', prevTotalExpenses);
+  // console.log('currentIncome', currentIncome);
+  // console.log('prevIncome', prevIncome);
+  // console.log('currentCategories', currentCategories);
+  // console.log('currentTotalExpenses', currentTotalExpenses);
+  // console.log('prevCategories', prevCategories);
+  // console.log('prevTotalExpenses', prevTotalExpenses);
 
   return (
     <div className='FilteredStats__container'>
