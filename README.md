@@ -1,6 +1,6 @@
 ### MOTIVO
 
-![](readme_images/Untitled-1.png)
+![](readme_images/Untitled%20design-2.png)
 
 Cost-tracking app to:
 - register expenses
@@ -9,10 +9,6 @@ Cost-tracking app to:
   - pie chart
   - common-size analysis
 - get an overview of the outflow
-
-## Screenshots
-
-![](readme_images/Untitled%20design-2.png)
 
 ## Gettin started
 
@@ -34,9 +30,9 @@ cd client && npm start
 ```
 
 ## Built with
-- [React](https://reactnative.dev)
+- [React](https://reactjs.org/)
 - [Sequelize ORM](https://sequelize.org)
-- [Express](https://koajs.com)
+- [Express](https://expressjs.com/)
 
 ## Developer
 Lucas Erlacher:
