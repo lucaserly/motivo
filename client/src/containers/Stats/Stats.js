@@ -175,9 +175,6 @@ export const Stats = ({ expenses, income, categories }) => {
     }
   };
 
-  console.log('currentFilter-->', currentFilter);
-  console.log('range-->', range);
-
   return (
     <div className='Stats__container'>
       <SanityCheckTile expenses={expenses} income={income} />

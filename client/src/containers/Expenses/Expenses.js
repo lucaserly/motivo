@@ -45,7 +45,6 @@ export const Expenses = ({
       : delta <= 0 && delta >= -1;
 
     if (!isAtBottomOfPage) return;
-    console.log('fetching more list items');
     setIsLoading(true);
   };
 

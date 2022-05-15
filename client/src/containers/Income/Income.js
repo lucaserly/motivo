@@ -38,7 +38,6 @@ export const Income = ({ income, setIncome, refetch, isSearchBarVisible }) => {
         document.scrollingElement.scrollHeight
       : delta <= 0 && delta >= -1;
     if (!isAtBottomOfPage) return;
-    console.log('fetching more list items');
     setIsLoading(true);
   };
 
@@ -63,7 +62,7 @@ export const Income = ({ income, setIncome, refetch, isSearchBarVisible }) => {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
