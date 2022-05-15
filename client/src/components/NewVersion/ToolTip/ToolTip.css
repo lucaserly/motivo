@@ -1,0 +1,37 @@
+.ToolTip {
+  position: relative
+}
+
+.ToolTip .ToolTip__text {
+  visibility: hidden;
+  width: 240px;
+  background-color: #d2d3d4;
+  color: #3a3939;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -120px;
+  opacity: 0;
+  transition: opacity 1s;
+  font-size: 16px
+}
+
+.ToolTip .ToolTip__text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #d2d3d4 transparent transparent transparent;
+}
+
+.ToolTip:hover .ToolTip__text {
+  visibility: visible;
+  opacity: 1;
+}

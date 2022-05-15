@@ -1,0 +1,24 @@
+.TableHeaders {
+  min-height: 2rem;
+  margin: 0 1rem 1rem 1rem;
+  background: #3f3f3f;
+  border-radius: 0.4rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: sticky;
+  top: 6.5rem
+}
+
+.TableHeaders__column {
+  display: flex;
+  justify-content: center;
+  width: 15%;
+  margin: 0.5rem;
+}
+
+@media only screen and (min-width: 769px) {
+  .TableHeaders__column:last-child {
+    width: 5%;
+  }
+}

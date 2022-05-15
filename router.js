@@ -38,11 +38,7 @@ router.post('/income', incomeController.postIncome);
 router.post('/incomes', incomeController.postBulkIncome);
 router.delete('/income/:id', incomeController.deleteIncome);
 router.delete('/incomes/all', incomeController.deleteAllIncomes);
-
-
-
-// router.delete('/income/:id', incomeController.deleteIncome);
-// router.put('/income/:id', incomeController.editIncome);
+router.put('/income/:id', incomeController.editIncome);
 
 
 module.exports = router;

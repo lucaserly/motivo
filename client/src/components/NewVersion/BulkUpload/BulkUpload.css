@@ -1,0 +1,101 @@
+.BulkUpload__modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 10;
+}
+
+.BulkUpload__modal__content {
+  width: 400px;
+  height: 200px;
+  border-radius: 0.4rem;
+  background: #1a1a1a;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.csv-reader-input {
+  margin-top: 5%;
+}
+
+.BulkUpload__modal__title,
+.csv-reader-input {
+  margin-left: 5%;
+}
+
+.BulkUpload__modal__exit__btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.BulkUpload__modal__submit__btn {
+  cursor: pointer;
+}
+
+.BulkUpload__modal__submit__btn,
+.BulkUpload__modal__spinning__icon {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 5px;
+}
+
+.line__separator__test__top,
+.line__separator__test__bottom {
+  width: 100%;
+  height: 1.5px;
+  background: rgba(149, 165, 166);
+  position: absolute;
+}
+
+.line__separator__test__top {
+  top: 30%;
+}
+
+.line__separator__test__bottom {
+  bottom: 21%;
+}
+
+.BulkUpload__modal__spinning__icon {
+  animation: spin 4s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: scale(1) rotate(0deg);
+  }
+  to {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+.BulkUpload__modal__succss_msg,
+.BulkUpload__modal__succss_msg__show {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translateX(-60%);
+  margin-bottom: 0.7rem;
+  transition: all 0.5s ease-out;
+  font-size: 16px;
+}
+
+.BulkUpload__modal__succss_msg {
+  opacity: 0;
+}
+
+.BulkUpload__modal__succss_msg__show {
+  opacity: 1;
+}

@@ -1,0 +1,6 @@
+.Income__tiles__container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+  padding-bottom: 6rem;
+}

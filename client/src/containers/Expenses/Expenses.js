@@ -1,186 +1,148 @@
-import React, { useEffect, useState } from 'react';
-import { useFetch, useIsMobile } from '../../custom_hooks';
-import {
-  AddExpense,
-  ExpensesTable,
-  SettingsModal,
-  ExpensesTableMobile,
-} from '../../components';
-import { Balances, BulkUpload, BulkDownload } from '..';
-import helpers from '../../services/helpers';
-import apiService from '../../services/apiService';
-import 'antd/dist/antd.css';
+import React, { useState, useEffect } from 'react';
 import './Expenses.css';
-import { SearchBar } from '../../components/SearchBar/SearchBar';
-import moment from 'moment';
+import { LoadingModalTwo, SearchBar, Tile } from '../../components';
+import helpers from '../../services/helpers';
+import { useIsMobile } from '../../custom_hooks';
+import { TableHeaders } from '../../components/NewVersion/TableHeaders/TableHeaders';
+import { AiOutlineFileAdd } from 'react-icons/ai';
+import { IoMdSettings } from 'react-icons/io';
+import { FiSearch } from 'react-icons/fi';
+import { NavLink } from 'react-router-dom';
+import { BulkExpensesDownload } from '../BulkExpensesDownload/BulkExpensesDownload';
+import { BulkExpensesUpload } from '../BulkExpensesUpload/BulkExpensesUpload';
 
-const EXPENSES_URL = helpers.isDev()
-  ? 'http://localhost:5001/expenses'
-  : '/expenses';
-
-const CATEGORIES_URL = helpers.isDev()
-  ? 'http://localhost:5001/categories'
-  : '/categories';
-
-const BALANCES_URL = helpers.isDev()
-  ? 'http://localhost:5001/balances'
-  : '/balances';
-
-const filterExpenses = (expenses, query) => {
-  if (!query) return expenses;
-  return expenses.filter(
-    (expense) =>
-      (expense.item &&
-        expense.item.toLowerCase().includes(query.toLowerCase())) ||
-      (expense.category &&
-        expense.category.toLowerCase().includes(query.toLowerCase())) ||
-      (expense.description &&
-        expense.description.toLowerCase().includes(query.toLowerCase()))
-  );
-};
-
-const parseExpenses = (expenses) => {
-  if (!expenses) return [];
-  return expenses.map((expense) => ({
-    ...expense,
-    date: moment(expense.date).format('DD/MM/YYYY'),
-    amount: helpers.currencyFormatter(Number(expense.amount)),
-  }));
-};
-
-const getSanityCheck = (balances, sumOfExpenses, income) => {
-  const golfLessonsAndTips = balances.reduce((pv, cv) => {
-    if (
-      cv.type !== 'Cash on Hand' &&
-      cv.type !== 'Foreign Currency' &&
-      cv.type !== 'Miscellaneous'
-    )
-      return pv + Number(cv.amount);
-    else return pv;
-  }, 0);
-
-  const totalIncome = income.reduce((pv, cv) => pv + Number(cv.amount), 0);
-  const cashOnHand = Number(
-    balances.find((balance) => balance.type === 'Cash on Hand').amount
-  );
-  const foreignCash = Number(
-    balances.find((balance) => balance.type === 'Foreign Currency').amount
-  );
-  return (
-    golfLessonsAndTips + totalIncome - cashOnHand - foreignCash - sumOfExpenses
-  );
-};
-
-export const Expenses = ({ income }) => {
+export const Expenses = ({
+  isSearchBarVisible,
+  expenses,
+  refetch,
+  categories,
+  setExpenses,
+}) => {
   const isMobile = useIsMobile();
-  const {
-    response: expenses,
-    setResponse: setExpenses,
-    fetchData: refetch,
-  } = useFetch(EXPENSES_URL);
-  const { response: categories } = useFetch(CATEGORIES_URL);
-  const { response: balances, fetchData: refetchBalances } =
-    useFetch(BALANCES_URL);
-
-  const [selectedRows, setSelectedRows] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  const parsedExpenses = parseExpenses(expenses);
-  const filteredExpenses = filterExpenses(parsedExpenses, searchValue);
+  const [isLoading, setIsLoading] = useState(false);
+  const [slicedExpenses, setSlicedExpenses] = useState(expenses.slice(0, 20));
+  const [showSearchBar, setShowSearchBar] = useState(false);
+
+  const loadMoreExpenses = () => {
+    setTimeout(() => {
+      setSlicedExpenses((prevState) => [
+        ...prevState,
+        ...expenses.slice(prevState.length, prevState.length + 20),
+      ]);
+      setIsLoading(false);
+    }, 1000);
+  };
+
+  const handleScroll = () => {
+    const delta =
+      window.innerHeight +
+      document.documentElement.scrollTop -
+      document.scrollingElement.scrollHeight;
+    const isAtBottomOfPage = isMobile
+      ? window.innerHeight + document.documentElement.scrollTop ===
+        document.scrollingElement.scrollHeight
+      : delta <= 0 && delta >= -1;
+
+    if (!isAtBottomOfPage) return;
+    setIsLoading(true);
+  };
+
+  const handleSearch = (event) => {
+    const { value } = event.target;
+    setSearchValue(value);
+  };
+
+  const handleClearSearch = () => {
+    setSearchValue('');
+  };
 
   useEffect(() => {
-    console.log('expenses useeffect-->');
+    if (searchValue.length > 3) {
+      const filteredExpenses = helpers.filterExpenses(expenses, searchValue);
+      setSlicedExpenses(filteredExpenses);
+    } else {
+      setSlicedExpenses(expenses.slice(0, 20));
+    }
+  }, [expenses, searchValue]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const sumOfExpenses =
-    expenses && expenses.reduce((pv, cv) => pv + Number(cv.amount), 0);
-
-  console.log('balances-->', balances);
-
-  const sanityCheck =
-    balances && balances.length > 0
-      ? getSanityCheck(balances, sumOfExpenses, income)
-      : 0;
-
-  const createExpense = (body) => {
-    apiService.postExpense(body).then((expense) => {
-      expense &&
-        setExpenses((expensesList) =>
-          helpers.sortByDate([...expensesList, expense])
-        );
-    });
-  };
-
-  const deleteExpense = (id) => {
-    apiService
-      .deleteExpense(id)
-      .then(() =>
-        setExpenses((expensesList) =>
-          expensesList.filter((expense) => expense.id !== id)
-        )
-      );
-  };
-
-  const deleteBulkExpenses = (selectedRows) => {
-    apiService
-      .deleteBulkExpenses(selectedRows)
-      .then(() =>
-        selectedRows.forEach((row) =>
-          setExpenses((expensesList) =>
-            expensesList.filter((expense) => expense.id !== row)
-          )
-        )
-      );
-  };
+  useEffect(() => {
+    if (!isLoading) return;
+    loadMoreExpenses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
 
   return (
-    <div>
-      <Balances
-        sumOfExpenses={sumOfExpenses}
-        refetchBalances={refetchBalances}
-      />
-
-      <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-        <AddExpense createExpense={createExpense} categories={categories} />
-
-        <SettingsModal
-          deleteBulkExpenses={deleteBulkExpenses}
-          selectedRows={selectedRows}
-          setExpenses={setExpenses}
+    <div className='Expenses__tiles__container'>
+      {isMobile && isSearchBarVisible && (
+        <SearchBar
+          isMobile={isMobile}
+          handleSearch={handleSearch}
+          searchValue={searchValue}
+          handleClearSearch={handleClearSearch}
+          showSearchBar={showSearchBar}
+          placeHolder='search expenses'
         />
-
-        {!isMobile && (
-          <>
-            <BulkUpload setExpenses={setExpenses} />
-            <BulkDownload expenses={parsedExpenses} />
-          </>
-        )}
-
-        <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
-      </div>
-
-      {filteredExpenses && !isMobile ? (
-        <ExpensesTable
-          onClick={() => {}}
-          expenses={filteredExpenses}
-          deleteExpense={deleteExpense}
-          setSelectedRows={setSelectedRows}
-          sumOfExpenses={sumOfExpenses}
+      )}
+      {!isMobile && (
+        <>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <SearchBar
+              isMobile={isMobile}
+              handleSearch={handleSearch}
+              searchValue={searchValue}
+              handleClearSearch={handleClearSearch}
+              showSearchBar={showSearchBar}
+              placeHolder='search expenses'
+            />
+            <FiSearch
+              size={35}
+              style={{ marginRight: '0.9rem', cursor: 'pointer' }}
+              onClick={() => setShowSearchBar(!showSearchBar)}
+            />
+            <NavLink
+              to='/add'
+              style={{ textDecoration: 'none', color: 'rgba(149, 165, 166)' }}
+            >
+              <AiOutlineFileAdd
+                size={35}
+                style={{ marginRight: '1.2rem', cursor: 'pointer' }}
+              />
+            </NavLink>
+            <BulkExpensesDownload expenses={expenses} />
+            <BulkExpensesUpload setExpenses={setExpenses} />
+            <IoMdSettings size={32} style={{ cursor: 'pointer' }} />
+          </div>
+          <TableHeaders
+            headers={['Item', 'Category', 'Description', 'Amount', 'Date', 'Delete']}
+          />
+        </>
+      )}
+      {/* {isLoading && (expenses.length !== slicedExpenses.length) && <LoadingModal />} */}
+      {slicedExpenses.map((expense) => (
+        <Tile
+          key={expense.id}
+          item={expense}
           categories={categories}
           refetch={refetch}
-          sanityCheck={sanityCheck}
         />
-      ) : (
-        filteredExpenses && (
-          <ExpensesTableMobile
-            expenses={filteredExpenses}
-            deleteExpense={deleteExpense}
-            sumOfExpenses={sumOfExpenses}
-            categories={categories}
-            refetch={refetch}
-            sanityCheck={sanityCheck}
-          />
-        )
-      )}
+      ))}
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        {isLoading && expenses.length !== slicedExpenses.length && (
+          <LoadingModalTwo />
+        )}
+      </div>
     </div>
   );
 };

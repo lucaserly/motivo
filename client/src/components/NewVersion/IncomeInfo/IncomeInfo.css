@@ -1,0 +1,27 @@
+.IncomeInfo {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.IncomeInfo__table {
+  border-collapse: separate;
+  border-spacing: 2rem 0;
+  margin: auto;
+  vertical-align: middle;
+  text-align: center;
+}
+
+@media only screen and (max-width: 350px) {
+  td {
+    display: table-row;
+  }
+
+  tr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

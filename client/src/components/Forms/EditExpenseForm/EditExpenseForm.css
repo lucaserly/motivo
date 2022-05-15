@@ -1,0 +1,92 @@
+.EditExpenseForm {
+  height: 50vh;
+  max-height: 500px;
+  display: table;
+  border-collapse: separate;
+  border-spacing: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.EditExpenseForm__amount,
+.EditExpenseForm__category,
+.EditExpenseForm__date,
+.EditExpenseForm__description,
+.EditExpenseForm__item,
+.EditExpenseForm__payment {
+  display: table-row;
+}
+
+.EditExpenseForm__input,
+.EditExpenseForm__select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  margin: auto;
+  outline: none;
+  border-radius: 0.4rem;
+  text-indent: 10px;
+  background: #1a1a1a;
+  border: 1px solid rgba(149, 165, 166);
+  color: rgba(149, 165, 166);
+}
+
+.EditExpenseForm__input {
+  width: 225px;
+  height: 45px;
+}
+
+#date.EditExpenseForm__input {
+  width: 228px;
+  height: 47px;
+  text-indent: 4px;
+}
+
+.EditExpenseForm__select {
+  width: 241px;
+  height: 51px;
+}
+
+.EditExpenseForm__input,
+.EditExpenseForm__select,
+.EditExpenseForm__label {
+  display: table-cell;
+  padding-left: 10px;
+}
+
+@media only screen and (max-width: 350px) {
+  .EditExpenseForm {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .EditExpenseForm__input,
+  .EditExpenseForm__select {
+    font-size: 12px;
+  }
+
+  .EditExpenseForm__input {
+    height: 33px;
+    width: 150px;
+  }
+
+  .EditExpenseForm__select {
+    height: 43px;
+    width: 166px;
+  }
+
+  #date.EditExpenseForm__input {
+    height: 35px;
+    width: 153px;
+  }
+}
+
+@media only screen and (min-width: 400px) {
+  .EditExpenseForm__input,
+  .EditExpenseForm__select {
+    font-size: 20px;
+    border: 2px solid rgba(149, 165, 166);
+  }
+}

@@ -1,0 +1,56 @@
+.AddIncomeFormLabel__form {
+  height: 30vh;
+  max-height: 500px;
+  display: table;
+  border-collapse: separate;
+  border-spacing: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.AddIncomeFormLabel__form__amount,
+.AddIncomeFormLabel__form__date,
+.AddIncomeFormLabel__form__description {
+  display: table-row;
+}
+
+.AddIncomeFormLabel__form__input,
+.AddIncomeFormLabel__form__select {
+  outline: none;
+  border: 1px solid rgba(149, 165, 166);
+  border-radius: 0.2rem;
+  height: 45%;
+  width: 95%;
+  background: #1a1a1a;
+  color: rgba(149, 165, 166);
+}
+
+.AddIncomeFormLabel__form__select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.AddIncomeFormLabel__form__input,
+.AddIncomeFormLabel__form__select,
+.AddIncomeFormLabel__form__label {
+  display: table-cell;
+}
+
+@media only screen and (max-width: 350px) {
+  .AddIncomeFormLabel__form {
+    display: flex;
+    flex-direction: column;
+  }
+  .AddIncomeFormLabel__form__input,
+  .AddIncomeFormLabel__form__select {
+    font-size: 12px;
+  }
+}
+
+@media only screen and (min-width: 400px) {
+  .AddIncomeFormLabel__form__input,
+  .AddIncomeFormLabel__form__select {
+    font-size: 20px;
+  }
+}

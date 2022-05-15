@@ -1,0 +1,65 @@
+.InfoModal.show {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  animation: fadein 0.8s;
+}
+
+.InfoModal {
+  display: none;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.InfoModal__content {
+  width: 85vw;
+  max-width: 600px;
+  height: 65vh;
+  max-height: 750px;
+  border-radius: 0.4rem;
+  background: #1a1a1a;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+}
+
+.InfoModal__exit__btn,
+.InfoModal__edit__btn,
+.InfoModal__delete__btn {
+  position: absolute;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.InfoModal__exit__btn {
+  top: 0;
+  right: 0;
+}
+
+.InfoModal__edit__btn {
+  bottom: 0;
+}
+
+.InfoModal__delete__btn {
+  bottom: 0;
+  right: 0;
+}
+
+@media only screen and (max-width: 768px) {
+  .InfoModal.show {
+    bottom: calc(60px);
+  }
+}
