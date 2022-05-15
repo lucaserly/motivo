@@ -56,7 +56,6 @@
   -ms-transform: translateY(0.12em);
   -webkit-transform: translateY(0.12em);
   transform: translateY(0.12em);
-
 }
 
 .donut__CategoriesStats__number {
@@ -98,7 +97,6 @@
   margin: 0;
   padding: 0;
   list-style: none;
-
 }
 
 .donut__CategoriesStats__caption__list li {
@@ -117,7 +115,7 @@
 }
 
 .donut__CategoriesStats__text {
-  max-width:15vw;
+  max-width: 15vw;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

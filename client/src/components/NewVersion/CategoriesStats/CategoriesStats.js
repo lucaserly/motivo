@@ -186,7 +186,7 @@ export const CategoriesStats = ({ currentExpenses, currentFilter, range }) => {
                       <div className='donut__CategoriesStats__text'>
                         {category.title}
                       </div>
-                      <div className='donut__CategoriesStats__text'>
+                      <div className='donut__CategoriesStats__text__percentage'>
                         &nbsp;{`- ${category.percentage} %`}
                       </div>
                     </li>
