@@ -5,7 +5,6 @@
 Cost-tracking app to:
 - register expenses
 - investigate trends through:
-  - line chart
   - pie chart
   - common-size analysis
 - get an overview of the outflow
