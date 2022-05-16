@@ -141,9 +141,8 @@ export const Stats = ({ expenses, income, categories }) => {
       setCurrentFilter(getPersistedDateFilter);
     else {
       const dateFrom = getPersistedDateFilter
-        .split(';')[0]
-        .split(':')[1]
-        .trim();
+        ? getPersistedDateFilter.split(';')[0].split(':')[1].trim()
+        : [];
       const dateTo = getPersistedDateFilter.split(';')[1].split(':')[1].trim();
       setCurrentFilter('range');
       setRange({ date_from: dateFrom, date_to: dateTo });

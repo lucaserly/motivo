@@ -478,7 +478,7 @@ function App() {
             path='/income'
             element={
               <Income
-                income={income}
+              income={income ? income : []}
                 refetch={refetchIncome}
                 isSearchBarVisible={isSearchBarVisible}
                 setIncome={setIncome}
@@ -491,7 +491,7 @@ function App() {
               <Stats
                 expenses={expenses ? expenses : []}
                 income={income ? income : []}
-                categories={categories}
+                categories={categories ? categories : []}
               />
             }
           />
@@ -512,7 +512,7 @@ function App() {
                 isSearchBarVisible={isSearchBarVisible}
                 expenses={expenses ? expenses : []}
                 refetch={refetchExpenses}
-                categories={categories}
+                categories={categories ? categories : []}
                 setExpenses={setExpenses}
               />
             }
