@@ -16,6 +16,7 @@ import helpers from '../../../services/helpers';
 import { useIsMobile } from '../../../custom_hooks';
 import { ToolTip } from '../ToolTip/ToolTip';
 import { getTransactionsBasedOnDateFilter } from '../../../containers/Stats/Stats';
+import { FaSpinner } from 'react-icons/fa';
 
 export const truncYear = (date) => {
   const splittedDate = date.split('-');
@@ -31,6 +32,8 @@ export const FilteredStats = ({
   income,
   currentExpenses,
   prevExpenses,
+  isFilterLoading,
+  isMainLoading,
 }) => {
   const isMobile = useIsMobile();
   const [dateVisible, setDateVisible] = useState(false);
@@ -71,6 +74,10 @@ export const FilteredStats = ({
   // console.log('prevCategories', prevCategories);
   // console.log('prevTotalExpenses', prevTotalExpenses);
 
+  // console.log('currentFilter-->', currentFilter);
+  // console.log('isFilterLoading-->', isFilterLoading);
+  // console.log('noData-->', noData);
+
   return (
     <div className='FilteredStats__container'>
       {dateVisible && (
@@ -98,7 +105,7 @@ export const FilteredStats = ({
         <IoStatsChartSharp size={20} />
       </div>
 
-      {!noData ? (
+      {!noData && !isFilterLoading && !isMainLoading ? (
         <section>
           <div className='row'>
             <div className='col' style={{ width: '35%' }}>
@@ -359,6 +366,10 @@ export const FilteredStats = ({
             );
           })}
         </section>
+      ) : isFilterLoading || isMainLoading ? (
+        <p>
+          <FaSpinner size={15} className='SanityCheckTile__spinning__icon' />
+        </p>
       ) : (
         <p>no data for this week</p>
       )}

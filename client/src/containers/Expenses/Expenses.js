@@ -10,6 +10,7 @@ import { FiSearch } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
 import { BulkExpensesDownload } from '../BulkExpensesDownload/BulkExpensesDownload';
 import { BulkExpensesUpload } from '../BulkExpensesUpload/BulkExpensesUpload';
+import { FaSpinner } from 'react-icons/fa';
 
 export const Expenses = ({
   isSearchBarVisible,
@@ -17,6 +18,7 @@ export const Expenses = ({
   refetch,
   categories,
   setExpenses,
+  isMainLoading,
 }) => {
   const isMobile = useIsMobile();
   const [searchValue, setSearchValue] = useState('');
@@ -69,7 +71,7 @@ export const Expenses = ({
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -79,70 +81,92 @@ export const Expenses = ({
   }, [isLoading]);
 
   return (
-    <div className='Expenses__tiles__container'>
-      {isMobile && isSearchBarVisible && (
-        <SearchBar
-          isMobile={isMobile}
-          handleSearch={handleSearch}
-          searchValue={searchValue}
-          handleClearSearch={handleClearSearch}
-          showSearchBar={showSearchBar}
-          placeHolder='search expenses'
-        />
-      )}
-      {!isMobile && (
-        <>
+    <>
+      <div className='Expenses__tiles__container'>
+        {isMobile && isSearchBarVisible && (
+          <SearchBar
+            isMobile={isMobile}
+            handleSearch={handleSearch}
+            searchValue={searchValue}
+            handleClearSearch={handleClearSearch}
+            showSearchBar={showSearchBar}
+            placeHolder='search expenses'
+          />
+        )}
+        {!isMobile && (
+          <>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <SearchBar
+                isMobile={isMobile}
+                handleSearch={handleSearch}
+                searchValue={searchValue}
+                handleClearSearch={handleClearSearch}
+                showSearchBar={showSearchBar}
+                placeHolder='search expenses'
+              />
+              <FiSearch
+                size={35}
+                style={{ marginRight: '0.9rem', cursor: 'pointer' }}
+                onClick={() => setShowSearchBar(!showSearchBar)}
+              />
+              <NavLink
+                to='/add'
+                style={{ textDecoration: 'none', color: 'rgba(149, 165, 166)' }}
+              >
+                <AiOutlineFileAdd
+                  size={35}
+                  style={{ marginRight: '1.2rem', cursor: 'pointer' }}
+                />
+              </NavLink>
+              <BulkExpensesDownload expenses={expenses} />
+              <BulkExpensesUpload setExpenses={setExpenses} />
+              <IoMdSettings size={32} style={{ cursor: 'pointer' }} />
+            </div>
+            <TableHeaders
+              headers={[
+                'Item',
+                'Category',
+                'Description',
+                'Amount',
+                'Date',
+                'Delete',
+              ]}
+            />
+          </>
+        )}
+        {/* {isLoading && (expenses.length !== slicedExpenses.length) && <LoadingModal />} */}
+        {isMainLoading ? (
           <div
             style={{
-              display: 'flex',
-              alignItems: 'center',
+              position: 'absolute',
+              top: '40%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
             }}
           >
-            <SearchBar
-              isMobile={isMobile}
-              handleSearch={handleSearch}
-              searchValue={searchValue}
-              handleClearSearch={handleClearSearch}
-              showSearchBar={showSearchBar}
-              placeHolder='search expenses'
-            />
-            <FiSearch
-              size={35}
-              style={{ marginRight: '0.9rem', cursor: 'pointer' }}
-              onClick={() => setShowSearchBar(!showSearchBar)}
-            />
-            <NavLink
-              to='/add'
-              style={{ textDecoration: 'none', color: 'rgba(149, 165, 166)' }}
-            >
-              <AiOutlineFileAdd
-                size={35}
-                style={{ marginRight: '1.2rem', cursor: 'pointer' }}
-              />
-            </NavLink>
-            <BulkExpensesDownload expenses={expenses} />
-            <BulkExpensesUpload setExpenses={setExpenses} />
-            <IoMdSettings size={32} style={{ cursor: 'pointer' }} />
+            <FaSpinner size={35} className='CashModal__spinning__icon' />
           </div>
-          <TableHeaders
-            headers={['Item', 'Category', 'Description', 'Amount', 'Date', 'Delete']}
-          />
-        </>
-      )}
-      {/* {isLoading && (expenses.length !== slicedExpenses.length) && <LoadingModal />} */}
-      {slicedExpenses.map((expense) => (
-        <Tile
-          key={expense.id}
-          item={expense}
-          categories={categories}
-          refetch={refetch}
-        />
-      ))}
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        {isLoading && expenses.length !== slicedExpenses.length && (
-          <LoadingModalTwo />
+        ) : (
+          slicedExpenses.map((expense) => (
+            <Tile
+              key={expense.id}
+              item={expense}
+              categories={categories}
+              refetch={refetch}
+            />
+          ))
         )}
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          {isLoading && expenses.length !== slicedExpenses.length && (
+            <LoadingModalTwo />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };

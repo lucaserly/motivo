@@ -80,8 +80,14 @@ export const getCategoriesData = (expenses) => {
 const colors = ['#2456a0', '#8d1d1d', '#1dbb32', '#9d2cac'];
 
 export const CategoriesStats = ({ currentExpenses, currentFilter, range }) => {
+  // console.log('currentExpenses-->', currentExpenses);
+  // console.log('currentFilter-->', currentFilter);
+  // console.log('range-->', range);
+
   const { categoriesData, categoriesTotalVal } =
     getCategoriesData(currentExpenses);
+
+    // console.log('categoriesData-->', categoriesData);
 
   return (
     <div className='CategoriesStats__container'>

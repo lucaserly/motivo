@@ -99,7 +99,7 @@ export const getTransactionsBasedOnDateFilter = (
 ) => {
   let currentTransactions;
   let prevTransactions;
-
+  if (dateFilter === '' || !dateFilter) return [[], []];
   if (dateFilter !== 'range') {
     if (dateFilter === 'this month') {
       currentTransactions = getThisMonthTransactions(transactions);
@@ -126,9 +126,10 @@ export const getTransactionsBasedOnDateFilter = (
   return [currentTransactions, prevTransactions];
 };
 
-export const Stats = ({ expenses, income, categories }) => {
-  const [currentFilter, setCurrentFilter] = useState('this month');
+export const Stats = ({ expenses, income, categories, isMainLoading }) => {
+  const [currentFilter, setCurrentFilter] = useState('');
   const [range, setRange] = useState({ date_from: '', date_to: '' });
+  const [isFilterLoading, setIsFilterLoading] = useState(true)
   const [currentExpenses, prevExpenses] = getTransactionsBasedOnDateFilter(
     expenses,
     currentFilter,
@@ -137,8 +138,10 @@ export const Stats = ({ expenses, income, categories }) => {
 
   useEffect(() => {
     const getPersistedDateFilter = window.localStorage.getItem('currentFilter');
-    if (getPersistedDateFilter && !getPersistedDateFilter.includes('date_from'))
+    if (getPersistedDateFilter && !getPersistedDateFilter.includes('date_from')) {
       setCurrentFilter(getPersistedDateFilter);
+      setIsFilterLoading(false)
+    }
     else {
       const dateFrom = getPersistedDateFilter
         ? getPersistedDateFilter.split(';')[0].split(':')[1].trim()
@@ -146,6 +149,7 @@ export const Stats = ({ expenses, income, categories }) => {
       const dateTo = getPersistedDateFilter.split(';')[1].split(':')[1].trim();
       setCurrentFilter('range');
       setRange({ date_from: dateFrom, date_to: dateTo });
+      setIsFilterLoading(false)
     }
   }, []);
 
@@ -156,8 +160,7 @@ export const Stats = ({ expenses, income, categories }) => {
         `date_from: ${range.date_from}; date_to: ${range.date_to}`
       );
     else window.localStorage.setItem('currentFilter', currentFilter);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentFilter]);
+  }, [currentFilter, range.date_from, range.date_to]);
 
   const handleDateFilterSubmit = (dateFilter) => {
     if (dateFilter.ranges.length > 0) {
@@ -176,7 +179,11 @@ export const Stats = ({ expenses, income, categories }) => {
 
   return (
     <div className='Stats__container'>
-      <SanityCheckTile expenses={expenses} income={income} />
+      <SanityCheckTile
+        expenses={expenses}
+        income={income}
+        isMainLoading={isMainLoading}
+      />
       <FilteredStats
         handleDateFilterSubmit={handleDateFilterSubmit}
         currentFilter={currentFilter}
@@ -184,6 +191,8 @@ export const Stats = ({ expenses, income, categories }) => {
         income={income}
         currentExpenses={currentExpenses}
         prevExpenses={prevExpenses}
+        isFilterLoading={isFilterLoading}
+        isMainLoading={isMainLoading}
       />
       <CategoriesStats
         currentExpenses={currentExpenses}

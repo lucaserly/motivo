@@ -6,6 +6,7 @@ import helpers from '../../../services/helpers';
 import { useFetch, useIsMobile } from '../../../custom_hooks';
 import { CashModal } from '../../Modals/CashModal/CashModal';
 import apiService from '../../../services/apiService';
+import { FaSpinner } from 'react-icons/fa';
 
 const BALANCES_URL = helpers.isDev()
   ? 'http://localhost:5001/balances'
@@ -38,9 +39,13 @@ const getSanityCheck = (balances, sumOfExpenses, income) => {
 const getSumOfEntries = (entries) =>
   entries && entries.reduce((pv, cv) => pv + Number(cv.amount), 0);
 
-export const SanityCheckTile = ({ expenses, income }) => {
+export const SanityCheckTile = ({ expenses, income, isMainLoading }) => {
   const isMobile = useIsMobile();
-  const { response: balances, fetchData } = useFetch(BALANCES_URL);
+  const {
+    response: balances,
+    fetchData,
+    isLoading: isBalancesLoading,
+  } = useFetch(BALANCES_URL);
   const [cashOnHand, setCashOnHand] = useState(0);
   const [isOpenCashModal, setIsOpenCashModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -111,6 +116,7 @@ export const SanityCheckTile = ({ expenses, income }) => {
         isSuccess={isSuccess}
         isError={isError}
       />
+
       <div className='SanityCheckTile__container'>
         <div className='SanityCheckTile__header'>
           <div className='SanityCheckTile__header__left'>
@@ -144,7 +150,14 @@ export const SanityCheckTile = ({ expenses, income }) => {
               Cash Balance
             </div>
             <div className='SanityCheckTile__content__value'>
-              {helpers.currencyFormatter(cashOnHand, false)}
+              {isMainLoading || isBalancesLoading ? (
+                <FaSpinner
+                  size={15}
+                  className='SanityCheckTile__spinning__icon'
+                />
+              ) : (
+                helpers.currencyFormatter(cashOnHand, false)
+              )}
             </div>
           </div>
           <div className='SanityCheckTile__content__column'>
@@ -152,7 +165,14 @@ export const SanityCheckTile = ({ expenses, income }) => {
               Tot. Expenses
             </div>
             <div className='SanityCheckTile__content__value'>
-              {helpers.currencyFormatter(getSumOfEntries(expenses), false)}
+              {isMainLoading || isBalancesLoading ? (
+                <FaSpinner
+                  size={15}
+                  className='SanityCheckTile__spinning__icon'
+                />
+              ) : (
+                helpers.currencyFormatter(getSumOfEntries(expenses), false)
+              )}
             </div>
           </div>
           {!isMobile && (
@@ -161,7 +181,14 @@ export const SanityCheckTile = ({ expenses, income }) => {
                 Tot. Balances
               </div>
               <div className='SanityCheckTile__content__value'>
-                {helpers.currencyFormatter(getSumOfEntries(balances), false)}
+                {isMainLoading || isBalancesLoading ? (
+                  <FaSpinner
+                    size={15}
+                    className='SanityCheckTile__spinning__icon'
+                  />
+                ) : (
+                  helpers.currencyFormatter(getSumOfEntries(balances), false)
+                )}
               </div>
             </div>
           )}
@@ -173,7 +200,14 @@ export const SanityCheckTile = ({ expenses, income }) => {
               className='SanityCheckTile__content__value sanity__check__value'
               style={{ color: color }}
             >
-              {sanityCheck.toFixed(2)}
+              {isMainLoading || isBalancesLoading ? (
+                <FaSpinner
+                  size={15}
+                  className='SanityCheckTile__spinning__icon'
+                />
+              ) : (
+                sanityCheck.toFixed(2)
+              )}
             </div>
           </div>
         </div>
