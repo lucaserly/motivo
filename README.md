@@ -3,7 +3,8 @@
 ![](readme_images/Untitled%20design-2.png)
 
 Cost-tracking app to:
-- register expenses
+- register expenses & income
+- edit entries
 - investigate trends through:
   - pie chart
   - common-size analysis
@@ -13,7 +14,7 @@ Cost-tracking app to:
 
 1. Clone the repo and open in your code editor of choice:
 ```
-git clone https://github.com/lucaserly/expense_tracker.git
+git clone https://github.com/lucaserly/motivo.git
 ```
 2. Install all required dependencies:
 ```

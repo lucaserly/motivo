@@ -9,8 +9,12 @@ export const useFetch = (url, options) => {
   const fetchData = async () => {
     try {
       const res = await apiService.fetchRequest(url, options);
-      setResponse(res);
-      setIsLoading(false);
+      if (res) {
+        setTimeout(() => {
+          setResponse(res);
+          setIsLoading(false);
+        }, 1000);
+      }
     } catch (error) {
       setIsLoading(false);
       setError(error);

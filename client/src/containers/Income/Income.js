@@ -10,8 +10,15 @@ import { AiOutlineFileAdd } from 'react-icons/ai';
 import { TableHeaders } from '../../components/NewVersion/TableHeaders/TableHeaders';
 import { BulkIncomeUpload } from '../BulkIncomeUpload/BulkIncomeUpload';
 import { BulkIncomeDownload } from '../BulkIncomeDownload/BulkIncomeDownload';
+import { FaSpinner } from 'react-icons/fa';
 
-export const Income = ({ income, setIncome, refetch, isSearchBarVisible }) => {
+export const Income = ({
+  income,
+  setIncome,
+  refetch,
+  isSearchBarVisible,
+  isMainLoading,
+}) => {
   const isMobile = useIsMobile();
   const [searchValue, setSearchValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -122,9 +129,22 @@ export const Income = ({ income, setIncome, refetch, isSearchBarVisible }) => {
         </>
       )}
 
-      {slicedIncome.map((income, index) => (
-        <Tile item={income} key={index} refetch={refetch} isIncome />
-      ))}
+      {isMainLoading ? (
+        <div
+          style={{
+            position: 'absolute',
+            top: '40%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          <FaSpinner size={35} className='CashModal__spinning__icon' />
+        </div>
+      ) : (
+        slicedIncome.map((income, index) => (
+          <Tile item={income} key={index} refetch={refetch} isIncome />
+        ))
+      )}
       {/* {isLoading && (income.length !== slicedIncome.length) && <LoadingModalTwo />} */}
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         {isLoading && income.length !== slicedIncome.length && (
