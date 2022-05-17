@@ -4,7 +4,7 @@ import './AddIncomeForm.css';
 export const AddIncomeForm = ({ inputs, handleChange, categories }) => {
   return (
     <form className='AddIncomeForm'>
-      <div class='AddIncomeForm__title'>Add Income</div>
+      <div className='AddIncomeForm__title'>Add Income</div>
       <div className='AddIncomeForm__input__container ic1'>
         <input
           onChange={handleChange}
@@ -17,7 +17,7 @@ export const AddIncomeForm = ({ inputs, handleChange, categories }) => {
           placeholder=' '
         />
         <div className='AddIncomeForm__cut description'></div>
-        <label for='description' className='AddIncomeForm__placeholder'>
+        <label htmlFor='description' className='AddIncomeForm__placeholder'>
           description
         </label>
       </div>
@@ -34,7 +34,7 @@ export const AddIncomeForm = ({ inputs, handleChange, categories }) => {
           placeholder=' '
         />
         <div className='AddIncomeForm__cut amount'></div>
-        <label for='amount' className='AddIncomeForm__placeholder'>
+        <label htmlFor='amount' className='AddIncomeForm__placeholder'>
           Amount
         </label>
       </div>
@@ -49,7 +49,7 @@ export const AddIncomeForm = ({ inputs, handleChange, categories }) => {
           value={inputs.date}
         />
         <div className='AddIncomeForm__cut date'></div>
-        <label for='item' className='AddIncomeForm__placeholder'>
+        <label htmlFor='item' className='AddIncomeForm__placeholder'>
           Date
         </label>
       </div>

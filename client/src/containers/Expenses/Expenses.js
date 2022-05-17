@@ -16,6 +16,7 @@ export const Expenses = ({
   isSearchBarVisible,
   expenses,
   refetch,
+
   categories,
   setExpenses,
   isMainLoading,

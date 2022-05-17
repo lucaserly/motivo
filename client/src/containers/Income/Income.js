@@ -141,8 +141,8 @@ export const Income = ({
           <FaSpinner size={35} className='CashModal__spinning__icon' />
         </div>
       ) : (
-        slicedIncome.map((income, index) => (
-          <Tile item={income} key={index} refetch={refetch} isIncome />
+        slicedIncome.map((income) => (
+          <Tile item={income} key={income.id} refetch={refetch} isIncome />
         ))
       )}
       {/* {isLoading && (income.length !== slicedIncome.length) && <LoadingModalTwo />} */}

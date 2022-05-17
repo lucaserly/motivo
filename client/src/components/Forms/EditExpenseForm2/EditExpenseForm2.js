@@ -17,7 +17,7 @@ export const EditExpenseForm2 = ({ inputs, handleChange, categories }) => {
           pattern='^[+-]?[1-9]\d*|0$'
         />
         <div className='EditExpenseForm2__cut amount'></div>
-        <label for='amount' className='EditExpenseForm2__placeholder'>
+        <label htmlFor='amount' className='EditExpenseForm2__placeholder'>
           Amount
         </label>
       </div>
@@ -28,17 +28,18 @@ export const EditExpenseForm2 = ({ inputs, handleChange, categories }) => {
           className='EditExpenseForm2__input'
           onChange={handleChange}
         >
-          <option value={inputs.category} selected>
-            {inputs.category}
-          </option>
           {categories.map((category) => (
-            <option value={category.id} key={category.id}>
+            <option
+              value={category.id}
+              key={category.id}
+              selected={inputs.category === category.id}
+            >
               {category.name}
             </option>
           ))}
         </select>
         <div className='EditExpenseForm2__cut'></div>
-        <label for='category' className='EditExpenseForm2__placeholder'>
+        <label htmlFor='category' className='EditExpenseForm2__placeholder'>
           Category
         </label>
       </div>
@@ -52,7 +53,7 @@ export const EditExpenseForm2 = ({ inputs, handleChange, categories }) => {
           value={inputs.date}
         />
         <div className='EditExpenseForm2__cut short'></div>
-        <label for='date' className='EditExpenseForm2__placeholder'>
+        <label htmlFor='date' className='EditExpenseForm2__placeholder'>
           Date
         </label>
       </div>
@@ -67,7 +68,7 @@ export const EditExpenseForm2 = ({ inputs, handleChange, categories }) => {
           onChange={handleChange}
         />
         <div className='EditExpenseForm2__cut description'></div>
-        <label for='description' className='EditExpenseForm2__placeholder'>
+        <label htmlFor='description' className='EditExpenseForm2__placeholder'>
           Description
         </label>
       </div>
@@ -82,7 +83,7 @@ export const EditExpenseForm2 = ({ inputs, handleChange, categories }) => {
           onChange={handleChange}
         />
         <div className='EditExpenseForm2__cut item'></div>
-        <label for='description' className='EditExpenseForm2__placeholder'>
+        <label htmlFor='description' className='EditExpenseForm2__placeholder'>
           Item
         </label>
       </div>
@@ -97,7 +98,7 @@ export const EditExpenseForm2 = ({ inputs, handleChange, categories }) => {
           onChange={handleChange}
         />
         <div className='EditExpenseForm2__cut'></div>
-        <label for='payment' className='EditExpenseForm2__placeholder'>
+        <label htmlFor='payment' className='EditExpenseForm2__placeholder'>
           Payment
         </label>
       </div>

@@ -16,7 +16,7 @@ export const EditIncomeForm = ({ inputs, handleChange }) => {
           value={inputs.description}
         />
         <div className='EditIncomeForm__cut description'></div>
-        <label for='description' className='EditIncomeForm__placeholder'>
+        <label htmlFor='description' className='EditIncomeForm__placeholder'>
           Description
         </label>
       </div>
@@ -32,7 +32,7 @@ export const EditIncomeForm = ({ inputs, handleChange }) => {
           pattern='^[+-]?[1-9]\d*|0$'
         />
         <div className='EditIncomeForm__cut amount'></div>
-        <label for='amount' className='EditIncomeForm__placeholder'>
+        <label htmlFor='amount' className='EditIncomeForm__placeholder'>
           Amount
         </label>
       </div>
@@ -47,7 +47,7 @@ export const EditIncomeForm = ({ inputs, handleChange }) => {
           value={inputs.date}
         />
         <div className='EditIncomeForm__cut date'></div>
-        <label for='date' className='EditIncomeForm__placeholder'>
+        <label htmlFor='date' className='EditIncomeForm__placeholder'>
           Date
         </label>
       </div>

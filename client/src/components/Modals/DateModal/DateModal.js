@@ -132,11 +132,12 @@ export const DateModal = ({
                 : true
             }
           >
-            <option value={dateFilter.ranges} selected>
-              {dateFilter.ranges}
-            </option>
             {ranges.map((range) => (
-              <option value={range.id} key={range.id}>
+              <option
+                value={range.id}
+                key={range.id}
+                selected={dateFilter.ranges === range.name}
+              >
                 {range.name}
               </option>
             ))}

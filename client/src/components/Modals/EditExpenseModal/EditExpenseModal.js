@@ -15,6 +15,7 @@ export const EditExpenseModal = ({
   editVisible,
 }) => {
   const { id, amount, category, date, description, item, payment } = expense;
+
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -23,7 +24,7 @@ export const EditExpenseModal = ({
 
   const [inputs, setInputs] = useState({
     amount: Number(amount),
-    category,
+    category: categories.find((el) => el.name === category)?.id,
     date: moment(date).format('YYYY-MM-DD'),
     item,
     description,
@@ -45,6 +46,7 @@ export const EditExpenseModal = ({
       setIsLoading(true);
       const body = { ...inputs };
       body.date = new Date(body.date);
+      body.CategoryId = body.category;
       apiService.editExpense(id, body).then((response) => {
         if (response) {
           setTimeout(() => {

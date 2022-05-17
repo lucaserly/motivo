@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './NavBar.css';
 import { NavLink, useLocation } from 'react-router-dom';
 import { GiPayMoney, GiReceiveMoney } from 'react-icons/gi';
@@ -23,6 +23,11 @@ export const NavBar = ({ showSearchBar }) => {
   let { pathname } = useLocation();
 
   const [selected, setSelected] = useState(pathname.slice(1));
+
+  useEffect(() => {
+    setSelected(pathname.slice(1));
+  }, [pathname]);
+
 
   return (
     <div className='NavBar'>

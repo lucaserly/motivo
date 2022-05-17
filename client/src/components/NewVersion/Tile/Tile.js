@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Tile.css';
 import { MdDescription, MdOutlineCategory } from 'react-icons/md';
 import { BiInfoCircle } from 'react-icons/bi';
@@ -12,13 +12,25 @@ import { useIsMobile } from '../../../custom_hooks';
 import { DeleteModal } from '../../Modals/DeleteModal/DeleteModal';
 import apiService from '../../../services/apiService';
 
-export const Tile = ({ item, categories, refetch, isIncome }) => {
+export const Tile = ({
+  item,
+  categories,
+  refetch,
+  isIncome,
+}) => {
   const isMobile = useIsMobile();
   const { amount, date } = item;
   const [visible, setVisible] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
   const apiCb = isIncome ? apiService.deleteIncome : apiService.deleteExpense;
   const text = isIncome ? 'income' : 'expense';
+
+  useEffect(() => {
+    return () => {
+      setVisible(false);
+      setDeleteVisible(false);
+    };
+  }, []);
 
   const openDeleteModal = () => {
     if (!deleteVisible) setDeleteVisible(true);
@@ -45,7 +57,6 @@ export const Tile = ({ item, categories, refetch, isIncome }) => {
         categories={categories}
         isIncome={isIncome}
         visible={visible}
-
       />
 
       <DeleteModal

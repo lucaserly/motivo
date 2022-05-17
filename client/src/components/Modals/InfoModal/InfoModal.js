@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './InfoModal.css';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { FiEdit } from 'react-icons/fi';
@@ -23,6 +23,13 @@ export const InfoModal = ({
   const apiCb = isIncome ? apiService.deleteIncome : apiService.deleteExpense;
   const text = isIncome ? 'income' : 'expense';
   const className = visible ? 'InfoModal show' : 'InfoModal';
+
+  useEffect(() => {
+    return () => {
+      setEditVisible(false);
+      setDeleteVisible(false);
+    };
+  }, []);
 
   const openEditModal = () => {
     if (!editVisible) setEditVisible(true);

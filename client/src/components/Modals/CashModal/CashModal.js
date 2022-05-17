@@ -38,13 +38,13 @@ export const CashModal = ({
               onClick={onSubmit}
               size={isMobile ? 30 : 40}
               className='CashModal__icon'
-              color={isSuccess && 'green'}
+              color={isSuccess ? 'green' : undefined}
             />
             <MdClose
               size={isMobile ? 30 : 40}
               onClick={closeCashModal}
               className='CashModal__icon'
-              color={isError && 'red'}
+              color={isError ? 'red' : undefined}
             />
           </div>
         )}

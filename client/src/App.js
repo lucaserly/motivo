@@ -30,8 +30,10 @@ function App() {
     setResponse: setIncome,
     isLoading: isIncomeLoading,
   } = useFetch(INCOME_URL);
-  const { response: categories, isLoading: isCategoriesLoading } =
-    useFetch(CATEGORIES_URL);
+  const {
+    response: categories,
+    isLoading: isCategoriesLoading,
+  } = useFetch(CATEGORIES_URL);
 
   const showSearchBar = () => {
     setIsSearchBarVisible(!isSearchBarVisible);

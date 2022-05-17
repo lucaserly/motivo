@@ -77,7 +77,6 @@ export const EditIncomeModal = ({
           onClick={closeEditModal}
         />
         {/* <p className='EditIncomeModal__title'>EDIT INCOME</p> */}
-
         <div className='EditIncomeModal__separator'></div>
         <EditIncomeForm inputs={inputs} handleChange={handleChange} />
 

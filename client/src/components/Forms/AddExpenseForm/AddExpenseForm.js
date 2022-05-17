@@ -4,7 +4,7 @@ import './AddExpenseForm.css';
 export const AddExpenseForm = ({ inputs, handleChange, categories }) => {
   return (
     <form className='AddExpenseForm'>
-      <div class='AddExpenseForm__title'>Add Expense</div>
+      <div className='AddExpenseForm__title'>Add Expense</div>
       <div className='AddExpenseForm__input__container ic1'>
         <input
           onChange={handleChange}
@@ -17,7 +17,7 @@ export const AddExpenseForm = ({ inputs, handleChange, categories }) => {
           placeholder=' '
         />
         <div className='AddExpenseForm__cut item'></div>
-        <label for='item' className='AddExpenseForm__placeholder'>
+        <label htmlFor='item' className='AddExpenseForm__placeholder'>
           Item
         </label>
       </div>
@@ -34,7 +34,7 @@ export const AddExpenseForm = ({ inputs, handleChange, categories }) => {
           placeholder=' '
         />
         <div className='AddExpenseForm__cut amount'></div>
-        <label for='amount' className='AddExpenseForm__placeholder'>
+        <label htmlFor='amount' className='AddExpenseForm__placeholder'>
           Amount
         </label>
       </div>
@@ -50,7 +50,7 @@ export const AddExpenseForm = ({ inputs, handleChange, categories }) => {
           placeholder=' '
         />
         <div className='AddExpenseForm__cut description'></div>
-        <label for='description' className='AddExpenseForm__placeholder'>
+        <label htmlFor='description' className='AddExpenseForm__placeholder'>
           Description
         </label>
       </div>
@@ -66,7 +66,7 @@ export const AddExpenseForm = ({ inputs, handleChange, categories }) => {
           placeholder=' '
         />
         <div className='AddExpenseForm__cut date'></div>
-        <label for='date' className='AddExpenseForm__placeholder'>
+        <label htmlFor='date' className='AddExpenseForm__placeholder'>
           Date
         </label>
       </div>
@@ -77,10 +77,9 @@ export const AddExpenseForm = ({ inputs, handleChange, categories }) => {
           className='AddExpenseForm__input'
           onChange={handleChange}
           placeholder=' '
+          defaultValue='category'
         >
-          <option value='' disabled selected>
-            category
-          </option>
+          <option disabled>category</option>
           {categories.map((category) => (
             <option value={category.id} key={category.id}>
               {category.name}
@@ -88,7 +87,7 @@ export const AddExpenseForm = ({ inputs, handleChange, categories }) => {
           ))}
         </select>
         <div className='AddExpenseForm__cut category'></div>
-        <label for='category' className='AddExpenseForm__placeholder'>
+        <label htmlFor='category' className='AddExpenseForm__placeholder'>
           Category
         </label>
       </div>
