@@ -131,13 +131,10 @@ export const DateModal = ({
                 ? false
                 : true
             }
+            value={ranges.find((el) => el.name === dateFilter.ranges)?.id}
           >
             {ranges.map((range) => (
-              <option
-                value={range.id}
-                key={range.id}
-                selected={dateFilter.ranges === range.name}
-              >
+              <option value={range.id} key={range.id}>
                 {range.name}
               </option>
             ))}
