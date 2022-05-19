@@ -17,6 +17,7 @@ import { useIsMobile } from '../../../custom_hooks';
 import { ToolTip } from '../ToolTip/ToolTip';
 import { getTransactionsBasedOnDateFilter } from '../../../containers/Stats/Stats';
 import { FaSpinner } from 'react-icons/fa';
+import { StatsDetailsModal } from '../../Modals/StatsDetailsModal/StatsDetailsModal';
 
 export const truncYear = (date) => {
   const splittedDate = date.split('-');
@@ -34,9 +35,12 @@ export const FilteredStats = ({
   prevExpenses,
   isFilterLoading,
   isMainLoading,
+  categories,
+  refetch,
 }) => {
   const isMobile = useIsMobile();
   const [dateVisible, setDateVisible] = useState(false);
+  const [visible, setVisible] = useState({ state: false, target: '' });
   const [currentIncome, prevIncome] = getTransactionsBasedOnDateFilter(
     income,
     currentFilter,
@@ -59,6 +63,14 @@ export const FilteredStats = ({
 
   const closeDateModal = () => {
     setDateVisible(false);
+  };
+
+  const openModal = (target) => {
+    if (!visible.state) setVisible(() => ({ target, state: true }));
+  };
+
+  const closeModal = () => {
+    setVisible(() => ({ target: '', state: false }));
   };
 
   const noData =
@@ -277,95 +289,103 @@ export const FilteredStats = ({
                 ? 'col__last'
                 : 'col';
             return (
-
-              // <StatsDetailsModal />
-
-              <div className='row' key={index}>
-                <div className={colClassName}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      marginLeft: '5%',
-                    }}
-                  >
-                    <MdCategory size={20} style={{ marginRight: '10px' }} />
+              <React.Fragment key={key}>
+                <StatsDetailsModal
+                  visible={visible.state}
+                  closeModal={closeModal}
+                  categories={categories}
+                  refetch={refetch}
+                  transactions={currentExpenses
+                    .filter((expense) => expense.category === visible.target)
+                    .sort((a, b) => Number(b.amount) - Number(a.amount))}
+                />
+                <div className='row' onClick={() => openModal(key)}>
+                  <div className={colClassName}>
                     <div
                       style={{
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginLeft: '5%',
                       }}
                     >
-                      {key}
+                      <MdCategory size={20} style={{ marginRight: '10px' }} />
+                      <div
+                        style={{
+                          textOverflow: 'ellipsis',
+                          overflow: 'hidden',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {key}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className={colClassName}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <div>{helpers.currencyFormatter(value, false)}</div>
+                  <div className={colClassName}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <div>{helpers.currencyFormatter(value, false)}</div>
+                    </div>
                   </div>
-                </div>
 
-                <div
-                  className={colClassName}
-                  style={{ width: '5%', padding: '0 0 0 0' }}
-                >
                   <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
+                    className={colClassName}
+                    style={{ width: '5%', padding: '0 0 0 0' }}
                   >
-                    {value > prevWeekValue ? (
-                      <BsArrowUpRight color='red' strokeWidth={1} />
-                    ) : (
-                      <BsArrowDownRight color='green' strokeWidth={1} />
-                    )}
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      {value > prevWeekValue ? (
+                        <BsArrowUpRight color='red' strokeWidth={1} />
+                      ) : (
+                        <BsArrowDownRight color='green' strokeWidth={1} />
+                      )}
+                    </div>
                   </div>
-                </div>
 
-                <div className={colClassName}>
-                  <ToolTip
-                    element={getDelta(value, prevWeekValue)}
-                    text1={`${helpers.currencyFormatter(
-                      value,
-                      false,
-                      false
-                    )} (current value)`}
-                    text2={`${helpers.currencyFormatter(
-                      prevWeekValue,
-                      false,
-                      false
-                    )} (prev value)`}
-                    operation='-'
-                  />
-                </div>
-                {!isMobile && (
                   <div className={colClassName}>
                     <ToolTip
-                      element={getCommonSize(value, currentTotalExpenses)}
+                      element={getDelta(value, prevWeekValue)}
                       text1={`${helpers.currencyFormatter(
                         value,
                         false,
                         false
                       )} (current value)`}
                       text2={`${helpers.currencyFormatter(
-                        currentTotalExpenses,
+                        prevWeekValue,
                         false,
                         false
-                      )} (total expenses)`}
-                      operation='/'
+                      )} (prev value)`}
+                      operation='-'
                     />
                   </div>
-                )}
-              </div>
+                  {!isMobile && (
+                    <div className={colClassName}>
+                      <ToolTip
+                        element={getCommonSize(value, currentTotalExpenses)}
+                        text1={`${helpers.currencyFormatter(
+                          value,
+                          false,
+                          false
+                        )} (current value)`}
+                        text2={`${helpers.currencyFormatter(
+                          currentTotalExpenses,
+                          false,
+                          false
+                        )} (total expenses)`}
+                        operation='/'
+                      />
+                    </div>
+                  )}
+                </div>
+              </React.Fragment>
             );
           })}
         </section>

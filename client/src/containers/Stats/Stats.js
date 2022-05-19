@@ -88,7 +88,7 @@ export const getPrevRangeTransactions = (transactions, range) => {
 
   if (check)
     return transactions.filter(
-      (transaction) => startDate >= range.date_from && endDate <= range.date_to
+      () => startDate >= range.date_from && endDate <= range.date_to
     );
 };
 
@@ -126,7 +126,13 @@ export const getTransactionsBasedOnDateFilter = (
   return [currentTransactions, prevTransactions];
 };
 
-export const Stats = ({ expenses, income, categories, isMainLoading }) => {
+export const Stats = ({
+  expenses,
+  income,
+  isMainLoading,
+  categories,
+  refetch,
+}) => {
   const [currentFilter, setCurrentFilter] = useState('');
   const [range, setRange] = useState({ date_from: '', date_to: '' });
   const [isFilterLoading, setIsFilterLoading] = useState(true);
@@ -196,6 +202,8 @@ export const Stats = ({ expenses, income, categories, isMainLoading }) => {
         prevExpenses={prevExpenses}
         isFilterLoading={isFilterLoading}
         isMainLoading={isMainLoading}
+        categories={categories}
+        refetch={refetch}
       />
       <CategoriesStats
         currentExpenses={currentExpenses}

@@ -84,6 +84,10 @@
   align-self: center;
   /* min-width: calc(8 / 12); */
   /* min-width: 50% */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media only screen and (min-width: 600px) {
@@ -97,6 +101,8 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  max-height: 30vw;
+  overflow: auto;
 }
 
 .donut__CategoriesStats__caption__list li {
@@ -114,7 +120,7 @@
   margin: 0 14px;
 }
 
-.donut__CategoriesStats__text {
+.donut__CategoriesStats__caption__text {
   max-width: 15vw;
   white-space: nowrap;
   overflow: hidden;

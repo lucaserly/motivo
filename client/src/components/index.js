@@ -21,3 +21,4 @@ export { SearchBar } from './NewVersion/SearchBar/SearchBar';
 export { BulkUpload } from './NewVersion/BulkUpload/BulkUpload';
 export { Message } from './NewVersion/Message/Message';
 export { ToolTip } from './NewVersion/ToolTip/ToolTip';
+export { StatsDetailsModal } from './Modals/StatsDetailsModal/StatsDetailsModal';

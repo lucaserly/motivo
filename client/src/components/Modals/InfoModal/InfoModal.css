@@ -1,3 +1,7 @@
+.InfoModal {
+  display: none;
+}
+
 .InfoModal.show {
   position: fixed;
   left: 0;
@@ -9,10 +13,6 @@
   justify-content: center;
   background: rgba(255, 255, 255, 0.9);
   animation: fadein 0.8s;
-}
-
-.InfoModal {
-  display: none;
 }
 
 @keyframes fadein {

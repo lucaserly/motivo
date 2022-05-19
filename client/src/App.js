@@ -501,6 +501,7 @@ function App() {
                 expenses={expenses ? expenses : []}
                 income={income ? income : []}
                 categories={categories ? categories : []}
+                refetch={refetchExpenses}
                 isMainLoading={
                   isExpensesLoading || isIncomeLoading || isCategoriesLoading
                 }
