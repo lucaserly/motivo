@@ -299,9 +299,10 @@ export const FilteredStats = ({
                     .filter((expense) => expense.category === visible.target)
                     .sort((a, b) => Number(b.amount) - Number(a.amount))}
                 />
-                <div className='row' onClick={() => openModal(key)}>
+                <div className='row'>
                   <div className={colClassName}>
                     <div
+                      onClick={() => openModal(key)}
                       style={{
                         display: 'flex',
                         alignItems: 'center',
