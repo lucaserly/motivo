@@ -277,6 +277,9 @@ export const FilteredStats = ({
                 ? 'col__last'
                 : 'col';
             return (
+
+              // <StatsDetailsModal />
+
               <div className='row' key={index}>
                 <div className={colClassName}>
                   <div

@@ -58,7 +58,6 @@ export const Tile = ({
         isIncome={isIncome}
         visible={visible}
       />
-
       <DeleteModal
         id={item.id}
         closeDeleteModal={closeDeleteModal}

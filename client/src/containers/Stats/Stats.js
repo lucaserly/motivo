@@ -129,7 +129,7 @@ export const getTransactionsBasedOnDateFilter = (
 export const Stats = ({ expenses, income, categories, isMainLoading }) => {
   const [currentFilter, setCurrentFilter] = useState('');
   const [range, setRange] = useState({ date_from: '', date_to: '' });
-  const [isFilterLoading, setIsFilterLoading] = useState(true)
+  const [isFilterLoading, setIsFilterLoading] = useState(true);
   const [currentExpenses, prevExpenses] = getTransactionsBasedOnDateFilter(
     expenses,
     currentFilter,
@@ -138,18 +138,21 @@ export const Stats = ({ expenses, income, categories, isMainLoading }) => {
 
   useEffect(() => {
     const getPersistedDateFilter = window.localStorage.getItem('currentFilter');
-    if (getPersistedDateFilter && !getPersistedDateFilter.includes('date_from')) {
+    if (!getPersistedDateFilter) {
+      setCurrentFilter('this week');
+      setIsFilterLoading(false);
+    } else if (!getPersistedDateFilter.includes('date_from')) {
       setCurrentFilter(getPersistedDateFilter);
-      setIsFilterLoading(false)
-    }
-    else {
+      setIsFilterLoading(false);
+    } else {
       const dateFrom = getPersistedDateFilter
-        ? getPersistedDateFilter.split(';')[0].split(':')[1].trim()
-        : [];
+        .split(';')[0]
+        .split(':')[1]
+        .trim();
       const dateTo = getPersistedDateFilter.split(';')[1].split(':')[1].trim();
       setCurrentFilter('range');
       setRange({ date_from: dateFrom, date_to: dateTo });
-      setIsFilterLoading(false)
+      setIsFilterLoading(false);
     }
   }, []);
 
