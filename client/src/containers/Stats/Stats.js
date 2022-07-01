@@ -6,9 +6,9 @@ import {
 } from '../../components';
 import './Stats.css';
 
-import { getThisWeek } from '../../components/NewVersion/CategoriesStats/CategoriesStats';
+import { getThisWeek } from '../../components/CategoriesStats/CategoriesStats';
 import { ranges } from '../../components/Modals/DateModal/DateModal';
-import { getPreviousWeek } from '../../components/NewVersion/StatsTile/StatsTile';
+import { getPreviousWeek } from '../../components/StatsTile/StatsTile';
 
 export const getTwoWeeksAgo = () => {
   const [monday, sunday] = getPreviousWeek();
@@ -88,7 +88,7 @@ export const getPrevRangeTransactions = (transactions, range) => {
 
   if (check)
     return transactions.filter(
-      (transaction) => startDate >= range.date_from && endDate <= range.date_to
+      () => startDate >= range.date_from && endDate <= range.date_to
     );
 };
 
@@ -126,10 +126,16 @@ export const getTransactionsBasedOnDateFilter = (
   return [currentTransactions, prevTransactions];
 };
 
-export const Stats = ({ expenses, income, categories, isMainLoading }) => {
+export const Stats = ({
+  expenses,
+  income,
+  isMainLoading,
+  categories,
+  refetch,
+}) => {
   const [currentFilter, setCurrentFilter] = useState('');
   const [range, setRange] = useState({ date_from: '', date_to: '' });
-  const [isFilterLoading, setIsFilterLoading] = useState(true)
+  const [isFilterLoading, setIsFilterLoading] = useState(true);
   const [currentExpenses, prevExpenses] = getTransactionsBasedOnDateFilter(
     expenses,
     currentFilter,
@@ -138,18 +144,21 @@ export const Stats = ({ expenses, income, categories, isMainLoading }) => {
 
   useEffect(() => {
     const getPersistedDateFilter = window.localStorage.getItem('currentFilter');
-    if (getPersistedDateFilter && !getPersistedDateFilter.includes('date_from')) {
+    if (!getPersistedDateFilter) {
+      setCurrentFilter('this week');
+      setIsFilterLoading(false);
+    } else if (!getPersistedDateFilter.includes('date_from')) {
       setCurrentFilter(getPersistedDateFilter);
-      setIsFilterLoading(false)
-    }
-    else {
+      setIsFilterLoading(false);
+    } else {
       const dateFrom = getPersistedDateFilter
-        ? getPersistedDateFilter.split(';')[0].split(':')[1].trim()
-        : [];
+        .split(';')[0]
+        .split(':')[1]
+        .trim();
       const dateTo = getPersistedDateFilter.split(';')[1].split(':')[1].trim();
       setCurrentFilter('range');
       setRange({ date_from: dateFrom, date_to: dateTo });
-      setIsFilterLoading(false)
+      setIsFilterLoading(false);
     }
   }, []);
 
@@ -193,6 +202,8 @@ export const Stats = ({ expenses, income, categories, isMainLoading }) => {
         prevExpenses={prevExpenses}
         isFilterLoading={isFilterLoading}
         isMainLoading={isMainLoading}
+        categories={categories}
+        refetch={refetch}
       />
       <CategoriesStats
         currentExpenses={currentExpenses}

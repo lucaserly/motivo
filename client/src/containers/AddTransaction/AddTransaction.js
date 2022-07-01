@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { MdSend } from 'react-icons/md';
 import { BiArrowBack } from 'react-icons/bi';
-import { FaSpinner } from 'react-icons/fa';
 import './AddTransaction.css';
 import apiService from '../../services/apiService';
 import helpers from '../../services/helpers';
 import { AddExpenseForm, AddIncomeForm } from '../../components';
 import { useIsMobile } from '../../custom_hooks';
 import { MdClose } from 'react-icons/md';
-import { Message } from '../../components/NewVersion/Message/Message';
 import moment from 'moment';
+import { usePopupMsg } from '../../providers/PopupMsgProvider';
+import { useExpenseFormValues } from '../../providers/ExpenseFormValuesProvider';
+import { useIncomeFormValues } from '../../providers/IncomeFormValuesProvider';
 
 const validateExpenseInputs = (inputs) => {
   return (
@@ -34,50 +35,55 @@ export const sortIncomeByDate = (incomes) => {
   return result;
 };
 
-export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
+export const AddTransaction = ({
+  setExpenses,
+  setIncome,
+  categories,
+  initialFormValue = false,
+  initialExpenseState,
+  initialIncomeState,
+}) => {
   let navigate = useNavigate();
   const isMobile = useIsMobile();
-  const [form, setForm] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isError, setIsError] = useState(false);
-
-  const [expenseInputs, setExpenseInputs] = useState({
-    amount: '',
-    category: categories[0] && categories[0].id ? categories[0].id : '',
-    date: moment(new Date()).format('YYYY-MM-DD'),
-    item: '',
-    description: '',
-    payment: 'Cash',
-  });
-
-  const [incomeInputs, setIncomeInputs] = useState({
-    amount: '',
-    date: moment(new Date()).format('YYYY-MM-DD'),
-    description: '',
-  });
+  const [form, setForm] = useState(initialFormValue);
+  const { setPopUpMsg } = usePopupMsg();
+  const { setExpenseValues } = useExpenseFormValues();
+  const { setIncomeValues } = useIncomeFormValues();
+  const [expenseInputs, setExpenseInputs] = useState(initialExpenseState);
+  const [incomeInputs, setIncomeInputs] = useState(initialIncomeState);
 
   const createExpense = (body) => {
     apiService.postExpense(body).then((expense) => {
       if (expense) {
         setTimeout(() => {
-          setIsLoading(false);
-          setIsSuccess(true);
+          setPopUpMsg((prevState) => ({
+            ...prevState,
+            isLoading: false,
+            isSuccess: true,
+          }));
           setExpenses((expensesList) =>
             helpers.sortByDate([...expensesList, expense])
           );
         }, 1000);
 
         setTimeout(() => {
-          setIsSuccess(false);
-          navigate('/expenses', { replace: true });
+          setPopUpMsg((prevState) => ({
+            ...prevState,
+            isSuccess: false,
+          }));
         }, 4000);
       } else {
-        setIsLoading(false);
-        setIsError(true);
-        // alert('error in adding expense');
+        setPopUpMsg((prevState) => ({
+          ...prevState,
+          isLoading: false,
+          isError: true,
+        }));
+
         setTimeout(() => {
-          setIsError(false);
+          setPopUpMsg((prevState) => ({
+            ...prevState,
+            isError: false,
+          }));
         }, 2000);
       }
     });
@@ -87,21 +93,31 @@ export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
     apiService.postIncome(body).then((income) => {
       if (income) {
         setTimeout(() => {
-          setIsLoading(false);
-          setIsSuccess(true);
+          setPopUpMsg((prevState) => ({
+            ...prevState,
+            isLoading: false,
+            isSuccess: true,
+          }));
           setIncome((incomeList) => sortIncomeByDate([...incomeList, income]));
         }, 1000);
 
         setTimeout(() => {
-          setIsSuccess(false);
-          navigate('/income', { replace: true });
+          setPopUpMsg((prevState) => ({
+            ...prevState,
+            isSuccess: false,
+          }));
         }, 4000);
       } else {
-        setIsLoading(false);
-        // alert('error in adding income');
-        setIsError(true);
+        setPopUpMsg((prevState) => ({
+          ...prevState,
+          isLoading: false,
+          isError: true,
+        }));
         setTimeout(() => {
-          setIsError(false);
+          setPopUpMsg((prevState) => ({
+            ...prevState,
+            isError: false,
+          }));
         }, 2000);
       }
     });
@@ -122,7 +138,14 @@ export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
     if (!validateExpenseInputs(expenseInputs))
       alert('please insert something in either amount, category or item');
     else {
-      setIsLoading(true);
+      navigate('/expenses');
+      setForm(false);
+
+      setPopUpMsg((prevState) => ({
+        ...prevState,
+        isLoading: true,
+      }));
+
       const { date, ...rest } = expenseInputs;
       const body = {
         ...rest,
@@ -141,33 +164,44 @@ export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
     if (!validateIncomeInputs(incomeInputs))
       alert('please insert something in either amount or description');
     else {
-      setIsLoading(true);
+      navigate('/income', { replace: true });
+      setForm(false);
+      setPopUpMsg((prevState) => ({
+        ...prevState,
+        isLoading: true,
+      }));
       createIncome(incomeInputs);
     }
   };
 
   return (
-    <div className='AddTransaction'>
-      <div className='AddTransaction__content'>
-        {/* <div className='AddTransaction__separator'></div> */}
+    <div
+      className='App__Modal show'
+      style={{ background: 'rgba(255, 255, 255, 0.9)' }}
+    >
+      <div className='App__Modal__content'>
         {!form ? (
           <>
-            <div
+            <NavLink
+              to='/add/expense'
               className='AddTransaction__text'
-              onClick={() => setForm('expense')}
+              style={{ textDecoration: 'none', color: 'rgba(149, 165, 166)' }}
             >
               EXPENSE
-            </div>
+            </NavLink>
+
             <div style={{ margin: '10px 0 10px 0' }}>or</div>
-            <div
+            <NavLink
+              to='/add/income'
               className='AddTransaction__text'
-              onClick={() => setForm('income')}
+              style={{ textDecoration: 'none', color: 'rgba(149, 165, 166)' }}
             >
               INCOME
-            </div>
+            </NavLink>
+
             {!isMobile && (
               <MdClose
-                className='AddTransaction__back__btn'
+                className='App__Modal__exit__btn'
                 size={30}
                 onClick={() => navigate(-1)}
               />
@@ -180,43 +214,48 @@ export const AddTransaction = ({ setExpenses, setIncome, categories }) => {
             categories={categories}
           />
         ) : (
-          <>
-            {/* <p className='AddTransaction__title'>ADD INCOME</p> */}
-            <AddIncomeForm
-              inputs={incomeInputs}
-              handleChange={handleIncomeChange}
-            />
-          </>
+          <AddIncomeForm
+            inputs={incomeInputs}
+            handleChange={handleIncomeChange}
+          />
         )}
-        {/* <div className='AddTransaction__separator'></div> */}
+
         {form && (
           <>
-            {isLoading ? (
-              <FaSpinner size={30} className='AddTransaction__spinning__icon' />
-            ) : (
-              <MdSend
-                className='AddTransaction__submit__btn'
-                size={30}
-                onClick={(event) => {
-                  if (form === 'expense') onSubmitExpense(event);
-                  else onSubmitIncome(event);
-                }}
-              />
-            )}
-            <BiArrowBack
-              className='AddTransaction__back__btn'
+            <MdSend
+              className='App__Modal__submit__btn'
               size={30}
-              onClick={() => setForm(false)}
+              onClick={(event) => {
+                if (form === 'expense') onSubmitExpense(event);
+                else onSubmitIncome(event);
+              }}
+            />
+            <BiArrowBack
+              className='App__Modal__exit__btn'
+              size={30}
+              onClick={() => {
+                setExpenseValues({
+                  amount: '',
+                  category: '',
+                  date: moment(new Date()).format('YYYY-MM-DD'),
+                  item: '',
+                  description: '',
+                  payment: 'Cash',
+                });
+
+                setIncomeValues({
+                  amount: '',
+                  date: moment(new Date()).format('YYYY-MM-DD'),
+                  description: '',
+                });
+
+                navigate(-1);
+              }}
             />
           </>
         )}
-        <Message
-          isSuccess={isSuccess}
-          isError={isError}
-          successText={`${form} created`}
-          errorText={` error in creating ${form}`}
-        />
       </div>
+      <Outlet />
     </div>
   );
 };

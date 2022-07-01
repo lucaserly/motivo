@@ -3,14 +3,42 @@ import './Expenses.css';
 import { LoadingModalTwo, SearchBar, Tile } from '../../components';
 import helpers from '../../services/helpers';
 import { useIsMobile } from '../../custom_hooks';
-import { TableHeaders } from '../../components/NewVersion/TableHeaders/TableHeaders';
-import { AiOutlineFileAdd } from 'react-icons/ai';
+import { TableHeaders } from '../../components/TableHeaders/TableHeaders';
 import { IoMdSettings } from 'react-icons/io';
 import { FiSearch } from 'react-icons/fi';
-import { NavLink } from 'react-router-dom';
 import { BulkExpensesDownload } from '../BulkExpensesDownload/BulkExpensesDownload';
 import { BulkExpensesUpload } from '../BulkExpensesUpload/BulkExpensesUpload';
 import { FaSpinner } from 'react-icons/fa';
+import { MdWarning, MdCheck } from 'react-icons/md';
+import { usePopupMsg } from '../../providers/PopupMsgProvider';
+
+const iconContainerStyle = (top) => ({
+  position: 'absolute',
+  top: top,
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+});
+
+export const icon = (popUpMsg, isMainLoading = false, top = 'calc(320px)') => {
+  if (isMainLoading || popUpMsg.isLoading)
+    return (
+      <div style={iconContainerStyle(top)}>
+        <FaSpinner size={35} className='spinning__icon' />
+      </div>
+    );
+  if (popUpMsg.isSuccess)
+    return (
+      <div style={iconContainerStyle(top)}>
+        <MdCheck size={35} style={{ color: 'green' }} />
+      </div>
+    );
+  if (popUpMsg.isError)
+    return (
+      <div style={iconContainerStyle(top)}>
+        <MdWarning size={35} style={{ color: 'red' }} />
+      </div>
+    );
+};
 
 export const Expenses = ({
   isSearchBarVisible,
@@ -25,6 +53,7 @@ export const Expenses = ({
   const [isLoading, setIsLoading] = useState(false);
   const [slicedExpenses, setSlicedExpenses] = useState(expenses.slice(0, 20));
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const { popUpMsg } = usePopupMsg();
 
   const loadMoreExpenses = () => {
     setTimeout(() => {
@@ -114,15 +143,6 @@ export const Expenses = ({
                 style={{ marginRight: '0.9rem', cursor: 'pointer' }}
                 onClick={() => setShowSearchBar(!showSearchBar)}
               />
-              <NavLink
-                to='/add'
-                style={{ textDecoration: 'none', color: 'rgba(149, 165, 166)' }}
-              >
-                <AiOutlineFileAdd
-                  size={35}
-                  style={{ marginRight: '1.2rem', cursor: 'pointer' }}
-                />
-              </NavLink>
               <BulkExpensesDownload expenses={expenses} />
               <BulkExpensesUpload setExpenses={setExpenses} />
               <IoMdSettings size={32} style={{ cursor: 'pointer' }} />
@@ -139,28 +159,19 @@ export const Expenses = ({
             />
           </>
         )}
-        {/* {isLoading && (expenses.length !== slicedExpenses.length) && <LoadingModal />} */}
-        {isMainLoading ? (
-          <div
-            style={{
-              position: 'absolute',
-              top: '40%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-            }}
-          >
-            <FaSpinner size={35} className='CashModal__spinning__icon' />
-          </div>
-        ) : (
-          slicedExpenses.map((expense) => (
-            <Tile
-              key={expense.id}
-              item={expense}
-              categories={categories}
-              refetch={refetch}
-            />
-          ))
-        )}
+        {isMainLoading ||
+        popUpMsg.isLoading ||
+        popUpMsg.isError ||
+        popUpMsg.isSuccess
+          ? icon(popUpMsg, isMainLoading)
+          : slicedExpenses.map((expense) => (
+              <Tile
+                key={expense.id}
+                item={expense}
+                categories={categories}
+                refetch={refetch}
+              />
+            ))}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           {isLoading && expenses.length !== slicedExpenses.length && (
             <LoadingModalTwo />

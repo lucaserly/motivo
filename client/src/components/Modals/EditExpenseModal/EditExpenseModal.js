@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import './EditExpenseModal.css';
 import { MdSend, MdClose } from 'react-icons/md';
 import moment from 'moment';
-import { FaSpinner } from 'react-icons/fa';
 import apiService from '../../../services/apiService';
-import { Message } from '../../NewVersion/Message/Message';
-import { EditExpenseForm2 } from '../../Forms/EditExpenseForm2/EditExpenseForm2';
+import { EditExpenseForm } from '../../Forms/EditExpenseForm/EditExpenseForm';
 
 export const EditExpenseModal = ({
   expense,
@@ -13,17 +10,15 @@ export const EditExpenseModal = ({
   closeEditModal,
   refetch,
   editVisible,
+  setStatus,
 }) => {
   const { id, amount, category, date, description, item, payment } = expense;
   const [fieldsChanged, setFieldsChanged] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const className = editVisible ? 'EditExpenseModal show' : 'EditExpenseModal';
+  const className = editVisible ? 'App__Modal show' : 'App__Modal';
 
   const [inputs, setInputs] = useState({
     amount: Number(amount),
-    category,
+    category: categories.find((el) => el.name === category)?.id,
     date: moment(date).format('YYYY-MM-DD'),
     item,
     description,
@@ -42,31 +37,44 @@ export const EditExpenseModal = ({
     else if (inputs.amount.length === 0)
       alert('please submit only numbers as amount');
     else {
-      setIsLoading(true);
+      closeEditModal();
+      setStatus((prevState) => ({
+        ...prevState,
+        isLoading: true,
+      }));
       const body = { ...inputs };
       body.date = new Date(body.date);
+      body.CategoryId = body.category;
       apiService.editExpense(id, body).then((response) => {
         if (response) {
           setTimeout(() => {
-            setIsLoading(false);
+            setStatus((prevState) => ({
+              ...prevState,
+              isLoading: false,
+              isSuccess: true,
+            }));
+
             refetch();
             setFieldsChanged(false);
-            setIsSuccess(true);
           }, 1000);
 
           setTimeout(() => {
-            setIsSuccess(false);
+            setStatus((prevState) => ({
+              ...prevState,
+              isSuccess: false,
+            }));
           }, 4000);
-
-          setTimeout(() => {
-            closeEditModal();
-          }, 5000);
         } else {
-          setIsLoading(false);
-          // alert('error in editing expense');
-          setIsError(true);
+          setStatus((prevState) => ({
+            ...prevState,
+            isLoading: false,
+            isError: true,
+          }));
           setTimeout(() => {
-            setIsError(false);
+            setStatus((prevState) => ({
+              ...prevState,
+              isError: false,
+            }));
           }, 2000);
         }
       });
@@ -75,34 +83,21 @@ export const EditExpenseModal = ({
 
   return (
     <div className={className}>
-      <div className='EditExpenseModal__content'>
+      <div className='App__Modal__content'>
         <MdClose
-          className='EditExpenseModal__exit__btn'
+          className='App__Modal__exit__btn'
           size={30}
           onClick={closeEditModal}
         />
-        {/* <p className='EditExpenseModal__title'>EDIT EXPENSE</p> */}
-        {/* <div className='EditExpenseModal__separator'></div> */}
-        <EditExpenseForm2
+        <EditExpenseForm
           inputs={inputs}
           handleChange={handleChange}
           categories={categories}
         />
-        {/* <div className='EditExpenseModal__separator'></div> */}
-        {isLoading ? (
-          <FaSpinner size={30} className='spinning__icon' />
-        ) : (
-          <MdSend
-            className='EditExpenseModal__submit__btn'
-            size={30}
-            onClick={onSubmit}
-          />
-        )}
-        <Message
-          isSuccess={isSuccess}
-          isError={isError}
-          successText='expense updated'
-          errorText='error in updating expense'
+        <MdSend
+          className='App__Modal__submit__btn'
+          size={30}
+          onClick={onSubmit}
         />
       </div>
     </div>

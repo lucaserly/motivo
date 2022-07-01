@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdClose, MdCheck } from 'react-icons/md';
 import { FaSpinner } from 'react-icons/fa';
 import './DeleteModal.css';
@@ -10,12 +10,20 @@ export const DeleteModal = ({
   apiCb,
   text,
   closeInfoModal,
-  deleteVisible
+  deleteVisible,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
-  const className = deleteVisible ? 'DeleteModal show' : 'DeleteModal'
+  const className = deleteVisible ? 'DeleteModal show' : 'DeleteModal';
+
+  useEffect(() => {
+    return () => {
+      setIsLoading(false);
+      setIsSuccess(false);
+      setIsError(false);
+    };
+  }, []);
 
   const onDelete = (event) => {
     event.preventDefault();
@@ -30,15 +38,15 @@ export const DeleteModal = ({
 
         setTimeout(() => {
           setIsSuccess(false);
-          closeDeleteModal();
           closeInfoModal && closeInfoModal();
+          closeDeleteModal();
         }, 4000);
       } else {
         setIsLoading(false);
         setIsError(true);
         setTimeout(() => {
-          closeDeleteModal();
           closeInfoModal && closeInfoModal();
+          closeDeleteModal();
           setIsError(false);
         }, 5000);
       }
@@ -79,9 +87,7 @@ export const DeleteModal = ({
         </p>
         <p
           className={
-            isError
-              ? 'DeleteModal__error_msg__show'
-              : 'DeleteModal__error_msg'
+            isError ? 'DeleteModal__error_msg__show' : 'DeleteModal__error_msg'
           }
         >
           error in deleting {text}

@@ -73,77 +73,91 @@ export const DateModal = ({
     <div className='DateModal'>
       <div className='DateModal__content'>
         <MdClose
-          className='DateModal__exit__btn'
+          className='App__Modal__exit__btn'
           size={30}
           onClick={closeDateModal}
         />
 
         <MdSend
-          className='DateModal__submit__btn'
+          className='App__Modal__submit__btn'
           size={30}
           onClick={handleSubmit}
         />
 
         <VscClearAll
           size={30}
-          className='DateModal__clear__btn'
+          className='App__Modal__bottomRight__btn'
           onClick={clearDateFilter}
         />
-
-        <div className='DateModal__input__container ic1'>
-          <input
-            onChange={handleDateChange}
-            type='date'
-            name='date_from'
-            id='date_from'
-            required
-            className='DateModal__input'
-            disabled={dateFilter.ranges.length > 0 ? true : false}
-            value={moment(dateFilter.date_from).format('YYYY-MM-DD')}
-          />
-          <div className='DateModal__cut from'></div>
-          <label className='DateModal__placeholder'>from: </label>
-        </div>
-
-        <div className='DateModal__input__container'>
-          <input
-            onChange={handleDateChange}
-            type='date'
-            name='date_to'
-            id='date_to'
-            required
-            className='DateModal__input'
-            disabled={dateFilter.ranges.length > 0 ? true : false}
-            value={moment(dateFilter.date_to).format('YYYY-MM-DD')}
-          />
-          <div className='DateModal__cut to'></div>
-          <label className='DateModal__placeholder'>to: </label>
-        </div>
-
-        <div className='DateModal__input__container'>
-          <select
-            name='ranges'
-            id='ranges'
-            className='DateModal__input'
-            onChange={handleDateChange}
-            disabled={
-              dateFilter.date_from.length < 1 || dateFilter.date_to.length < 1
-                ? false
-                : true
-            }
+        <form className='App__Form'>
+          <div
+            className='App__Form__container'
+            style={{ alignItems: 'center' }}
           >
-            <option value={dateFilter.ranges} selected>
-              {dateFilter.ranges}
-            </option>
-            {ranges.map((range) => (
-              <option value={range.id} key={range.id}>
-                {range.name}
-              </option>
-            ))}
-          </select>
-          <div className='DateModal__cut'></div>
-          <label className='DateModal__placeholder'>ranges: </label>
-        </div>
+            <div
+              className='App__Form__input__container ic1'
+              style={{ width: '80%' }}
+            >
+              <input
+                onChange={handleDateChange}
+                type='date'
+                name='date_from'
+                id='date_from'
+                required
+                className='App__Form__input'
+                disabled={dateFilter.ranges.length > 0 ? true : false}
+                value={moment(dateFilter.date_from).format('YYYY-MM-DD')}
+              />
+              <div className='App__Form__cut short'></div>
+              <label className='App__Form__placeholder'>from: </label>
+            </div>
+
+            <div
+              className='App__Form__input__container'
+              style={{ width: '80%' }}
+            >
+              <input
+                onChange={handleDateChange}
+                type='date'
+                name='date_to'
+                id='date_to'
+                required
+                className='App__Form__input'
+                disabled={dateFilter.ranges.length > 0 ? true : false}
+                value={moment(dateFilter.date_to).format('YYYY-MM-DD')}
+              />
+              <div className='App__Form__cut short'></div>
+              <label className='App__Form__placeholder'>to: </label>
+            </div>
+
+            <div
+              className='App__Form__input__container'
+              style={{ width: '80%' }}
+            >
+              <select
+                name='ranges'
+                id='ranges'
+                className='App__Form__input'
+                onChange={handleDateChange}
+                disabled={
+                  dateFilter.date_from.length < 1 ||
+                  dateFilter.date_to.length < 1
+                    ? false
+                    : true
+                }
+                value={ranges.find((el) => el.name === dateFilter.ranges)?.id}
+              >
+                {ranges.map((range) => (
+                  <option value={range.id} key={range.id}>
+                    {range.name}
+                  </option>
+                ))}
+              </select>
+              <div className='App__Form__cut amount'></div>
+              <label className='App__Form__placeholder'>ranges: </label>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   );

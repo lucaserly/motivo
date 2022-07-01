@@ -1,0 +1,52 @@
+.PopupMsg__container {
+  position: fixed;
+  top: 1%;
+  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 11;
+  background-color: rgba(149, 165, 166);
+  border-radius: 10px;
+  display: flex;
+  width: min-content;
+  height: min-content;
+  justify-content: center;
+  align-items: center;
+}
+
+.PopupMsg__spinning__icon,
+.PopupMsg__icon {
+  padding: 1rem 1rem;
+}
+
+.PopupMsg__spinning__icon {
+  animation: spin 4s infinite linear;
+  color: #1a1a1a;
+}
+
+.PopupMsg__icon {
+  color: green;
+}
+
+.PopupMsg__icon.error {
+  color: red;
+}
+
+.PopupMsg__text {
+  color: black;
+  padding: 0 2rem;
+}
+
+.PopupMsg__text.error {
+  color: red;
+  padding: 0 2rem;
+}
+
+@keyframes spin {
+  from {
+    transform: scale(1) rotate(0deg);
+  }
+  to {
+    transform: scale(1) rotate(360deg);
+  }
+}
