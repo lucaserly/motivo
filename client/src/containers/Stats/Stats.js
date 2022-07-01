@@ -6,9 +6,9 @@ import {
 } from '../../components';
 import './Stats.css';
 
-import { getThisWeek } from '../../components/NewVersion/CategoriesStats/CategoriesStats';
+import { getThisWeek } from '../../components/CategoriesStats/CategoriesStats';
 import { ranges } from '../../components/Modals/DateModal/DateModal';
-import { getPreviousWeek } from '../../components/NewVersion/StatsTile/StatsTile';
+import { getPreviousWeek } from '../../components/StatsTile/StatsTile';
 
 export const getTwoWeeksAgo = () => {
   const [monday, sunday] = getPreviousWeek();

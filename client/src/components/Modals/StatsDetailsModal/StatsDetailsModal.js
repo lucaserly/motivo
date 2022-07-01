@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tile } from '../../NewVersion/Tile/Tile';
+import { Tile } from '../../Tile/Tile';
 import './StatsDetailsModal.css';
 import { MdClose } from 'react-icons/md';
 

@@ -1,58 +1,3 @@
-.AddTransaction {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(255, 255, 255, 1);
-}
-
-.AddTransaction__content {
-  width: 85vw;
-  max-width: 600px;
-  height: 75vh;
-  max-height: 750px;
-  border-radius: 0.4rem;
-  background: #1a1a1a;
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: rgba(149, 165, 166);
-}
-
-.AddTransaction__title {
-  position: absolute;
-  top: 0;
-  right: 50;
-  color: #95a5a6;
-  letter-spacing: 4px;
-}
-
-.AddTransaction__submit__btn,
-.AddTransaction__spinning__icon {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 5px;
-}
-
-.AddTransaction__submit__btn,
-.AddTransaction__back__btn {
-  cursor: pointer;
-}
-
-.AddTransaction__back__btn {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 5px;
-}
-
 .AddTransaction__text {
   border: 1px solid white;
   width: 40%;
@@ -64,23 +9,4 @@
 
 .AddTransaction__text:hover {
   transform: scale(1.1);
-}
-
-.AddTransaction__spinning__icon {
-  animation: spin 4s infinite linear;
-}
-
-@keyframes spin {
-  from {
-    transform: scale(1) rotate(0deg);
-  }
-  to {
-    transform: scale(1) rotate(360deg);
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .AddTransaction {
-    bottom: calc(60px);
-  }
 }

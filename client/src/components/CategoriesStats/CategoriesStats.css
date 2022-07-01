@@ -1,0 +1,129 @@
+.CategoriesStats__container {
+  min-height: 6rem;
+  margin: 0 1rem 1rem 1rem;
+  background: #525151;
+  border-radius: 0.4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.CategoriesStats__header {
+  height: 20px;
+  background: #3a3939;
+  padding: 0.9rem;
+  border-radius: 0.4rem 0.4rem 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.CategoriesStats__header__left {
+  display: flex;
+  align-items: center;
+}
+
+.CategoriesStats__chart__holder {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  width: 100%;
+  height: 100%;
+  justify-content: space-around;
+  align-self: center;
+}
+
+.CategoriesStats__chart {
+  min-width: 10rem;
+  width: 50%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+.donut {
+  max-height: 30rem;
+}
+
+@media (min-width: 350px) {
+  .CategoriesStats__chart__holder {
+    flex-direction: row;
+  }
+}
+
+.donut__CategoriesStats__text {
+  fill: #000;
+  -moz-transform: translateY(0.12em);
+  -ms-transform: translateY(0.12em);
+  -webkit-transform: translateY(0.12em);
+  transform: translateY(0.12em);
+}
+
+.donut__CategoriesStats__number {
+  font-size: 0.3em;
+  line-height: 1;
+  text-anchor: middle;
+  fill: #d2d3d4;
+  -moz-transform: translateY(-0.25em);
+  -ms-transform: translateY(-0.25em);
+  -webkit-transform: translateY(-0.25em);
+  transform: translateY(-0.25em);
+}
+
+.donut__CategoriesStats__label {
+  font-size: 0.15em;
+  text-transform: uppercase;
+  text-anchor: middle;
+  fill: #d2d3d4;
+  -moz-transform: translateY(0.7em);
+  -ms-transform: translateY(0.7em);
+  -webkit-transform: translateY(0.7em);
+  transform: translateY(0.7em);
+}
+
+.donut__CategoriesStats__caption__container {
+  align-self: center;
+  /* min-width: calc(8 / 12); */
+  /* min-width: 50% */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (min-width: 600px) {
+  .donut__CategoriesStats__caption__container {
+    /* flex-grow: 1; */
+    margin-top: 2%;
+    font-size: 35px;
+  }
+}
+
+.donut__CategoriesStats__caption__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 30vw;
+  overflow: auto;
+}
+
+.donut__CategoriesStats__caption__list li {
+  margin: 0 0 10%;
+  padding: 0;
+}
+
+.donut__CategoriesStats__caption__shape__circle {
+  display: inline-block;
+  vertical-align: middle;
+  width: 4vw;
+  height: 4vw;
+  max-width: 50px;
+  max-height: 50px;
+  margin: 0 14px;
+}
+
+.donut__CategoriesStats__caption__text {
+  max-width: 15vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

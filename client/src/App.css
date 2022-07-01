@@ -7,10 +7,250 @@
   .App {
     font-size: 14px;
   }
-
 }
 @media only screen and (min-width: 400px) and (max-width: 550px) {
   .App {
     font-size: 18px;
   }
+}
+
+.App__Modal.show {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadein 0.8s;
+}
+
+.App__Modal {
+  display: none;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.App__Modal__content {
+  width: 85vw;
+  max-width: 600px;
+  height: 65vh;
+  max-height: 750px;
+  border-radius: 0.4rem;
+  background: #1a1a1a;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.App__Modal__exit__btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.App__Modal__submit__btn,
+.App__Modal__exit__btn,
+.App__Modal__bottomRight__btn,
+.App__Modal__topLeft__btn
+ {
+  cursor: pointer;
+}
+
+.App__Modal__title {
+  position: absolute;
+  top: 0;
+  right: 50;
+  padding: 1rem;
+  color: #95a5a6;
+  letter-spacing: 4px;
+}
+
+.App__Modal__submit__btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 5px;
+}
+
+.App__Modal__bottomRight__btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 5px;
+}
+
+.App__Modal__topLeft__btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px;
+}
+
+.App__Modal__separator {
+  margin-bottom: 2rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .App__Modal__content {
+    bottom: calc(60px);
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .App__Modal__content {
+    top: calc(80px);
+  }
+}
+
+.App__Form {
+  background: #1a1a1a;
+  width: 80vw;
+  max-width: 500px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 20px;
+  box-sizing: border-box;
+  padding: 20px;
+  margin-bottom: 4vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.App__Form__container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.App__Form__title {
+  font-size: 34px;
+  font-weight: 600;
+  margin-bottom: 4%;
+}
+
+.App__Form__input__container {
+  min-height: 80px;
+  position: relative;
+  width: 100%;
+}
+
+.App__Form__input__container.ic1 {
+  margin-top: 5%;
+}
+
+.App__Form__input {
+  background: #2d2d2d;
+  color: #65657b;
+  border-radius: 12px;
+  border: 0;
+  box-sizing: border-box;
+  height: 7vh;
+  min-height: 50px;
+  max-height: 70px;
+  outline: 0;
+  padding: 4px 20px 0;
+  width: 100%;
+  font-size: 18px;
+}
+
+.App__Form__cut {
+  background: #1a1a1a;
+  border-radius: 10px;
+  height: 20px;
+  top: -25%;
+  left: 5%;
+  position: absolute;
+  transform: translateY(0);
+  transition: transform 200ms;
+  width: 4.5em;
+}
+
+.App__Form__cut.amount {
+  width: 3.5em;
+}
+
+.App__Form__cut.short,
+.App__Form__cut.item {
+  width: 2.5em;
+}
+
+.App__Form__cut.description {
+  width: 5em;
+}
+
+.App__Form__input:focus ~ .App__Form__cut,
+.App__Form__input:not(:placeholder-shown) ~ .App__Form__cut {
+  transform: translateY(70%);
+}
+
+.App__Form__placeholder {
+  left: 5%;
+  line-height: 5vh;
+  pointer-events: none;
+  position: absolute;
+  transform-origin: 0 50%;
+  transition: transform 200ms, color 200ms;
+}
+
+.App__Form__input:focus ~ .App__Form__placeholder,
+.App__Form__input:not(:placeholder-shown) ~ .App__Form__placeholder {
+  transform: translateY(-45%) translateX(15%) scale(0.75);
+}
+
+@media only screen and (max-width: 400px) {
+  .App__Form__title {
+    font-size: 24px;
+  }
+
+  .App__Form__input {
+    font-size: 14px;
+  }
+}
+
+input,
+select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.spinning__icon {
+  animation: spin 4s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: scale(1) rotate(0deg);
+  }
+  to {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+.App__icon__container {
+  position: absolute;
+  top: calc(320px);
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

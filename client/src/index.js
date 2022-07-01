@@ -3,10 +3,19 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { PopupMsgProvider } from './providers/PopupMsgProvider';
+import { ExpenseFormValuesProvider } from './providers/ExpenseFormValuesProvider';
+import { IncomeFormValuesProvider } from './providers/IncomeFormValuesProvider';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <PopupMsgProvider>
+      <ExpenseFormValuesProvider>
+        <IncomeFormValuesProvider>
+          <App />
+        </IncomeFormValuesProvider>
+      </ExpenseFormValuesProvider>
+    </PopupMsgProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

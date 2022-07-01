@@ -5,12 +5,11 @@ import helpers from '../../services/helpers';
 import { useIsMobile } from '../../custom_hooks';
 import { IoMdSettings } from 'react-icons/io';
 import { FiSearch } from 'react-icons/fi';
-import { NavLink } from 'react-router-dom';
-import { AiOutlineFileAdd } from 'react-icons/ai';
-import { TableHeaders } from '../../components/NewVersion/TableHeaders/TableHeaders';
+import { TableHeaders } from '../../components/TableHeaders/TableHeaders';
 import { BulkIncomeUpload } from '../BulkIncomeUpload/BulkIncomeUpload';
 import { BulkIncomeDownload } from '../BulkIncomeDownload/BulkIncomeDownload';
-import { FaSpinner } from 'react-icons/fa';
+import { icon } from '../Expenses/Expenses';
+import { usePopupMsg } from '../../providers/PopupMsgProvider';
 
 export const Income = ({
   income,
@@ -24,6 +23,7 @@ export const Income = ({
   const [isLoading, setIsLoading] = useState(false);
   const [slicedIncome, setSlicedIncome] = useState(income.slice(0, 20));
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const { popUpMsg } = usePopupMsg();
 
   const loadMoreIncome = () => {
     setTimeout(() => {
@@ -80,7 +80,7 @@ export const Income = ({
 
   return (
     <div className='Income__tiles__container'>
-      {isSearchBarVisible && (
+      {isMobile && isSearchBarVisible && (
         <SearchBar
           isMobile={isMobile}
           handleSearch={handleSearch}
@@ -112,15 +112,6 @@ export const Income = ({
               style={{ marginRight: '0.9rem', cursor: 'pointer' }}
               onClick={() => setShowSearchBar(!showSearchBar)}
             />
-            <NavLink
-              to='/add'
-              style={{ textDecoration: 'none', color: 'rgba(149, 165, 166)' }}
-            >
-              <AiOutlineFileAdd
-                size={35}
-                style={{ marginRight: '1.2rem', cursor: 'pointer' }}
-              />
-            </NavLink>
             <BulkIncomeDownload income={income} />
             <BulkIncomeUpload setIncome={setIncome} />
             <IoMdSettings size={32} style={{ cursor: 'pointer' }} />
@@ -129,23 +120,14 @@ export const Income = ({
         </>
       )}
 
-      {isMainLoading ? (
-        <div
-          style={{
-            position: 'absolute',
-            top: '40%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-        >
-          <FaSpinner size={35} className='CashModal__spinning__icon' />
-        </div>
-      ) : (
-        slicedIncome.map((income) => (
-          <Tile item={income} key={income.id} refetch={refetch} isIncome />
-        ))
-      )}
-      {/* {isLoading && (income.length !== slicedIncome.length) && <LoadingModalTwo />} */}
+      {isMainLoading ||
+      popUpMsg.isLoading ||
+      popUpMsg.isError ||
+      popUpMsg.isSuccess
+        ? icon(popUpMsg, isMainLoading)
+        : slicedIncome.map((income) => (
+            <Tile key={income.id} item={income} refetch={refetch} isIncome />
+          ))}
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         {isLoading && income.length !== slicedIncome.length && (
           <LoadingModalTwo />
