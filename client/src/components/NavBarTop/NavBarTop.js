@@ -11,8 +11,6 @@ export const NavBarTop = () => {
     setSelected(pathname.slice(1));
   }, [pathname]);
 
-  console.log('selected-->', selected);
-
   return (
     <nav className='NavBarTop'>
       <ul className='NavBarTop__links'>
