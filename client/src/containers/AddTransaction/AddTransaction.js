@@ -4,7 +4,7 @@ import { MdSend } from 'react-icons/md';
 import { BiArrowBack } from 'react-icons/bi';
 import './AddTransaction.css';
 import apiService from '../../services/apiService';
-import helpers from '../../services/helpers';
+import helpers from '../../helpers/helpers';
 import { AddExpenseForm, AddIncomeForm } from '../../components';
 import { useIsMobile } from '../../custom_hooks';
 import { MdClose } from 'react-icons/md';

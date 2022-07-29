@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Expenses.css';
 import { LoadingModalTwo, SearchBar, Tile } from '../../components';
-import helpers from '../../services/helpers';
+import helpers from '../../helpers/helpers';
 import { useIsMobile } from '../../custom_hooks';
 import { TableHeaders } from '../../components/TableHeaders/TableHeaders';
 import { IoMdSettings } from 'react-icons/io';

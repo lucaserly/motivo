@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Income.css';
 import { Tile, LoadingModalTwo, SearchBar } from '../../components';
-import helpers from '../../services/helpers';
+import helpers from '../../helpers/helpers';
 import { useIsMobile } from '../../custom_hooks';
 import { IoMdSettings } from 'react-icons/io';
 import { FiSearch } from 'react-icons/fi';

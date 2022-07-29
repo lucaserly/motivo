@@ -1,4 +1,4 @@
-export const mockedCategories = [
+const mockedCategories = [
   {
     id: 1,
     name: 'Food',
@@ -12,3 +12,5 @@ export const mockedCategories = [
     name: 'Transportation',
   },
 ];
+
+export default mockedCategories

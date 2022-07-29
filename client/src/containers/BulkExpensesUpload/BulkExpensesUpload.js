@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BulkUpload } from '../../components';
 import apiService from '../../services/apiService';
-import helpers from '../../services/helpers';
+import helpers from '../../helpers/helpers';
 
 export const BulkExpensesUpload = ({ setExpenses }) => {
   const [bulkData, setBulkData] = useState();
