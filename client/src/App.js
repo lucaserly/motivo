@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import './App.css';
 import { AddTransaction, Expenses, Income, Stats } from './containers';
 import { useIsMobile, useFetch } from './custom_hooks';
-import helpers from './services/helpers';
 import { NavBar, NavBarTop } from './components';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useExpenseFormValues } from './providers/ExpenseFormValuesProvider';
 import { useIncomeFormValues } from './providers/IncomeFormValuesProvider';
+import helpers from './helpers/helpers';
 
 const INCOME_URL = helpers.isDev() ? 'http://localhost:5001/income' : '/income';
 const EXPENSES_URL = helpers.isDev()

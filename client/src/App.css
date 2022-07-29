@@ -44,9 +44,9 @@
   max-width: 600px;
   height: 65vh;
   max-height: 750px;
+  position: absolute;
   border-radius: 0.4rem;
   background: #1a1a1a;
-  position: absolute;
   left: 0;
   top: 0;
   right: 0;

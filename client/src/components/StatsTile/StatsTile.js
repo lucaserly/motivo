@@ -4,7 +4,7 @@ import { IoStatsChartSharp } from 'react-icons/io5';
 import { GiMoneyStack } from 'react-icons/gi';
 import { BsArrowUpRight, BsArrowDownRight } from 'react-icons/bs';
 import { MdCategory } from 'react-icons/md';
-import helpers from '../../services/helpers';
+import helpers from '../../helpers/helpers';
 import {
   getCategoriesData,
   getThisWeek,

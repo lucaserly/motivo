@@ -12,7 +12,7 @@ import {
   getDelta,
   getTotalTransactions,
 } from '../StatsTile/StatsTile';
-import helpers from '../../services/helpers';
+import helpers from '../../helpers/helpers';
 import { useIsMobile } from '../../custom_hooks';
 import { ToolTip } from '../ToolTip/ToolTip';
 import { FaSpinner } from 'react-icons/fa';

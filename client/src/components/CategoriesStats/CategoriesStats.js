@@ -2,8 +2,8 @@ import React from 'react';
 import './CategoriesStats.css';
 import { IoStatsChartSharp } from 'react-icons/io5';
 import { MdCategory } from 'react-icons/md';
-import helpers from '../../services/helpers';
 import { truncYear } from '../FilteredStats/FilteredStats';
+import helpers from '../../helpers/helpers';
 
 const getSumOfPercentages = (index, array) => {
   return array

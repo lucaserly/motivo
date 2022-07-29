@@ -1,7 +1,7 @@
 import React from 'react';
 import './ExpenseInfo.css';
 import moment from 'moment';
-import helpers from '../../services/helpers';
+import helpers from '../../helpers/helpers';
 
 const headerStyle = { fontWeight: 'bold' };
 

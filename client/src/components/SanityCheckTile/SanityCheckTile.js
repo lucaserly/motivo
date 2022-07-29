@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './SanityCheckTile.css';
 import { IoStatsChartSharp } from 'react-icons/io5';
 import { AiOutlineCheckCircle, AiFillWarning } from 'react-icons/ai';
-import helpers from '../../services/helpers';
+import helpers from '../../helpers/helpers';
 import { useFetch, useIsMobile } from '../../custom_hooks';
 import { CashModal } from '../Modals/CashModal/CashModal';
 import apiService from '../../services/apiService';

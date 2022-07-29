@@ -7,7 +7,7 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import { BsFillCalendar2DateFill } from 'react-icons/bs';
 import { InfoModal } from '../Modals/InfoModal/InfoModal';
 import moment from 'moment';
-import helpers from '../../services/helpers';
+import helpers from '../../helpers/helpers';
 import { useIsMobile } from '../../custom_hooks';
 import { DeleteModal } from '../Modals/DeleteModal/DeleteModal';
 import apiService from '../../services/apiService';

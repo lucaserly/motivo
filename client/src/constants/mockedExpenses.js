@@ -1,4 +1,4 @@
-export const mockedExpenses = [
+const mockedExpenses = [
   {
     id: 6235,
     item: 'Dinner',
@@ -8344,3 +8344,5 @@ export const mockedExpenses = [
     payment: 'Cash',
   },
 ];
+
+export default mockedExpenses

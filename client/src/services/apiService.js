@@ -1,4 +1,4 @@
-import helpers from '../helpers';
+import helpers from '../helpers/helpers';
 
 const fetchRequest = async (path, options) => {
   try {

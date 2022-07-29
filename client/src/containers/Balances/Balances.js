@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import helpers from '../../services/helpers';
+import helpers from '../../helpers/helpers';
 import { useFetch } from '../../custom_hooks';
 import apiService from '../../services/apiService';
 
