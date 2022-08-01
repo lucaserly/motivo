@@ -69,25 +69,36 @@ export const getDateFilter = (dateFilter) => {
   if (dateFilter === 'last week') return [getPreviousWeek, getTwoWeeksAgo];
 };
 
-export const getFilteredTransactions = (transactions, dateFilter) =>
-  transactions.filter(
+export const getFilteredTransactions = (transactions, dateFilter) => {
+  return transactions.filter(
     (transaction) =>
-      new Date(transaction.date) >= dateFilter()[0] &&
-      new Date(transaction.date) <= dateFilter()[1]
+      dateParser(transaction.date) >= dateParser(dateFilter()[0]) &&
+      dateParser(transaction.date) <= dateParser(dateFilter()[1])
   );
+};
 
-
-const dateParser = (date) => new Date(date).getTime()
+export const dateParser = (date) => {
+  const newDate = new Date(date);
+  newDate.setHours(0, 0, 0, 0);
+  return newDate.getTime();
+};
 
 export const getPrevRangeTransactions = (transactions, range) => {
   const delta = new Date(range.date_to) - new Date(range.date_from);
   const endDate = new Date(range.date_from);
   endDate.setDate(endDate.getDate() - 1);
   const startDate = new Date(range.date_from);
-  startDate.setDate(startDate.getDate() - 1 - Math.floor(delta / (24 * 60 * 60 * 1000)));
+  startDate.setDate(
+    startDate.getDate() - 1 - Math.floor(delta / (24 * 60 * 60 * 1000))
+  );
   const check = endDate - startDate === delta;
 
-  if (check) return transactions.filter((transaction) => dateParser(startDate) >= dateParser(transaction.date) && dateParser(endDate) <= dateParser(transaction.date));
+  if (check)
+    return transactions.filter(
+      (transaction) =>
+        dateParser(startDate) >= dateParser(transaction.date) &&
+        dateParser(endDate) <= dateParser(transaction.date)
+    );
 };
 
 export const getTransactionsBasedOnDateFilter = (
@@ -114,8 +125,10 @@ export const getTransactionsBasedOnDateFilter = (
       prevTransactions = getFilteredTransactions(transactions, prevFilter);
     }
   } else {
-
-    currentTransactions = transactions.filter((transaction) => dateParser(transaction.date) >= dateParser(range.date_from) && dateParser(transaction.date) <= dateParser(range.date_to)
+    currentTransactions = transactions.filter(
+      (transaction) =>
+        dateParser(transaction.date) >= dateParser(range.date_from) &&
+        dateParser(transaction.date) <= dateParser(range.date_to)
     );
     prevTransactions = getPrevRangeTransactions(transactions, range);
   }
