@@ -4,8 +4,6 @@ import { AddTransaction, Expenses, Income, Stats } from './containers';
 import { useIsMobile, useFetch } from './custom_hooks';
 import { NavBar, NavBarTop } from './components';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useExpenseFormValues } from './providers/ExpenseFormValuesProvider';
-import { useIncomeFormValues } from './providers/IncomeFormValuesProvider';
 import helpers from './helpers/helpers';
 
 const INCOME_URL = helpers.isDev() ? 'http://localhost:5001/income' : '/income';
@@ -20,8 +18,6 @@ const CATEGORIES_URL = helpers.isDev()
 function App() {
   const isMobile = useIsMobile();
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
-  const { expenseValues } = useExpenseFormValues();
-  const { incomeValues } = useIncomeFormValues();
 
   const {
     response: expenses,
@@ -80,7 +76,6 @@ function App() {
                 setExpenses={setExpenses}
                 setIncome={setIncome}
                 categories={categories ? categories : []}
-                initialExpenseState={expenseValues}
               />
             }
           >
@@ -92,7 +87,6 @@ function App() {
                   setIncome={setIncome}
                   categories={categories ? categories : []}
                   initialFormValue='expense'
-                  initialExpenseState={expenseValues}
                 />
               }
             />
@@ -104,7 +98,6 @@ function App() {
                   setIncome={setIncome}
                   categories={categories ? categories : []}
                   initialFormValue='income'
-                  initialIncomeState={incomeValues}
                 />
               }
             />

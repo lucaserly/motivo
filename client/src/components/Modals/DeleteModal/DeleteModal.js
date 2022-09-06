@@ -66,6 +66,7 @@ export const DeleteModal = ({
                 onClick={onDelete}
                 size={40}
                 className='DeleteModal__icon'
+                style={{ marginRight: '20%' }}
               />
               <MdClose
                 size={40}

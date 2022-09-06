@@ -8,7 +8,6 @@ import helpers from '../../helpers/helpers';
 import { AddExpenseForm, AddIncomeForm } from '../../components';
 import { useIsMobile } from '../../custom_hooks';
 import { MdClose } from 'react-icons/md';
-import moment from 'moment';
 import { usePopupMsg } from '../../providers/PopupMsgProvider';
 import { useExpenseFormValues } from '../../providers/ExpenseFormValuesProvider';
 import { useIncomeFormValues } from '../../providers/IncomeFormValuesProvider';
@@ -40,17 +39,13 @@ export const AddTransaction = ({
   setIncome,
   categories,
   initialFormValue = false,
-  initialExpenseState,
-  initialIncomeState,
 }) => {
   let navigate = useNavigate();
   const isMobile = useIsMobile();
   const [form, setForm] = useState(initialFormValue);
   const { setPopUpMsg } = usePopupMsg();
-  const { setExpenseValues } = useExpenseFormValues();
-  const { setIncomeValues } = useIncomeFormValues();
-  const [expenseInputs, setExpenseInputs] = useState(initialExpenseState);
-  const [incomeInputs, setIncomeInputs] = useState(initialIncomeState);
+  const { expenseValues, handleExpenseChange, resetExpenseValues } = useExpenseFormValues();
+  const { incomeValues, handleIncomeChange, resetIncomeValues } = useIncomeFormValues();
 
   const createExpense = (body) => {
     apiService.postExpense(body).then((expense) => {
@@ -123,19 +118,10 @@ export const AddTransaction = ({
     });
   };
 
-  const handleExpenseChange = (event) => {
-    const { name, value } = event.target;
-    setExpenseInputs((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const handleIncomeChange = (event) => {
-    const { name, value } = event.target;
-    setIncomeInputs((prevState) => ({ ...prevState, [name]: value }));
-  };
 
   const onSubmitExpense = (event) => {
     event.preventDefault();
-    if (!validateExpenseInputs(expenseInputs))
+    if (!validateExpenseInputs(expenseValues))
       alert('please insert something in either amount, category or item');
     else {
       navigate('/expenses');
@@ -146,7 +132,7 @@ export const AddTransaction = ({
         isLoading: true,
       }));
 
-      const { date, ...rest } = expenseInputs;
+      const { date, ...rest } = expenseValues;
       const body = {
         ...rest,
         date: date,
@@ -155,13 +141,14 @@ export const AddTransaction = ({
         CategoryId: rest.category,
       };
       createExpense(body);
+      resetExpenseValues();
     }
   };
 
   const onSubmitIncome = (event) => {
     event.preventDefault();
 
-    if (!validateIncomeInputs(incomeInputs))
+    if (!validateIncomeInputs(incomeValues))
       alert('please insert something in either amount or description');
     else {
       navigate('/income', { replace: true });
@@ -170,7 +157,9 @@ export const AddTransaction = ({
         ...prevState,
         isLoading: true,
       }));
-      createIncome(incomeInputs);
+      createIncome(incomeValues);
+      resetIncomeValues();
+
     }
   };
 
@@ -209,13 +198,13 @@ export const AddTransaction = ({
           </>
         ) : form === 'expense' ? (
           <AddExpenseForm
-            inputs={expenseInputs}
+            inputs={expenseValues}
             handleChange={handleExpenseChange}
             categories={categories}
           />
         ) : (
           <AddIncomeForm
-            inputs={incomeInputs}
+            inputs={incomeValues}
             handleChange={handleIncomeChange}
           />
         )}
@@ -234,21 +223,6 @@ export const AddTransaction = ({
               className='App__Modal__exit__btn'
               size={30}
               onClick={() => {
-                setExpenseValues({
-                  amount: '',
-                  category: '',
-                  date: moment(new Date()).format('YYYY-MM-DD'),
-                  item: '',
-                  description: '',
-                  payment: 'Cash',
-                });
-
-                setIncomeValues({
-                  amount: '',
-                  date: moment(new Date()).format('YYYY-MM-DD'),
-                  description: '',
-                });
-
                 navigate(-1);
               }}
             />
