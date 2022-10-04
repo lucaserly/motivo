@@ -25,6 +25,7 @@ function App() {
     setResponse: setExpenses,
     isLoading: isExpensesLoading,
   } = useFetch(EXPENSES_URL);
+
   const {
     response: income,
     fetchData: refetchIncome,

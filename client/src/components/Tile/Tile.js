@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Tile.css';
 import { MdDescription, MdOutlineCategory } from 'react-icons/md';
 import { BiInfoCircle } from 'react-icons/bi';
 import { GiMoneyStack } from 'react-icons/gi';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { BsFillCalendar2DateFill } from 'react-icons/bs';
-import { InfoModal } from '../Modals/InfoModal/InfoModal';
 import moment from 'moment';
 import helpers from '../../helpers/helpers';
 import { useIsMobile } from '../../custom_hooks';
-import { DeleteModal } from '../Modals/DeleteModal/DeleteModal';
 import apiService from '../../services/apiService';
+import { InfoModal } from '../Modals/InfoModal/InfoModal';
+import { DeleteModal } from '../Modals/DeleteModal/DeleteModal';
 
 export const Tile = ({ item, categories, refetch, isIncome }) => {
   const isMobile = useIsMobile();
@@ -19,13 +19,6 @@ export const Tile = ({ item, categories, refetch, isIncome }) => {
   const [deleteVisible, setDeleteVisible] = useState(false);
   const apiCb = isIncome ? apiService.deleteIncome : apiService.deleteExpense;
   const text = isIncome ? 'income' : 'expense';
-
-  useEffect(() => {
-    return () => {
-      setVisible(false);
-      setDeleteVisible(false);
-    };
-  }, []);
 
   const openDeleteModal = () => {
     if (!deleteVisible) setDeleteVisible(true);
@@ -45,22 +38,26 @@ export const Tile = ({ item, categories, refetch, isIncome }) => {
 
   return (
     <div className='Tile__container'>
-      <InfoModal
-        item={item}
-        closeModal={closeModal}
-        refetch={refetch}
-        categories={categories}
-        isIncome={isIncome}
-        visible={visible}
-      />
-      <DeleteModal
-        id={item.id}
-        closeDeleteModal={closeDeleteModal}
-        refetch={refetch}
-        apiCb={apiCb}
-        text={text}
-        deleteVisible={deleteVisible}
-      />
+      {visible && (
+        <InfoModal
+          item={item}
+          closeModal={closeModal}
+          refetch={refetch}
+          categories={categories}
+          isIncome={isIncome}
+          visible={visible}
+        />
+      )}
+      {deleteVisible && (
+        <DeleteModal
+          id={item.id}
+          closeDeleteModal={closeDeleteModal}
+          refetch={refetch}
+          apiCb={apiCb}
+          text={text}
+          deleteVisible={deleteVisible}
+        />
+      )}
 
       {isMobile ? (
         <>
