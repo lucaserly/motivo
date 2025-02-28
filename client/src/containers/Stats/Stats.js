@@ -69,12 +69,19 @@ export const getDateFilter = (dateFilter) => {
   if (dateFilter === 'last week') return [getPreviousWeek, getTwoWeeksAgo];
 };
 
-export const getFilteredTransactions = (transactions, dateFilter) =>
-  transactions.filter(
+export const getFilteredTransactions = (transactions, dateFilter) => {
+  return transactions.filter(
     (transaction) =>
-      new Date(transaction.date) >= dateFilter()[0] &&
-      new Date(transaction.date) <= dateFilter()[1]
+      dateParser(transaction.date) >= dateParser(dateFilter()[0]) &&
+      dateParser(transaction.date) <= dateParser(dateFilter()[1])
   );
+};
+
+export const dateParser = (date) => {
+  const newDate = new Date(date);
+  newDate.setHours(0, 0, 0, 0);
+  return newDate.getTime();
+};
 
 export const getPrevRangeTransactions = (transactions, range) => {
   const delta = new Date(range.date_to) - new Date(range.date_from);
@@ -88,7 +95,9 @@ export const getPrevRangeTransactions = (transactions, range) => {
 
   if (check)
     return transactions.filter(
-      () => startDate >= range.date_from && endDate <= range.date_to
+      (transaction) =>
+        dateParser(startDate) >= dateParser(transaction.date) &&
+        dateParser(endDate) <= dateParser(transaction.date)
     );
 };
 
@@ -118,11 +127,11 @@ export const getTransactionsBasedOnDateFilter = (
   } else {
     currentTransactions = transactions.filter(
       (transaction) =>
-        transaction.date >= range.date_from && transaction.date <= range.date_to
+        dateParser(transaction.date) >= dateParser(range.date_from) &&
+        dateParser(transaction.date) <= dateParser(range.date_to)
     );
     prevTransactions = getPrevRangeTransactions(transactions, range);
   }
-
   return [currentTransactions, prevTransactions];
 };
 

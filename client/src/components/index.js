@@ -1,5 +1,4 @@
 export { SettingsModal } from './Modals/SettingsModal/SettingsModal';
-
 export { Tile } from './Tile/Tile';
 export { NavBar } from './NavBar/NavBar';
 export { NavBarTop } from './NavBarTop/NavBarTop';
@@ -8,9 +7,10 @@ export { SanityCheckTile } from './SanityCheckTile/SanityCheckTile';
 export { ThisWeekStats } from './ThisWeekStats/ThisWeekStats';
 export { FilteredStats } from './FilteredStats/FilteredStats';
 export { DateModal } from './Modals/DateModal/DateModal';
-export { InfoModal } from './Modals/InfoModal/InfoModal';
+export { DeleteModal } from './Modals/DeleteModal/DeleteModal';
 export { LoadingModal } from './Modals/LoadingModal/LoadingModal';
 export { LoadingModalTwo } from './Modals/LoadingModalTwo/LoadingModalTwo';
+export { InfoModal } from './Modals/InfoModal/InfoModal';
 export { StatsTile } from './StatsTile/StatsTile';
 export { AddExpenseForm } from './Forms/AddExpenseForm/AddExpenseForm';
 export { AddIncomeForm } from './Forms/AddIncomeForm/AddIncomeForm';

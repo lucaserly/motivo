@@ -9,7 +9,6 @@ import { EditIncomeModal } from '../EditIncomeModal/EditIncomeModal';
 import { EditExpenseModal } from '../EditExpenseModal/EditExpenseModal';
 import { DeleteModal } from '../DeleteModal/DeleteModal';
 import apiService from '../../../services/apiService';
-import { icon } from '../../../containers/Expenses/Expenses';
 import { useNavigate } from 'react-router-dom';
 import { useExpenseFormValues } from '../../../providers/ExpenseFormValuesProvider';
 import { useIncomeFormValues } from '../../../providers/IncomeFormValuesProvider';
@@ -42,17 +41,10 @@ export const InfoModal = ({
   const text = isIncome ? 'income' : 'expense';
   const className = visible ? 'App__Modal show' : 'App__Modal';
 
-  const [status, setStatus] = useState({
-    isLoading: false,
-    isSuccess: false,
-    isError: false,
-  });
-
   useEffect(() => {
     return () => {
       setEditVisible(false);
       setDeleteVisible(false);
-      setStatus({ isLoading: false, isSuccess: false, isError: false });
     };
   }, []);
 
@@ -101,13 +93,7 @@ export const InfoModal = ({
         />
         <div className='App__Modal__separator'></div>
         {isIncome ? (
-          status.isLoading || status.isError || status.isSuccess ? (
-            icon(status, false, '50%')
-          ) : (
-            <IncomeInfo income={item} />
-          )
-        ) : status.isLoading || status.isError || status.isSuccess ? (
-          icon(status, false, '50%')
+          <IncomeInfo income={item} />
         ) : (
           <ExpenseInfo expense={item} />
         )}
@@ -125,19 +111,19 @@ export const InfoModal = ({
       {isIncome ? (
         <EditIncomeModal
           income={item}
+          closeInfoModal={closeModal}
           closeEditModal={closeEditModal}
           refetch={refetch}
           editVisible={editVisible}
-          setStatus={setStatus}
         />
       ) : (
         <EditExpenseModal
           expense={item}
           categories={categories}
+          closeInfoModal={closeModal}
           closeEditModal={closeEditModal}
           refetch={refetch}
           editVisible={editVisible}
-          setStatus={setStatus}
         />
       )}
       <DeleteModal
@@ -152,3 +138,4 @@ export const InfoModal = ({
     </div>
   );
 };
+

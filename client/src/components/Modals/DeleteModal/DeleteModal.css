@@ -34,7 +34,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .DeleteModal__spinning__icon {
@@ -54,9 +54,6 @@
 .DeleteModal__succss_msg__show,
 .DeleteModal__error_msg__show,
 .DeleteModal__error_msg {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
   transition: all 0.5s ease-out;
 }
 

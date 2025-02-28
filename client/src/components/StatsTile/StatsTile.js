@@ -13,7 +13,10 @@ import {
 } from '../CategoriesStats/CategoriesStats';
 import { useIsMobile } from '../../custom_hooks';
 import { ToolTip } from '../ToolTip/ToolTip';
-import { getThisMonthTransactions } from '../../containers/Stats/Stats';
+import {
+  dateParser,
+  getThisMonthTransactions,
+} from '../../containers/Stats/Stats';
 
 export const getCommonSize = (amount, totalAmount) => {
   return `${((amount / totalAmount) * 100).toFixed(2)} %`;
@@ -35,15 +38,14 @@ export const getPreviousWeek = () => {
   const prevMonday = parsedMonday.setDate(parsedMonday.getDate() - 7);
   const parsedSunday = new Date(sunday);
   const prevSunday = parsedSunday.setDate(parsedSunday.getDate() - 7);
-
   return [prevMonday, prevSunday];
 };
 
 export const getPrevWeekTransactions = (transactions) =>
   transactions.filter(
     (transaction) =>
-      new Date(transaction.date) >= getPreviousWeek()[0] &&
-      new Date(transaction.date) <= getPreviousWeek()[1]
+      dateParser(transaction.date) >= dateParser(getPreviousWeek()[0]) &&
+      dateParser(transaction.date) <= dateParser(getPreviousWeek()[1])
   );
 
 export const StatsTile = ({ dateFilter, expenses, income }) => {

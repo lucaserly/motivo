@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { MdClose, MdCheck } from 'react-icons/md';
 import { FaSpinner } from 'react-icons/fa';
 import './DeleteModal.css';
@@ -17,14 +17,6 @@ export const DeleteModal = ({
   const [isError, setIsError] = useState(false);
   const className = deleteVisible ? 'DeleteModal show' : 'DeleteModal';
 
-  useEffect(() => {
-    return () => {
-      setIsLoading(false);
-      setIsSuccess(false);
-      setIsError(false);
-    };
-  }, []);
-
   const onDelete = (event) => {
     event.preventDefault();
     apiCb(id).then((response) => {
@@ -32,7 +24,6 @@ export const DeleteModal = ({
       if (response && response.status === 204) {
         setTimeout(() => {
           setIsLoading(false);
-          refetch();
           setIsSuccess(true);
         }, 1000);
 
@@ -40,6 +31,7 @@ export const DeleteModal = ({
           setIsSuccess(false);
           closeInfoModal && closeInfoModal();
           closeDeleteModal();
+          refetch();
         }, 4000);
       } else {
         setIsLoading(false);
@@ -66,6 +58,7 @@ export const DeleteModal = ({
                 onClick={onDelete}
                 size={40}
                 className='DeleteModal__icon'
+                style={{ marginRight: '20%' }}
               />
               <MdClose
                 size={40}

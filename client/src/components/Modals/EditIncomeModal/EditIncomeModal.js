@@ -3,17 +3,23 @@ import { MdSend, MdClose } from 'react-icons/md';
 import moment from 'moment';
 import apiService from '../../../services/apiService';
 import { EditIncomeForm } from '../../Forms/EditIncomeForm/EditIncomeForm';
+import { icon } from '../../../containers/Expenses/Expenses';
 
 export const EditIncomeModal = ({
   income,
   closeEditModal,
+  closeInfoModal,
   refetch,
   editVisible,
-  setStatus,
 }) => {
   const { id, amount, date, description } = income;
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const className = editVisible ? 'App__Modal show' : 'App__Modal';
+  const [status, setStatus] = useState({
+    isLoading: false,
+    isSuccess: false,
+    isError: false,
+  });
 
   const [inputs, setInputs] = useState({
     amount: Number(amount),
@@ -33,7 +39,6 @@ export const EditIncomeModal = ({
     else if (inputs.amount.length === 0)
       alert('please submit only numbers as amount');
     else {
-      closeEditModal();
       setStatus((prevState) => ({
         ...prevState,
         isLoading: true,
@@ -48,7 +53,6 @@ export const EditIncomeModal = ({
               isLoading: false,
               isSuccess: true,
             }));
-            refetch();
             setFieldsChanged(false);
           }, 1000);
 
@@ -57,6 +61,9 @@ export const EditIncomeModal = ({
               ...prevState,
               isSuccess: false,
             }));
+            closeInfoModal();
+            closeEditModal();
+            refetch();
           }, 4000);
         } else {
           setStatus((prevState) => ({
@@ -69,15 +76,19 @@ export const EditIncomeModal = ({
               ...prevState,
               isError: false,
             }));
+            closeInfoModal();
+            closeEditModal();
           }, 2000);
         }
       });
     }
   };
 
-  return (
-    <div className={className}>
-      <div className='App__Modal__content'>
+  const renderContent = () => {
+    if (status.isLoading || status.isError || status.isSuccess)
+      return icon(status, false, '50%');
+    return (
+      <>
         <MdClose
           className='App__Modal__exit__btn'
           size={30}
@@ -90,7 +101,13 @@ export const EditIncomeModal = ({
           size={30}
           onClick={onSubmit}
         />
-      </div>
+      </>
+    );
+  };
+
+  return (
+    <div className={className}>
+      <div className='App__Modal__content'>{renderContent()}</div>
     </div>
   );
 };
